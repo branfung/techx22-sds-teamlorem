@@ -6,61 +6,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Main CSS -->
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="pages/About/About.css">
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-    <!-- Fonts -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Merriweather&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Montserrat&family=Raleway&display=swap"
+        rel="stylesheet">
 
-    <title>Company Name &infin;</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">
+
+    <title>Populus Designs &infin;</title>
     <!-- Tab Logo for the web page -->
     <link rel="shortcut icon" type="image/png" href="img/tab-photo.jpeg">
-    </link>
 
 <body>
 
-    <header>
-        <nav class="navbar">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <img src="img/tab-photo.jpeg" alt="" width="30" height="24"
-                        class="d-inline-block align-text-top">
-                    <span class="text">Team Lorem</span>
-                </a>    
+    <header class="colored-section" id="title">
 
-                <span class="discount-text">Free Standard Shipping on orders $50+ </span>
+        <div class="container-fluid">
 
-                <ul class="nav justify-content-end">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Request a Design</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sign up</a>
-                    </li>
+            <!-- Nav Bar -->
+            <nav class="navbar navbar-expand-lg navbar-dark">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">My Cart</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+                <a class="navbar-brand" href="">Populus Designs</a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Request a Quote</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+        </div>
+
     </header>
 
 
-    <h1 class="header-main main__h1">Company Name</h1>
+    <h1 class="header-main main__h1">Populus Designs</h1>
     <h2 class="header-main main__h2">Where your ideas come true</h2>
 
     <main>
@@ -115,34 +133,17 @@
         </div>
     </main>
 
+    <footer class="colored-section">
 
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Footer Content</h5>
-                    <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer
-                        content.</p>
-                </div>
-                <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">Links</h5>
-                    <ul>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-                    </ul>
-                </div>
-            </div>
+        <div class="container-fluid">
+            <i class="fab fa-twitter footer-icon"></i>
+            <i class="fab fa-facebook-f footer-icon"></i>
+            <i class="fab fa-instagram footer-icon"></i>
+            <i class="fas fa-envelope footer-icon"></i>
+            <p>© Copyright 2022 Google LLC & Team Lorem</p>
         </div>
-        <div class="footer-copyright">
-            <div class="container">
-                © 2022 Copyright Team Lorem
-                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-            </div>
-        </div>
+
     </footer>
-
 
 
 </body>
