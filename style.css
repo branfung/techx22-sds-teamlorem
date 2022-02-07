@@ -14,6 +14,34 @@
     padding: 0px;
 }
 
+.header-container{
+    background-color: var(--color-tertiary);
+    padding: 2rem;
+    color: var(--color-primary);
+    letter-spacing: .5rem;
+    font-family: 'Merriweather', serif;
+}
+
+.row{
+    margin: 5rem 0;
+    border: solid black;
+    padding: 3rem;
+    width: 100%;
+}
+
+.row1{
+    background-color: orangered;
+}
+
+.row2{
+    background-color: yellowgreen;
+}
+
+.row3{
+    background-color:rebeccapurple;
+}
+
+
 
 
 
