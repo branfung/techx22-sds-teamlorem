@@ -1,4 +1,18 @@
+:root{
+    --color-primary: #333333;
+    --color-secondary: #6fffe9;
+    --color-tertiary: #fcfaf9;
+
+    /* --heading-primary-font: 
+    --heading-secondary-font:
+    --tertiary-font:  */
+}
+
+
 * { /* Getting rid of some default css  */
     margin: 0px;
     padding: 0px;
 }
+
+
+
