@@ -17,6 +17,10 @@ p{
     color: #FCFAF9;
 }
 
+main{
+    height: 75%;
+}
+
 /* headings */
 
 .big-heading{
@@ -36,6 +40,15 @@ p{
 
 .container-fluid{
     padding: 7% 15%;
+}
+
+/* form */
+
+.main-form{
+    border: 3px solid black;
+    border-radius: 100% / 20%;
+    padding: 75px;
+    box-shadow: 10px 10px 5px rgb(0,0,0,0.45);
 }
 
 /* sections */
