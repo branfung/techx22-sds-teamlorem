@@ -22,30 +22,34 @@
 	font-family: 'Merriweather', serif;
 }
 
-.container {
-	width: 100% !important;
-	background-color: violet;
+main{
+    background-color:springgreen;
 }
 
-.row {
-	margin: 5rem 0;
-	border: solid black;
-	padding: 3rem;
+.container-fluid__main{
+    background-color: deepskyblue;
 }
 
-.row1 {
-	background-color: orangered;
+.row{
+    margin: 5rem;
+    padding: 5rem;
+    border: solid black;
 }
 
-.row2 {
-	background-color: yellowgreen;
+.row-1{
+    background-color: orangered;
+    margin: -5rem 3rem 5rem 3rem !important;
 }
 
-.row3 {
-	background-color: rebeccapurple;
+.row-2{
+    background-color: yellowgreen;
 }
 
-.carousel-control-prev, .carousel-control-prev:active, .carousel-control-prev:hover{
+.row-3{
+    background-color: steelblue;
+}
+
+/* .carousel-control-prev, .carousel-control-prev:active, .carousel-control-prev:hover{
     color: blue !important;
     background-color: blue !important;
 }
@@ -76,6 +80,6 @@
  max-height: 20rem;
  margin: auto; 
  display: block;
-}
+} */
 
 
