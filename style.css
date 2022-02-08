@@ -1,48 +1,81 @@
-:root{
-    --color-primary: #333333;
-    --color-secondary: #6fffe9;
-    --color-tertiary: #fcfaf9;
+:root {
+	--color-primary: #333333;
+	--color-secondary: #6fffe9;
+	--color-tertiary: #fcfaf9;
 
-    /* --heading-primary-font: 
+	/* --heading-primary-font: 
     --heading-secondary-font:
     --tertiary-font:  */
 }
 
-
-* { /* Getting rid of some default css  */
-    margin: 0px;
-    padding: 0px;
+* {
+	/* Getting rid of some default css  */
+	margin: 0px;
+	padding: 0px;
 }
 
-.header-container{
-    background-color: var(--color-tertiary);
-    padding: 2rem;
-    color: var(--color-primary);
-    letter-spacing: .5rem;
-    font-family: 'Merriweather', serif;
+.header-container {
+	background-color: var(--color-tertiary);
+	padding: 2rem;
+	color: var(--color-primary);
+	letter-spacing: .5rem;
+	font-family: 'Merriweather', serif;
 }
 
-.row{
-    margin: 5rem 0;
-    border: solid black;
-    padding: 3rem;
-    width: 100%;
+.container {
+	width: 100% !important;
+	background-color: violet;
 }
 
-.row1{
-    background-color: orangered;
+.row {
+	margin: 5rem 0;
+	border: solid black;
+	padding: 3rem;
 }
 
-.row2{
-    background-color: yellowgreen;
+.row1 {
+	background-color: orangered;
 }
 
-.row3{
-    background-color:rebeccapurple;
+.row2 {
+	background-color: yellowgreen;
 }
 
+.row3 {
+	background-color: rebeccapurple;
+}
 
+.carousel-control-prev, .carousel-control-prev:active, .carousel-control-prev:hover{
+    color: blue !important;
+    background-color: blue !important;
+}
+.carousel-control-prev-icon {
+	color: blue !important;
+    background-color: blue !important;
+}
 
+.carousel-control-next {
+	color: blue !important;
+    background-color: blue !important;
+}
 
+.carousel-control-next-icon{
+    color: blue !important;
+    background-color: blue !important;
+    z-index: 10;
+}
+
+.carousel-indicators{
+    background-color: blue !important;
+    color: blue !important;
+}
+
+.carousel-item img{
+ width: auto;
+ height: 20rem;
+ max-height: 20rem;
+ margin: auto; 
+ display: block;
+}
 
 
