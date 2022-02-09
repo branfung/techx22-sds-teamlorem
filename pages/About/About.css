@@ -4,13 +4,9 @@ body{
     background-color: #FCFAF9;
 }
     
-h1, h2, h3, h4, h5, h6 {
+h2 {
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
-}
-
-p{
-    color: #FCFAF9;
 }
 
 /* headings */
@@ -28,16 +24,12 @@ p{
 
 /* sections */
 
-.colored-section{
-    color: #fff;
+.dark-section{
+    color: #FCFAF9;
     background-color:#333333;
 }
 
-.white-section{
-    background-color:#FCFAF9;
-}
-
-/* title section */
+/* header section */
 
 .navbar-brand{
     font-family: 'Merriweather', sans-serif;
@@ -56,12 +48,6 @@ p{
 .nav-link{
     font-size: 2.0rem;
     font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-}
-
-#title .container-fluid{
-    padding: 2% 5%;
-    text-align: left;
 }
 
 .navbar-dark .navbar-brand{
@@ -69,7 +55,7 @@ p{
 }
 
 .navbar-dark .navbar-brand:hover{ 
-    color:#fff;
+    color:#FCFAF9;
 }
 
 .navbar-dark .navbar-nav .nav-link{
@@ -77,7 +63,12 @@ p{
 }
 
 .navbar-dark .navbar-nav .nav-link:hover{
-    color:#fff;
+    color:#FCFAF9;
+}
+
+#header .container-fluid{
+    padding: 2% 5%;
+    text-align: left;
 }
 
 /* about section */
@@ -86,12 +77,12 @@ p{
     padding: 3% 2%;
 }
 
-#about{
-    margin-top: 2%;
-}
-
 .card-header{
     background-color: #48E5C2;
+}
+
+#about{
+    margin: 2% 0 2% 0;
 }
 
 /* footer section */
