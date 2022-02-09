@@ -17,8 +17,9 @@ p{
     color: #FCFAF9;
 }
 
-main{
-    height: 75%;
+.pancake-stack{
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 /* headings */
