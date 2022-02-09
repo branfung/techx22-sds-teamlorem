@@ -23,11 +23,12 @@
 }
 
 main{
-    background-color:springgreen;
+    /* background-color:springgreen; */
+    background-color: var(--color-tertiary);
 }
 
 .container-fluid__main{
-    background-color: deepskyblue;
+    /* background-color: deepskyblue; */
 }
 
 .row{
@@ -37,41 +38,20 @@ main{
 }
 
 .row-1{
-    background-color: orangered;
-    margin: -5rem 3rem 5rem 3rem !important;
+    background-color: var(--color-tertiary);
+    margin: -5rem 3rem 3rem 3rem !important;
+    border-radius: 4.5rem;
+    color: #6fffe9;
 }
 
 .row-2{
-    background-color: yellowgreen;
+    background-color: var(--color-primary);
+    color: var(--color-tertiary);
 }
 
 .row-3{
-    background-color: steelblue;
-}
-
-/* .carousel-control-prev, .carousel-control-prev:active, .carousel-control-prev:hover{
-    color: blue !important;
-    background-color: blue !important;
-}
-.carousel-control-prev-icon {
-	color: blue !important;
-    background-color: blue !important;
-}
-
-.carousel-control-next {
-	color: blue !important;
-    background-color: blue !important;
-}
-
-.carousel-control-next-icon{
-    color: blue !important;
-    background-color: blue !important;
-    z-index: 10;
-}
-
-.carousel-indicators{
-    background-color: blue !important;
-    color: blue !important;
+    background-color: var(--color-secondary);
+    columns: var(--color-primary);
 }
 
 .carousel-item img{
@@ -80,6 +60,211 @@ main{
  max-height: 20rem;
  margin: auto; 
  display: block;
+} 
+
+.carousel-indicators button{
+    background-color: var(--color-primary) !important;
+}
+
+.carousel-indicators button:active{
+    background-color: var(--color-primary) !important;
+}
+
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%333' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+
+}
+
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%333' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
+
+.col-cards{
+    border: black;
+}
+
+.card{
+    margin: 0 2rem;
+    border: solid;
+    height: 52rem;
+    background-color: orangered !important;
+}
+
+.card__side{
+    height: 52rem;
+    transition: all .8s ease;
+    /* position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 3px solid black !important;
+    overflow: hidden;
+    box-shadow: 0 1.5rem 4rem rgba(var(--color-primary), .15);
+}
+
+.card__side--front{
+    background-color: var(--color-tertiary)
+ }
+
+
+li{
+    list-style: none;
+}
+
+/* .col__cards{
+    border: solid;
+    margin: 0 2rem;
+    height: 52rem !important;
 } */
+
+/* .card-img-top{
+    background-size: cover !important;
+    height: 52rem !important;
+    background-blend-mode: screen;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%) !important;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+} */
+
+/* .card{
+    perspective: 150rem;
+    position: relative;
+    height: 52rem;
+}
+
+.card__side{
+    height: 52rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    backface-visibility: hidden;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 1.5rem 4rem rgba(black, .15);
+
+}
+
+.card__side--front{
+    background-color: var(--color-tertiary);
+}
+
+.card__side--back{
+    transform: rotateY(180deg);
+}
+
+.card__side--back-1{
+    background-image: rgba(to right bottom, var(--color-primary), var(--color-secondary), var(--color-tertiary));
+}
+
+.card__side--back-2{
+     background-image: rgba(to right bottom, var(--color-secondary), var(--color-primary), var(--color-tertiary));
+}
+
+.card__side--back-3{
+     background-image: rgba(to right bottom, var(--color-tertiary), var(--color-secondary), var(--color-primary));
+}
+
+.card:hover .card__side--front{
+    transform: rotateY(-180deg);
+}
+
+.card:hover .card__side-back{
+    transform: rotateY(0);
+}
+
+.card__picture{
+    background-size: cover;
+    height: 23rem;
+    background-blend-mode: screen;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.card__picture--1{
+    background-image: linear-gradient(to right bottom, var(--color-primary), var(--color-secondary), url(img/Shirt_1.jpeg));
+}
+
+.card__heading{
+    font-size: 2.8rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--color-primary);
+    position: absolute;
+    top: 12rem;
+    right: 2rem;
+    width: 75%;
+}
+
+.card__heading-span{
+    padding: 1rem 1.5rem;
+    -webkit-box-decoration-break: clone;
+     box-decoration-break: clone;
+}
+
+.card__heading-span--1{
+    background-image: linear-gradient(to right bottom, 
+    rgba(var(--color-primary), .85), 
+    rgba(var(--color-secondary), .85));
+}
+
+.card_details{
+    padding: 3rem;
+}
+
+.card_details ul{
+    list-style: none;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.card_details ul li{
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 1rem;
+}
+
+.card_details ul li:not(:last-child){
+    border-bottom: 1px solid var(--color-primary);
+}
+
+.card__cta{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    text-align: center;
+}
+
+.card__price-box{
+    text-align: center;
+    color: var(--color-primary);
+    margin-bottom: 8rem;
+}
+
+.card__price-only{
+    font-size: 1.4rem;
+    text-transform: uppercase;
+}
+
+.card__price-value{
+    font-size: 6rem;
+    font-weight: 100;
+}
+
+.btn{
+
+}
+
+.btn--white{
+
+} */
+
+
 
 
