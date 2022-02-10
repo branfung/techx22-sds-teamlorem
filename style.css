@@ -3,6 +3,9 @@
 	--color-secondary: #6fffe9;
 	--color-tertiary: #fcfaf9;
 
+	--color-secondary-light: #ffb900;
+	--color-secondary-dark: #ff7730;
+
 	/* --heading-primary-font: 
     --heading-secondary-font:
     --tertiary-font:  */
@@ -22,249 +25,252 @@
 	font-family: 'Merriweather', serif;
 }
 
-main{
-    /* background-color:springgreen; */
-    background-color: var(--color-tertiary);
+main {
+	/* background-color:springgreen; */
+	background-color: var(--color-tertiary);
 }
 
-.container-fluid__main{
-    /* background-color: deepskyblue; */
+.container-fluid__main {
+	/* background-color: deepskyblue; */
 }
 
-.row{
-    margin: 5rem;
-    padding: 5rem;
-    border: solid black;
+.row {
+	margin: 5rem;
+	padding: 5rem;
+	border: solid black;
 }
 
-.row-1{
-    background-color: var(--color-tertiary);
-    margin: -5rem 3rem 3rem 3rem !important;
-    border-radius: 4.5rem;
-    color: #6fffe9;
+.row-1 {
+	background-color: var(--color-tertiary);
+	margin: -5rem 3rem 3rem 3rem !important;
+	border-radius: 4.5rem;
+	color: #6fffe9;
 }
 
-.row-2{
-    background-color: var(--color-primary);
-    color: var(--color-tertiary);
+.row-2 {
+	background-color: var(--color-primary);
+	color: var(--color-tertiary);
 }
 
-.row-3{
-    background-color: var(--color-secondary);
-    columns: var(--color-primary);
+.row-3 {
+	background-color: var(--color-secondary);
+	columns: var(--color-primary);
 }
 
-.carousel-item img{
- width: auto;
- height: 20rem;
- max-height: 20rem;
- margin: auto; 
- display: block;
-} 
-
-.carousel-indicators button{
-    background-color: var(--color-primary) !important;
+.carousel-item img {
+	width: auto;
+	height: 20rem;
+	max-height: 20rem;
+	margin: auto;
+	display: block;
 }
 
-.carousel-indicators button:active{
-    background-color: var(--color-primary) !important;
+.carousel-indicators button {
+	background-color: var(--color-primary) !important;
+}
+
+.carousel-indicators button:active {
+	background-color: var(--color-primary) !important;
 }
 
 .carousel-control-prev-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%333' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
-
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%333' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
 }
 
 .carousel-control-next-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%333' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%333' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
 }
 
-.col-cards{
-    border: black;
+.col-cards {
+	border: black;
 }
 
-.card{
-    margin: 0 2rem;
-    border: solid;
-    height: 52rem;
-    background-color: orangered !important;
+.card {
+	margin: 0 2rem;
+	border: solid;
+	height: 52rem;
 }
 
-.card__side{
-    height: 52rem;
-    transition: all .8s ease;
-    /* position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%; */
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    border-radius: 3px solid black !important;
-    overflow: hidden;
-    box-shadow: 0 1.5rem 4rem rgba(var(--color-primary), .15);
+.card__side {
+	height: 52rem;
+	transition: all .8s ease;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	border-radius: 3px solid black !important;
+	overflow: hidden;
+	box-shadow: 0 1.5rem 4rem rgba(var(--color-primary), .15);
 }
 
-.card__side--front{
-    background-color: var(--color-tertiary)
- }
-
-
-li{
-    list-style: none;
+.card__side--front {
+	background-color: var(--color-primary);
+	color: var(--color-tertiary);
 }
 
-/* .col__cards{
-    border: solid;
-    margin: 0 2rem;
-    height: 52rem !important;
-} */
-
-/* .card-img-top{
-    background-size: cover !important;
-    height: 52rem !important;
-    background-blend-mode: screen;
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%) !important;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-} */
-
-/* .card{
-    perspective: 150rem;
-    position: relative;
-    height: 52rem;
+.card__side--back {
+	transform: rotateY(180deg);
+	background-image: linear-gradient(to right bottom, var(--color-primary), var(--color-tertiary)) !important;
 }
 
-.card__side{
-    height: 52rem;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    backface-visibility: hidden;
-    border-radius: 3px;
-    overflow: hidden;
-    box-shadow: 0 1.5rem 4rem rgba(black, .15);
-
+.card:hover .card__side--front {
+	transform: rotateY(-180deg);
+}
+.card:hover .card__side--back {
+	transform: rotateY(0);
 }
 
-.card__side--front{
-    background-color: var(--color-tertiary);
+.card__picture {
+	background-size: cover;
+	height: 23rem;
+	background-blend-mode: screen;
+	-webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+	clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
 }
 
-.card__side--back{
-    transform: rotateY(180deg);
+.card__picture--1 {
+	background-image: linear-gradient(to right bottom, var(--color-tertiary), var(--color-primary)),
+		url(../img/Shirt_1.jpeg);
+	background-repeat: no-repeat;
 }
 
-.card__side--back-1{
-    background-image: rgba(to right bottom, var(--color-primary), var(--color-secondary), var(--color-tertiary));
+.card__picture--2 {
+	background-image: linear-gradient(to right bottom, var(--color-tertiary), var(--color-primary)),
+		url(img/Long_Sleeves.jpeg);
 }
 
-.card__side--back-2{
-     background-image: rgba(to right bottom, var(--color-secondary), var(--color-primary), var(--color-tertiary));
+.card__picture--3 {
+	background-image: linear-gradient(to right bottom, var(--color-tertiary), var(--color-primary)),
+		url(img/Hoodie.jpeg);
 }
 
-.card__side--back-3{
-     background-image: rgba(to right bottom, var(--color-tertiary), var(--color-secondary), var(--color-primary));
+
+
+.card__heading {
+	font-size: 2.8rem;
+	font-weight: 300;
+	text-transform: uppercase;
+	text-align: right;
+	color: var(--color-primary);
+	position: absolute;
+	top: 15rem;
+	right: 2rem;
+	width: 75%;
 }
 
-.card:hover .card__side--front{
-    transform: rotateY(-180deg);
+.card__heading-span {
+	padding: 1rem 1.5rem;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
 }
 
-.card:hover .card__side-back{
-    transform: rotateY(0);
+.card__heading-span--1 {
+	background-image: linear-gradient(to right bottom, rgba(51, 51, 51, .65), rgba(252, 250, 249, .65));
 }
 
-.card__picture{
-    background-size: cover;
-    height: 23rem;
-    background-blend-mode: screen;
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
+.card__details {
+	padding: 3rem;
 }
 
-.card__picture--1{
-    background-image: linear-gradient(to right bottom, var(--color-primary), var(--color-secondary), url(img/Shirt_1.jpeg));
+.card__details ul {
+	list-style: none;
+	width: 80% !important;
+	margin: 0 auto !important;
 }
 
-.card__heading{
-    font-size: 2.8rem;
-    font-weight: 300;
-    text-transform: uppercase;
-    text-align: center;
-    color: var(--color-primary);
-    position: absolute;
-    top: 12rem;
-    right: 2rem;
-    width: 75%;
+.card__details ul li {
+	text-align: center;
+	font-size: 1.5rem;
+	padding: 1rem;
 }
 
-.card__heading-span{
-    padding: 1rem 1.5rem;
-    -webkit-box-decoration-break: clone;
-     box-decoration-break: clone;
+.card__details ul li:not(:last-child) {
+	border-bottom: 1px solid var(--color-tertiary);
 }
 
-.card__heading-span--1{
-    background-image: linear-gradient(to right bottom, 
-    rgba(var(--color-primary), .85), 
-    rgba(var(--color-secondary), .85));
+.card__cta {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 90%;
+	text-align: center;
 }
 
-.card_details{
-    padding: 3rem;
+.card__price-box {
+	text-align: center;
+	color: var(--color-tertiary);
+	margin-bottom: 8rem;
 }
 
-.card_details ul{
-    list-style: none;
-    width: 80%;
-    margin: 0 auto;
+.card__price-only {
+	font-size: 1.4rem;
+	text-transform: uppercase;
 }
 
-.card_details ul li{
-    text-align: center;
-    font-size: 1.5rem;
-    padding: 1rem;
+.card__price-value {
+	font-size: 6rem;
+	font-weight: 100;
 }
 
-.card_details ul li:not(:last-child){
-    border-bottom: 1px solid var(--color-primary);
+.btn, .btn:link, .btn:visited {
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1.5rem 4rem;
+  display: inline-block;
+  border-radius: 10rem;
+  transition: all .2s;
+  position: relative;
+  font-size: 1.6rem;
+  border: none;
+  cursor: pointer; 
 }
 
-.card__cta{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    text-align: center;
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 1rem 2rem rgba(111, 255, 233, 1);
+  color: var(--color-tertiary) !important; 
 }
 
-.card__price-box{
-    text-align: center;
-    color: var(--color-primary);
-    margin-bottom: 8rem;
+.btn:hover::after {
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0; 
 }
 
-.card__price-only{
-    font-size: 1.4rem;
-    text-transform: uppercase;
+.btn:active, .btn:focus {
+  outline: none;
+  transform: translateY(-1px);
+  box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 1); 
 }
 
-.card__price-value{
-    font-size: 6rem;
-    font-weight: 100;
+.btn--white {
+  background-color: var(--color-tertiary);
+  color: var(--color-tertiary); 
 }
 
-.btn{
-
+.btn--white:hover{
+    color: var(--color-tertiary);
 }
 
-.btn--white{
+.btn--white::after {
+    background-color: var(--color-tertiary) !important; 
+}
 
-} */
-
-
+.btn::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 10rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all .4s; 
+}
 
 
