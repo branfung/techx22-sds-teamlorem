@@ -39,7 +39,6 @@ main {
 
 .row {
 	padding: 5rem;
-	border: solid black;
 }
 
 .row-1 {
@@ -83,14 +82,10 @@ main {
 	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%333' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
 }
 
-.col-cards {
-	border: black;
-}
-
 .card {
 	margin: 0 2rem;
-	border: solid;
 	height: 52rem;
+	background-color: #6fffe9 !important;
 }
 
 .card__side {
@@ -149,7 +144,6 @@ main {
 	background-image: linear-gradient(to right bottom, var(--color-tertiary), var(--color-primary)),
 		url(img/Hoodie.jpeg);
 }
-
 
 
 .card__heading {
