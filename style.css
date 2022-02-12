@@ -39,6 +39,7 @@ main {
 
 .row {
 	padding: 5rem;
+	border: solid black;
 }
 
 .row-1 {
