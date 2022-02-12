@@ -167,6 +167,7 @@ main {
 
 .card__heading-span {
 	padding: 1rem 1.5rem;
+	-webkit-box-decoration-break: clone;
 	box-decoration-break: clone;
 }
 
@@ -315,7 +316,9 @@ main {
     
 @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
     .story__shape {
+        -webkit-clip-path: circle(50% at 50% 50%);
         clip-path: circle(50% at 50% 50%);
+        -webkit-shape-outside: circle(50% at 50% 50%);
         shape-outside: circle(50% at 50% 50%);
         border-radius: none; 
 	} 
@@ -372,6 +375,7 @@ main {
   font-weight: 700;
   display: inline-block;
   background-image: linear-gradient(to right, #6fffe9, #fcfaf9);
+  -webkit-background-clip: text;
   color: transparent;
   letter-spacing: .2rem;
   transition: all .2s; 
