@@ -1,112 +1,83 @@
-* { /* Getting rid of some default css  */
-    margin: 0px;
-    padding: 0px;
-}
+/* General Styling */
 
 body{
-    font-family: 'Montserrat', sans-serif;
-    text-align: center;
-}
-    
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
+    background-color: #FCFAF9;
+    text-align: center !important;
 }
 
-p{
+/* Sections */
+
+.dark-section{
     color: #FCFAF9;
+    background-color:#333333;
 }
 
-/* headings */
-
-.big-heading{
-    font-family: 'Montserrat', sans-serif;
-    font-size: 3.5rem;
-    line-height: 1.5;
-    font-weight: 900;
-    color:#fff;
-}
-
-.section-heading{
-    font-size: 3rem;
-    line-height: 1.5;
-}
-
-/* containers */
+/* Containers */
 
 .container-fluid{
     padding: 7% 15%;
 }
 
-/* sections */
-
-.colored-section{
-    color: #fff;
-    background-color:#333333;
-}
-
-.white-section{
-    background-color:#FCFAF9;
-}
-
-/* title section */
-
-.navbar-brand{
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 2.5rem;
+/* Headings */
+.section-heading{
+    font-size: 3rem;
     font-weight: bold;
 }
 
-.navbar{
-    padding: 0 0 4.5rem 0;
+/* Header Styling */
+
+#header .container-fluid{
+    padding: 2% 5%;
+    text-align: left;
 }
 
 .nav-item{
     padding:0 18px;
 }
 
-.nav-link{
-    font-size: 1.2rem;
+.navbar-brand{
+    font-family: 'Merriweather', sans-serif;
+    font-size: 3.0rem !important;
+    font-weight: bold !important;
+}
+
+.nav-link, h2{
+    font-size: 2.0rem;
     font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
 }
 
-.download-btn{
-    margin: 5% 3% 5% 0;
+.navbar-dark .navbar-brand, .navbar-dark .navbar-nav .nav-link{
+    color:#48E5C2 !important;
 }
 
-.title-image{
-    transform: rotate(25deg);
-    width: 60%;
-    position: absolute;
-    right:30%;
+.navbar-brand:hover, .navbar-nav .nav-link:hover{
+    color:#FCFAF9 !important;
 }
 
-#title .container-fluid{
-    padding: 2% 5%;
-    text-align: left;
-}
+/* About Styling */
 
-/* pricing section */
-
-.price-text{
-    font-size: 3rem;
-    line-height: 1.5;
-}
-
-.pricing-col{
+.about-col{
     padding: 3% 2%;
 }
 
-#pricing{
-    margin-top: 2%;
-}
-
 .card-header{
-    background-color: #48E5C2;
+    background-color: #48E5C2 !important;
 }
 
-/* footer section */
+.card-header img{  
+    display: block;
+    margin: auto;
+}
+
+.card-title{
+    font-weight: bold !important;
+}
+
+.card-text{
+    text-align: left;
+}
+
+/* Footer Styling */
 
 .footer-icon{
     margin: 20px 10px;
@@ -114,18 +85,4 @@ p{
 
 .footer-icon:hover{
     color: #48E5C2;
-}
-
-/* media queries */
-
-@media (max-width:1028px){
-
-    #title{
-        text-align: center;
-    }
-
-    .title-image{
-        transform: rotate(0);
-        position: static;
-    }
 }
