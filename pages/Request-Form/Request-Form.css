@@ -1,4 +1,4 @@
-* { /* Getting rid of some default css  */
+* { /* Getting rid of some default css properties */
     margin: 0px;
     padding: 0px;
 }
@@ -22,27 +22,6 @@ p{
     grid-template-rows: auto 1fr auto;
 }
 
-/* headings */
-
-.big-heading{
-    font-family: 'Montserrat', sans-serif;
-    font-size: 3.5rem;
-    line-height: 1.5;
-    font-weight: 900;
-    color:#fff;
-}
-
-.section-heading{
-    font-size: 3rem;
-    line-height: 1.5;
-}
-
-/* containers */
-
-.container-fluid{
-    padding: 7% 15%;
-}
-
 /* form */
 
 .main-form{
@@ -54,92 +33,7 @@ p{
 
 /* sections */
 
-.colored-section{
-    color: #fff;
-    background-color:#333333;
-}
-
 .white-section{
     background-color:#FCFAF9;
 }
 
-/* title section */
-
-.navbar-brand{
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 2.5rem;
-    font-weight: bold;
-}
-
-.navbar{
-    padding: 0 0 4.5rem 0;
-}
-
-.nav-item{
-    padding:0 18px;
-}
-
-.nav-link{
-    font-size: 1.2rem;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-}
-
-.download-btn{
-    margin: 5% 3% 5% 0;
-}
-
-.title-image{
-    transform: rotate(25deg);
-    width: 60%;
-    position: absolute;
-    right:30%;
-}
-
-#title .container-fluid{
-    padding: 2% 5%;
-    text-align: left;
-}
-
-/* pricing section */
-
-.price-text{
-    font-size: 3rem;
-    line-height: 1.5;
-}
-
-.pricing-col{
-    padding: 3% 2%;
-}
-
-#pricing{
-    margin-top: 2%;
-}
-
-.card-header{
-    background-color: #48E5C2;
-}
-
-/* footer section */
-
-.footer-icon{
-    margin: 20px 10px;
-}
-
-.footer-icon:hover{
-    color: #48E5C2;
-}
-
-/* media queries */
-
-@media (max-width:1028px){
-
-    #title{
-        text-align: center;
-    }
-
-    .title-image{
-        transform: rotate(0);
-        position: static;
-    }
-}
