@@ -4,19 +4,21 @@ class Product:
     Args:
         name (str): The name of the product design
         price (float): The price of the product
-        quantity (int): The desired amount to be sold 
         product_id (int): The special id of this product
         creator (str): The username of the creator of this product design
+        quantity (int): The desired amount to be sold. Defaults to 1.
+
     """
     
-    def __init__(self, name: str, price: float, quantity: int, product_id: int, creator: str):
+    def __init__(self, name: str, price: float, product_id: int, creator: str, quantity: int = 1):
 
-        #TODO - input validation (TDD)
+        #TODO: input validation (TDD)
         self.name = name
         self.price = price
-        self.quantity = quantity
         self.product_id = product_id
         self.creator = creator
+        self.quantity = quantity
+
     
     def __str__(self):
         return f'{self.name} | ${self.price} | {self.quantity} in stock | by {self.creator}'
@@ -28,11 +30,12 @@ class Product:
             price (float): The updated price amount
         
         Returns:
-            void
+            self (Product obj)
         """
         
-        #TODO - input validation (TDD)
+        #TODO: input validation (TDD)
         self.price = price
+        return self
         
     def update_quantity(self, quantity: int):
         """Updates the quantity of the indicated product in stock by adding a desired amount. 
@@ -42,11 +45,12 @@ class Product:
             quantity (int): The quantity amount to be restocked or removed from stock. 
             
         Returns:
-            void
+            self (Product obj)
         """
         
-        #TODO - input validation (TDD)
+        #TODO: input validation (TDD)
         self.quantity += quantity
+        return self
         
     
       
