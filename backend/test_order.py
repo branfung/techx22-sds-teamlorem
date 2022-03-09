@@ -1,31 +1,34 @@
 import unittest
-# TODO - Import product class in order to to create product object to populate test_products
-# TODO - Import Order Class in order to create an order 
-#from objects.Product import Product
+from objects.product import Product
+from objects.order import Order
 
-test_products = None
+product1 = Product('Sloth Shirt', 12.50, 0, 'Leon')
+product2 = Product('Tech Ex Hoodie', 50.0, 1, 'Google')
+test_products = {product1.product_id:product1, product2.product_id:product2}
+test_first_name = 'Yan'
+test_last_name = 'Aquino'
 test_street_address = '5995 Silver Palm Drive'
 test_zip_code = '34747'
-test_state = 'Florida'
+test_country = 'United States'
 test_phone_number = '787-932-0510'
 test_email = 'yaquino@techexchange.in'
 test_city = 'Kissimmee'
-
+test_order = Order(test_city, test_country, test_first_name, test_last_name , test_email, test_phone_number, test_street_address, test_zip_code)
+test_order.products = test_products
 
 class TestOrder(unittest.TestCase):
 
     def test_argument_types(self):
+        # city, country, first_name, last_name, email, phone_number, street_addres, and zip_code must be strings
+        self.assertRaises(TypeError, Order, [], test_country, test_first_name, test_last_name , test_email, test_phone_number, test_street_address, test_zip_code)
+        self.assertRaises(TypeError, Order, test_city, 0, test_first_name, test_last_name , test_email, test_phone_number, test_street_address, test_zip_code)
+        self.assertRaises(TypeError, Order, test_city, test_country, False, test_last_name , test_email, test_phone_number, test_street_address, test_zip_code)
+        self.assertRaises(TypeError, Order, test_city, test_country, test_first_name, {}, test_email, test_phone_number, test_street_address, test_zip_code)
+        self.assertRaises(TypeError, Order, test_city, test_country, test_first_name, test_last_name , 0, test_phone_number, test_street_address, test_zip_code)
+        self.assertRaises(TypeError, Order, test_city, test_country, test_first_name, test_last_name , test_email, True, test_street_address, test_zip_code)
+        self.assertRaises(TypeError, Order, test_city, test_country, test_first_name, test_last_name , test_email, test_phone_number, 123, test_zip_code)
+        self.assertRaises(TypeError, Order, test_city, test_country, test_first_name, test_last_name , test_email, test_phone_number, test_street_address, False)
 
-        # products must be a dictionary ? Like in inventory  
-        self.assertRaises(TypeError, Order, [], test_street_address, test_zip_code, test_state, test_phone_number, test_email, test_city)
-
-        # street_address, zip_code, state, phone_number, email, and city must be strings
-        self.assertRaises(TypeError, Order, test_products, 0, test_zip_code, test_state, test_phone_number, test_email, test_city)
-        self.assertRaises(TypeError, Order, test_products, test_street_address, False, test_state, test_phone_number, test_email, test_city)
-        self.assertRaises(TypeError, Order, test_products, test_street_address, test_zip_code, [], test_phone_number, test_email, test_city)
-        self.assertRaises(TypeError, Order, test_products, test_street_address, test_zip_code, test_state, {}, test_email, test_city)
-        self.assertRaises(TypeError, Order, test_products, test_street_address, test_zip_code, test_state, test_phone_number, 0, test_city)
-        self.assertRaises(TypeError, Order, test_products, test_street_address, test_zip_code, test_state, test_phone_number, test_email, True)
     
     def test_update_order(self):
         # to_remove must be a boolean to_remove
@@ -37,20 +40,22 @@ class TestOrder(unittest.TestCase):
         # product_to_be_added must an instance of the Product class
         self.assertRaises(TypeError, Order.update_order, self, False , 1234567891234567, 0)
 
-        # method succesfully remove the item from the order
-        test_order = Order()
-        test_order.update_order(test_products[0])
-        self.assertEquals(test_order.products, {})
+        # method succesfully removes the item from the order
+        test_order.update_order(True, 0, None)
+        self.assertEqual(test_order.products, {product2.product_id:product2})
 
         # method succesfully adds the item to the order 
-        test_order2 = Order()
-        test_order2.update_order(test_products[0])
-        self.assertEquals(test_order2.products, {})
+        test_order.update_order(False, product1.product_id, product1)
+        self.assertEqual(test_order.products, {product1.product_id:product1, product2.product_id:product2})
 
-    def test_tracking(self):
+    def test_generate_tracking(self):
+        # create a tracking ID for the order 
+        test_order.generate_tracking()
+
         # tracking must be a string
-        self.assertRaises(TypeError, Order.tracking , 1234567891234567)
+        self.assertRaises(TypeError, test_order.getTrackingID, 1234567891234567)
+
         # assert that the tracking is correct length
-        self.assertEqual(len(Order.tracking), 16)
+        self.assertEqual(len(test_order.getTrackingID), 16)
         
     
