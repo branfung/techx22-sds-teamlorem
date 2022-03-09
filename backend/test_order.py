@@ -41,7 +41,7 @@ class TestOrder(unittest.TestCase):
         self.assertRaises(TypeError, Order.update_order, False , 1234567891234567, 0)
 
         # method succesfully removes the item from the order
-        test_order.update_order(True, 0, None)
+        test_order.update_order(True, 0,None)
         self.assertEqual(test_order.products, {product2.product_id:product2})
 
         # method succesfully adds the item to the order 

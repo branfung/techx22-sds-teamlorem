@@ -1,3 +1,4 @@
+
 import string
 import random
 import secrets
@@ -11,17 +12,16 @@ class Order:
     information by the user/client
 
     Member Variables:
-        city -> Private Member Variable that indicates the city of the order to be delivered
-        country -> Private Member Variable that indicates the country of the order to be delivered
-        email -> Private Member variable that indicates the client's email to send updates abour the shipping information
-        existing_tracking_IDs -> Set Member variable that holds all the created tracking IDs through time. This is to make sure an ID is never repeated.
-        first_name -> Private Member variable that represents the name of the person the order is destined to
-        last_name -> Private Member variable that represents the last name of the person the order is destined to 
-        phone_number -> Private Member variable that represents the client's phone number
-        products -> Private Member dictionary that holds all the items the client bought 
-        street_address -> Private Member variable that represents the street address for the order to be delivered 
-        zip_code -> Private Member variable that represents the zip code for the order to be delivered
-        tracking_ID -> Private Member variable that represents a unique tracking ID for the order
+        city -> Member Variable that indicates the city of the order to be delivered
+        country -> Member Variable that indicates the country of the order to be delivered
+        email -> Member variable that indicates the client's email to send updates abour the shipping information
+        first_name -> Member variable that represents the name of the person the order is destined to
+        last_name ->  Member variable that represents the last name of the person the order is destined to 
+        phone_number -> Member variable that represents the client's phone number
+        products ->  Member dictionary that holds all the items the client bought 
+        street_address ->  Member variable that represents the street address for the order to be delivered 
+        zip_code -> Member variable that represents the zip code for the order to be delivered
+        tracking_ID -> Member variable that represents a unique tracking ID for the order
 
     Methods:
         __str__ -> method that represents the "print order" method, it returns the order as a string
@@ -85,10 +85,6 @@ class Order:
      
     # add/remove an product
     def update_order(self,to_remove,product_id,product_to_be_added) -> None:
-        
-        # if True, remove the indicated product from the dictionary
-        if not isinstance(product_to_be_added,Product):
-            raise TypeError("Product to be Added has to be an instance of the Product class")
 
         # if the option is to remove, check that a valid key has been passed in order to remove the product
         if type(product_id) is not int:
@@ -96,9 +92,19 @@ class Order:
 
         if to_remove and product_id in self.products.keys():
             self.products.pop(product_id)
+        
+        # remove the indicated product from the dictionary
+        if product_to_be_added is not None:
+            if not isinstance(product_to_be_added,Product):
+                raise TypeError("Product to be Added has to be an instance of the Product class")
+            else:
+                self.products[product_id] = product_to_be_added
 
-        else:
-            self.products[product_id] = product_to_be_added
+
+
+
+
+
 
 
     # Class Getters
