@@ -1,10 +1,18 @@
 import unittest
 from objects.product import Product
 from objects.order import Order
+from objects.Shop import Shop
 
-product1 = Product('Sloth Shirt', 12.50, 0, 'Leon')
-product2 = Product('Tech Ex Hoodie', 50.0, 1, 'Google')
-test_products = {product1.product_id:product1, product2.product_id:product2}
+product1 = Product('Sloth Shirt', 12.50, 'Leon')
+product2 = Product('Tech Ex Hoodie', 50.0, 'Google')
+test_shop = Shop()
+test_shop.add_product(product1)
+test_shop.add_product(product2)
+test_products = {}
+
+for key, value in test_shop.inventory.items():
+    test_products[key] = value
+
 test_first_name = 'Yan'
 test_last_name = 'Aquino'
 test_street_address = '5995 Silver Palm Drive'
