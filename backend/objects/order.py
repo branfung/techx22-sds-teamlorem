@@ -1,6 +1,7 @@
 import string
 import random
 import secrets
+from objects.product import Product
 
 
 class Order:
@@ -37,7 +38,31 @@ class Order:
 
     
     def __init__(self, city, country,first_name,last_name, email, phone_number, street_address, zip_code) -> None:
-        # private member variables 
+        
+        if type(city) is not str:
+            raise TypeError("City must be a string. Please try again.")
+
+        if type(country) is not str:
+            raise TypeError("Country must be a string. Please try again.")
+
+        if type(first_name) is not str:
+            raise TypeError("First Name has to be a string.")
+
+        if type(last_name) is not str:
+            raise TypeError("Last Name has to be a string.")
+        
+        if type(email) is not str:
+            raise TypeError("Email has to be a string.")
+
+        if type(phone_number) is not str:
+            raise TypeError("Phone number has to me written as a string.")
+        
+        if type(street_address) is not str:
+            raise TypeError("Street Address must be a string.")
+
+        if type(zip_code) is not str:
+            raise TypeError("Zip Code has to be written as a string")
+    
         self.city = city
         self.country = country
         self.email = email
@@ -60,11 +85,21 @@ class Order:
      
     # add/remove an product
     def update_order(self,to_remove,product_id,product_to_be_added) -> None:
+        
         # if True, remove the indicated product from the dictionary
-        if to_remove:
+        if not isinstance(product_to_be_added,Product):
+            raise TypeError("Product to be Added has to be an instance of the Product class")
+
+        # if the option is to remove, check that a valid key has been passed in order to remove the product
+        if type(product_id) is not int:
+            raise TypeError("Product ID must be valid. Has to be an integer.") 
+
+        if to_remove and product_id in self.products.keys():
             self.products.pop(product_id)
+
         else:
             self.products[product_id] = product_to_be_added
+
 
     # Class Getters
     def getCity(self) -> str: return self.city
