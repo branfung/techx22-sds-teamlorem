@@ -1,14 +1,17 @@
 from objects.shop import Shop
+from objects.order import Order
+from objects.product import Product
+from objects.user import User
 store = Shop()
 
 
 def main():
     #populate_store()
     print('Welcome to Populus Designs!')
-    user_role = input('Would you like to buy or sell a product?')
+    user_role = input('Would you like to buy or sell a product? Type "buy" or "sell to make your choice')
     while user_role.lower() not in ['buy', 'sell']:
         print('Something went wrong! Please make sure you typed either buy or sell when asked.')
-        user_role = input('Would you like to buy or selle a product?')
+        user_role = input('Would you like to buy or sell a product?')
 
     if user_role == 'buy':
         keep_buying = True
@@ -17,6 +20,7 @@ def main():
         item = input('What is the id of the product you would like to buy? ')
         # Do we want add the items on a temp list and then create the order or create the order and with the shipping info blank and then have setters to update them ? 
         #TODO - Create an order
+        client_order = Order()
         
         #TODO - Ask the client if they want to buy another product 
         while keep_buying:
