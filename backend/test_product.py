@@ -14,7 +14,7 @@ testLongSleeve = Product("Long Sleeve", 9.99,"Y4N",1)
 
 class TestProduct(unittest.TestCase):
     
-    def test_arguments_values(self):
+    def test_argument_values(self):
 
         # Price has to be greater than 0 and less than or equal to 100
         self.assertRaises(ValueError,Product,testProductName, 149.99, testProductName,testProductQuantity)
@@ -37,15 +37,16 @@ class TestProduct(unittest.TestCase):
         self.assertRaises(TypeError,Product, ("hello","world"), testProductPrice,testProductCreaterName,testProductQuantity)
         self.assertRaises(TypeError,Product, 99.999, testProductPrice,testProductCreaterName,testProductQuantity)
 
-        self.assertRaises(TypeError,Product,testProductName,testProductPrice,False,testProductCreaterName)
-        self.assertRaises(TypeError,Product,testProductName,testProductPrice,["Darth","Vader"],testProductCreaterName)
-        self.assertRaises(TypeError,Product,testProductName,testProductPrice,{"Anakin":"Darth","Skywalker":"Vader"},testProductCreaterName)
-        self.assertRaises(TypeError,Product,testProductName,testProductPrice,("Luke","Skywalker"),testProductCreaterName)
-        self.assertRaises(TypeError,Product,testProductName,testProductPrice,123,testProductCreaterName)
-        self.assertRaises(TypeError,Product,testProductName,testProductPrice,9.99,testProductCreaterName)
+        self.assertRaises(TypeError,Product,testProductName,testProductPrice,False,testProductQuantity)
+        self.assertRaises(TypeError,Product,testProductName,testProductPrice,["Darth","Vader"],testProductQuantity)
+        self.assertRaises(TypeError,Product,testProductName,testProductPrice,{"Anakin":"Darth","Skywalker":"Vader"},testProductQuantity)
+        self.assertRaises(TypeError,Product,testProductName,testProductPrice,("Luke","Skywalker"),testProductQuantity)
+        self.assertRaises(TypeError,Product,testProductName,testProductPrice,123,testProductQuantity)
+        self.assertRaises(TypeError,Product,testProductName,testProductPrice,9.99,testProductQuantity)
 
 
         # product quantity must be integer
+        self.assertRaises(TypeError,Product,testProductName,testProductPrice,testProductQuantity,"Star Wars")
         self.assertRaises(TypeError,Product,testProductName,testProductPrice,testProductQuantity,True)
         self.assertRaises(TypeError,Product,testProductName,testProductPrice,testProductQuantity,45.97)
         self.assertRaises(TypeError,Product,testProductName,testProductPrice,testProductQuantity,[1,2,3,"hello"])
@@ -54,11 +55,11 @@ class TestProduct(unittest.TestCase):
 
 
         # product price must be int or float 
-        self.assertRaises(TypeError,Product,testProductName,"Palpatine",testProductQuantity,testProductCreaterName)
-        self.assertRaises(TypeError,Product,testProductName,["Emperor","Palpatine"],testProductQuantity,testProductCreaterName)
-        self.assertRaises(TypeError,Product,testProductName,{"Emperor":"Palpatine","Darth":"Sidius"},testProductQuantity,testProductCreaterName)
-        self.assertRaises(TypeError,Product,testProductName,("Darth","Bane"),testProductQuantity,testProductCreaterName)
-        self.assertRaises(TypeError,Product,testProductName,False,testProductQuantity,testProductCreaterName)
+        self.assertRaises(TypeError,Product,testProductName,"Palpatine",testProductCreaterName,testProductQuantity)
+        self.assertRaises(TypeError,Product,testProductName,["Emperor","Palpatine"],testProductCreaterName,testProductQuantity)
+        self.assertRaises(TypeError,Product,testProductName,{"Emperor":"Palpatine","Darth":"Sidius"},testProductCreaterName,testProductQuantity)
+        self.assertRaises(TypeError,Product,testProductName,("Darth","Bane"),testProductCreaterName,testProductQuantity)
+        self.assertRaises(TypeError,Product,testProductName,False,testProductCreaterName,testProductQuantity)
 
 
     def test_update_price(self):
@@ -69,7 +70,7 @@ class TestProduct(unittest.TestCase):
         self.assertRaises(TypeError,Product.update_price,self,{"Harry":"Potter","Hermione":"Granger"})
         self.assertRaises(TypeError,Product.update_price,self,("Ron","Weasley"))
 
-        # price must beless than or equal to 100
+        # price must be less than or equal to 100
         self.assertRaises(ValueError,Product.update_price,self,-1)
         self.assertRaises(ValueError,Product.update_price,self,0)
         self.assertRaises(ValueError,Product.update_price,self,101)
