@@ -17,6 +17,12 @@ class TestShop(unittest.TestCase):
         # Test if what we are adding is a product 
         self.assertRaises(TypeError, shop1.add_product, True)
 
+        # Testing the type of quantity_to_be_added
+        self.assertRaises(TypeError, shop1.add_product, simple_product, [])
+
+        # Testing the value of quantity_to_be_added
+        self.assertRaises(ValueError, shop1.add_product, simple_product, -17)
+
         # Test adding a product
         shop1.add_product(simple_product)
         self.assertEqual(shop1.inventory[simple_product.product_id], simple_product)

@@ -32,16 +32,16 @@ class TestOrder(unittest.TestCase):
     
     def test_update_order(self):
         # to_remove must be a boolean to_remove
-        self.assertRaises(TypeError, Order.update_order, self, 'False', 0, test_products)
+        self.assertRaises(TypeError, Order.update_order,'False', 0, test_products)
 
         # product_id must be an int
-        self.assertRaises(TypeError, Order.update_order, self, False , '12345', test_products)
+        self.assertRaises(TypeError, Order.update_order, False , '12345', test_products)
 
         # product_to_be_added must an instance of the Product class
-        self.assertRaises(TypeError, Order.update_order, self, False , 1234567891234567, 0)
+        self.assertRaises(TypeError, Order.update_order, False , 1234567891234567, 0)
 
         # method succesfully removes the item from the order
-        test_order.update_order(True, 0, None)
+        test_order.update_order(True, 0,None)
         self.assertEqual(test_order.products, {product2.product_id:product2})
 
         # method succesfully adds the item to the order 
@@ -53,9 +53,12 @@ class TestOrder(unittest.TestCase):
         test_order.generate_tracking()
 
         # tracking must be a string
-        self.assertRaises(TypeError, test_order.getTrackingID, 1234567891234567)
+        self.assertRaises(TypeError, test_order.getTrackingID(), 1234567891234567)
 
         # assert that the tracking is correct length
-        self.assertEqual(len(test_order.getTrackingID), 16)
+        self.assertEqual(len(str(test_order.getTrackingID())), 16)
+
+if __name__ == '__main__':
+    unittest.main()
         
     

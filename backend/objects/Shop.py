@@ -12,7 +12,7 @@ class Shop:
 
         self.inventory = defaultdict(int)
     
-    def add_product(self,product, quantity_to_be_added = 1):
+    def add_product(self,product,quantity_to_be_added = 1):
 
         '''
         product must be an object of type product
@@ -22,6 +22,12 @@ class Shop:
 
         if not isinstance(product, Product):
             raise TypeError('Product must be an instance of the Product class.')
+
+        elif type(quantity_to_be_added) != int:
+            raise TypeError('The quantity to be added must be an integer.')
+
+        elif quantity_to_be_added < 1:
+            raise ValueError('The value must be an integer greater than 0.')
 
         elif product.product_id in self.inventory:
             self.inventory[product.product_id].update_quantity(quantity_to_be_added)
