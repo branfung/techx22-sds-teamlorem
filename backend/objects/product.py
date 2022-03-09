@@ -10,12 +10,12 @@ class Product:
 
     """
     
-    def __init__(self, name: str, price: float, product_id: int, creator: str, quantity: int = 1):
+    def __init__(self, name: str, price: float, creator: str, quantity: int = 1):
 
         #TODO: input validation (TDD)
         self.name = name
         self.price = price
-        self.product_id = product_id
+        self.product_id = None
         self.creator = creator
         self.quantity = quantity
 
