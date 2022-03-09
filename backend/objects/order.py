@@ -1,4 +1,5 @@
 
+from encodings import utf_8
 import string
 import random
 import secrets
@@ -76,7 +77,7 @@ class Order:
 
     # Print Order Method             
     def __str__(self) -> str:
-        return "First Name: " + self.first_name + "\n" + "Last Name: " + self.last_name + "\n" + "Country: " + self.getCountry() + "\n" + "City: " + self.city + "\n" + "Zip Code: " + self.zip_code + "\n" + "Street Address: " + self.street_address + "\n" + "Phone Number: " + self.phone_number + "\n" + str(list(self.products.values()))
+        return "First Name: " + self.first_name + "\n" + "Last Name: " + self.last_name + "\n" + "Country: " + self.getCountry() + "\n" + "City: " + self.city + "\n" + "Zip Code: " + self.zip_code + "\n" + "Street Address: " + self.street_address + "\n" + "Phone Number: " + self.phone_number + "\n" 
 
     # Generate Tracking ID for each member 
     def generate_tracking(self) -> str:
@@ -99,6 +100,12 @@ class Order:
                 raise TypeError("Product to be Added has to be an instance of the Product class")
             else:
                 self.products[product_id] = product_to_be_added
+
+    def return_order_txt(self):
+        with open("temp.txt","w", encoding="utf_8") as order_information:
+            order_information.write(self.__str__() + "\n")
+            order_information.write("Thanks for ordering!")
+
 
 
 
