@@ -117,6 +117,10 @@ class TestProduct(unittest.TestCase):
         self.assertEqual(testLongSleeve.quantity,11)
 
 
+if __name__ == '__main__':
+    unittest.main()
+
+
 
         
 
