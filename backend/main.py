@@ -1,4 +1,4 @@
-from objects.Shop import Shop
+from objects.shop import Shop
 store = Shop()
 
 
