@@ -10,7 +10,7 @@ testProductCreaterName = "S34L"
 
 # Products Instances to test class methods
 testProduct = Product(testProductName,testProductPrice, testProductQuantity, testProductID, testProductCreaterName)
-testTshirt = Product("T-Shirt", 4.99, 2, 834546, "Bran")
+testTshirt = Product("T-Shirt", 4.99, 10, 834546, "Bran")
 testLongSleeve = Product("Long Sleeve", 9.99, 1, 13141, "Y4N")
 
 class TestProduct(unittest.TestCase):
@@ -82,7 +82,7 @@ class TestProduct(unittest.TestCase):
         self.assertRaises(TypeError,Product.update_price,self,{"Harry":"Potter","Hermione":"Granger"})
         self.assertRaises(TypeError,Product.update_price,self,("Ron","Weasley"))
 
-        # price must be greater than 0 and less than or equal to 100
+        # price must beless than or equal to 100
         self.assertRaises(ValueError,Product.update_price,self,-1)
         self.assertRaises(ValueError,Product.update_price,self,0)
         self.assertRaises(ValueError,Product.update_price,self,101)
@@ -90,13 +90,13 @@ class TestProduct(unittest.TestCase):
 
         
         testProduct.update_price(9.99)
-        self.assertEqual(testProduct.price,29.98)
+        self.assertEqual(testProduct.price,9.99)
 
         testTshirt.update_price(5.99)
-        self.assertEqual(testTshirt.price,10.98)
+        self.assertEqual(testTshirt.price,5.99)
 
         testLongSleeve.update_price(15.57)
-        self.assertEqual(testLongSleeve.price, 25.56)
+        self.assertEqual(testLongSleeve.price, 15.57)
 
     def test_update_quantity(self):
 
@@ -110,10 +110,10 @@ class TestProduct(unittest.TestCase):
         testProduct.update_quantity(2)
         self.assertAlmostEqual(testProduct.quantity,5)
 
-        testTshirt.update_quantity(5)
-        self.assertEqual(testTshirt.quantity,7)
+        testTshirt.update_quantity(-5)
+        self.assertEqual(testTshirt.quantity,5)
 
-        testLongSleeve.update_price(10)
+        testLongSleeve.update_quantity(10)
         self.assertEqual(testLongSleeve.quantity,11)
 
 
