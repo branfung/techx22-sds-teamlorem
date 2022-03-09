@@ -8,35 +8,49 @@ store = Shop()
 def main():
     #populate_store()
     print('Welcome to Populus Designs!')
-    user_role = input('Would you like to buy or sell a product? Type "buy" or "sell to make your choice')
+    user_role = input('Would you like to buy or sell a product? Type "buy" or "sell" to make your choice ')
     while user_role.lower() not in ['buy', 'sell']:
-        print('Something went wrong! Please make sure you typed either buy or sell when asked.')
-        user_role = input('Would you like to buy or sell a product?')
+        print('Something went wrong! Please make sure you typed either buy or sell when asked. ')
+        user_role = input('Would you like to buy or sell a product? ')
 
     if user_role == 'buy':
+
         keep_buying = True
         print('These are the products available at the moment')
         store.print_inventory()
         item = input('What is the id of the product you would like to buy? ')
-        # Do we want add the items on a temp list and then create the order or create the order and with the shipping info blank and then have setters to update them ? 
-        #TODO - Create an order
-        client_order = Order()
+
+        # get shipping info from the client to create an order
+        client_first_name = str(input("What is the name of the person for the order to be shipped at? "))
+        client_last_name = str(input("Whats is the last name of the person for the order to be shipped at? "))
+        client_email = str(input("Whats is the email of the person for the order to be shipped at? "))
+        client_phone_number = str(input("Whats is the phone number of the person for the order to be shipped at? "))
+        client_street_address = input(str("Whats is the street address of the person for the order to be shipped at? "))
+        client_city = str(input("Whats is the city of the person for the order to be shipped at? "))
+        client_country = str(input("Whats is the country of the person for the order to be shipped at? "))
+        client_zip_code = str(input("Whats is the zip code of the person for the order to be shipped at? "))
+
+        client_order = Order(client_city,client_country,client_first_name,client_last_name,client_email,client_phone_number,client_street_address,client_zip_code)
+
         
         #TODO - Ask the client if they want to buy another product 
         while keep_buying:
-            decision = input('Would you like to buy another item? enter y for yes and n for no')
+            decision = input('Would you like to buy another item? enter y for yes and n for no ')
             if decision not in ['y', 'n']:
-                print('Something went wrong! Please make sure you typed either y or n.')
+                print('Something went wrong! Please make sure you typed either y or n. ')
             elif decision == 'n':
                 keep_buying = False
             else:
                 # this brings a problem if we wait to update inventory after order is completed the user could add more items than the one we have on the store 
                 # should we update inventory as we go ? 
-                item = input('What is the id of the product you would like to buy?')
+                item = input('What is the id of the product you would like to buy? ')
 
 
         #TODO - Remove all the products in the order from the store 
-        #TODO - Add shipping and payment information
+        print("Here is your order: " + client_order.__str__() + "\n")
+        print("Your tracking ID is: " + client_order.getTrackingID())
+        client_order.return_order_txt()
+        print("A copy of your order has been sent to our servers for validation and processsing")
         print('Thank you for your purchase!')
         print('Hope to see you again soon and stay awesome!')
 
