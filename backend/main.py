@@ -16,9 +16,10 @@ def main():
 
     # Instantiate the store! 
     store = Shop()
-    # populate_store(store)
+    populate_store(store) # add items !
     print('Welcome to Populus Designs!')
 
+    # Validate input
     invalid_name = True
     while invalid_name:
         
@@ -32,6 +33,7 @@ def main():
             invalid_name = False
             break
 
+    # Emulate a login
     user = User(name)
     print(f'Hello, {user.name}! \n')
     
@@ -39,13 +41,14 @@ def main():
     while open:
         print('Would you like to buy or sell a product? \n')
         option = input('Select an option [buy|sell|exit]: ').lower()
-        
+        print()        
 
         if option == 'buy':
 
             keep_buying = True
-            print('These are the products available at the moment')
+            print('These are the products available at the moment \n')
             store.print_inventory()
+            print()
             item = input('What is the id of the product you would like to buy? ')
 
             # get shipping info from the client to create an order
@@ -108,10 +111,10 @@ def main():
 
 
         elif option == 'sell':
-            new_product = None
             
             print('Please provide the following information. \n')
-                
+            
+            # Validate all the necessary inputs
             invalid_product_name = True
             while invalid_product_name:
                 
@@ -152,14 +155,16 @@ def main():
                 else:
                     invalid_quantity = False
                     break
-
+            # End validation
+            
+            # Creates a new product to be added to the store
             new_product = Product(product_name, product_price, user.name, product_quantity)               
                                     
             store.add_product(new_product)   
-            print('The item has been successfully added.')
+            print('The item has been successfully added. \n')
 
             store.print_inventory()
-            print('Thank you for using Populus Designs to share your uniqueness with the world!')
+            print('Thank you for using Populus Designs to share your uniqueness with the world! \n')
             
             
         elif option == 'exit':
@@ -168,6 +173,17 @@ def main():
             break
         else:
             print('Something went wrong! Please make sure you typed an option correctly when prompted! \n')
+
+
+def populate_store(store: Shop):
+    """Fills the indicated store with a predetermined amount of products
+
+    Args:
+        store (Shop): The store to be populated with placeholder products
+    """
+    store.add_product(Product('Python is Cool!', 6.00, 'Brandon', 5))
+    store.add_product(Product('OOP is OP!', 7.99, 'Sebastian', 20))
+    store.add_product(Product('Future SWE B)', 9.99, 'Yan', 3))
 
 
 if __name__ == '__main__':
