@@ -178,11 +178,7 @@ class Order:
     def setZipCode(self,new_zip_code:str) -> None: self.zip_code = new_zip_code
 
 
-    #TODO
 
-    # Edit update order method so that is more efficient (uses parametors more efficiently)
-    # make member variables to be private 
-    # print shopping cart items in the string and return order methods 
 
 
 
