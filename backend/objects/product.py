@@ -6,18 +6,17 @@ class Product:
 
     Args:
         name (str): The name of the product design
-        price (float): The price of the product
+        price (int or float): The price of the product
         product_id (int): The special id of this product
         creator (str): The username of the creator of this product design
         quantity (int): The desired amount to be sold. Defaults to 1.
 
     """
     
-    def __init__(self, name: str, price: float, creator: str, quantity: int = 1):
+    def __init__(self, name: str, price, creator: str, quantity: int = 1):
 
-        #TODO: input validation (TDD)
         if type(name) != str: raise TypeError('Name of this product must be a sting')
-        if type(price) != float: raise TypeError('Price must be a float!')
+        if type(price) not in {float, int}: raise TypeError('Price must be an int or float!')
         if type(creator) != str: raise TypeError('Creator username must be a string!')
         if type(quantity) != int: raise TypeError('Quantity must be an integer!')
         
@@ -29,7 +28,7 @@ class Product:
         if quantity <= 0 or quantity > 50: raise ValueError('Quantity must be inside the 1-50 range!')
         
         self.name = name
-        self.price = price
+        self.price = float(price)
         self.product_id = None
         self.creator = creator
         self.quantity = quantity
@@ -48,7 +47,6 @@ class Product:
             self (Product obj)
         """
         
-        #TODO: input validation (TDD)
         if type(price) not in {float, int}: raise TypeError('Price must be a valid number!')
         if price <= 0 or price > 100: raise ValueError('Price must be inside the $1-$100 range!')
         
@@ -66,7 +64,6 @@ class Product:
             self (Product obj)
         """
         
-        #TODO: input validation (TDD)
         if type(quantity) != int: raise TypeError('Quantity must be an integer!')
         if self.quantity + quantity <= 0: raise ValueError('Cannot remove more than the existing amount!')
         if self.quantity + quantity > 50:

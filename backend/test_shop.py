@@ -1,9 +1,9 @@
 import unittest
 from objects.product import Product
-from objects.Shop import Shop
+from objects.shop import Shop
 
 simple_product = Product('Simple Product', 1.00, 'tester')
-more_than_one = Product('Multiple of the Same Product', 0.50,'tester', 45)
+more_than_one = Product('Multiple Products', 0.50,'tester', 45)
 another_product = Product('Another Simple Product', 1.00, 'tester')
 
 shop1 = Shop()

@@ -35,11 +35,11 @@ def main():
 
     # Emulate a login
     user = User(name)
-    print(f'Hello, {user.name}! \n')
+    print(f'Hello, {user.name}!')
     
     open = True
     while open:
-        print('Would you like to buy or sell a product? \n')
+        print('\n Would you like to buy or sell a product? \n')
         option = input('Select an option [buy|sell|exit]: ').lower()
         print()        
 
@@ -86,12 +86,11 @@ def main():
                     client_phone_number = str(client_phone_number)
                     client_zip_code = str(client_zip_code)
    
+                    # If code reaches the end then it breaks out of the loop
+                    break
+
                 except:
                     print("Wrong inputs. Please try again. Remember to make sure your information is correct.")
-
-                # everything is valid:
-                else:
-                    break
 
             client_order = Order(client_city,client_country,client_first_name,client_last_name,client_email,client_phone_number,client_street_address,client_zip_code)
 
@@ -197,7 +196,7 @@ def main():
             
         elif option == 'exit':
             open = False
-            print('\n\nStay awesome, bye! :D')
+            print('\n     ~Stay awesome, bye! :D')
             break
         else:
             print('Something went wrong! Please make sure you typed an option correctly when prompted! \n')
