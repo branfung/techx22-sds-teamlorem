@@ -5,5 +5,3 @@ class User:
 
     def __str__(self):
         return f"My name is {self.name}."
-    
-print(User('BRANDON'))
