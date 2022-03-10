@@ -3,10 +3,10 @@ from objects.shop import Shop
 from objects.order import Order
 from objects.product import Product
 from objects.user import User
-from countries_list import Country
-
 # used to validate email input 
 import re
+# used to open HTML file in browser
+import webbrowser
 store = Shop()
 
 # Make a regular expression
@@ -18,6 +18,10 @@ def main():
 
     #populate_store()
     print('Welcome to Populus Designs!')
+    # selection = input("Would you like to visit our webpage? Y/N")
+    # if selection.lower() in ["y","n","yes","no"]:
+    #     webbrowser.open_new_tab("index.html")
+
     user_role = input('Would you like to buy or sell a product? Type "buy" or "sell" to make your choice ')
     while user_role.lower() not in ['buy', 'sell']:
         print('Something went wrong! Please make sure you typed either buy or sell when asked. ')
@@ -55,7 +59,7 @@ def main():
                 client_country = input("Whats is the country of the person for the order to be shipped at? ")
                 if not client_country.isalpha():
                     raise Exception
-                    
+
                 client_zip_code = int(input("Whats is the zip code of the person for the order to be shipped at? "))
 
                 client_phone_number = str(client_phone_number)
