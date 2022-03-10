@@ -22,7 +22,7 @@ test_phone_number = '787-932-0510'
 test_email = 'yaquino@techexchange.in'
 test_city = 'Kissimmee'
 test_order = Order(test_city, test_country, test_first_name, test_last_name , test_email, test_phone_number, test_street_address, test_zip_code)
-test_order.products = test_products
+test_order.shoppingCart = test_products
 
 class TestOrder(unittest.TestCase):
 
@@ -50,11 +50,11 @@ class TestOrder(unittest.TestCase):
 
         # method succesfully removes the item from the order
         test_order.update_order(True, 0,None)
-        self.assertEqual(test_order.products, {product2.product_id:product2})
+        self.assertEqual(test_order.shoppingCart, {product2.product_id:product2})
 
         # method succesfully adds the item to the order 
         test_order.update_order(False, product1.product_id, product1)
-        self.assertEqual(test_order.products, {product1.product_id:product1, product2.product_id:product2})
+        self.assertEqual(test_order.shoppingCart, {product1.product_id:product1, product2.product_id:product2})
 
     def test_generate_tracking(self):
         # create a tracking ID for the order 
