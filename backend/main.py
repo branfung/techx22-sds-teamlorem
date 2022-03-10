@@ -35,11 +35,11 @@ def main():
 
     # Emulate a login
     user = User(name)
-    print(f'Hello, {user.name}! \n')
+    print(f'Hello, {user.name}!')
     
     open = True
     while open:
-        print('Would you like to buy or sell a product? \n')
+        print('\n Would you like to buy or sell a product? \n')
         option = input('Select an option [buy|sell|exit]: ').lower()
         print()        
 
