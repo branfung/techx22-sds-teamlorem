@@ -24,7 +24,7 @@ def main():
     while invalid_name:
         
         name = input('Enter a username (16 character limit): ')
-        
+    
         if name == '' or name.isspace():
             print('Name cannot be empty!')
         elif len(name) > 16:
@@ -44,16 +44,22 @@ def main():
         print()        
 
         if option == 'buy':
-
+            total = 0
             keep_buying = True
             print('These are the products available at the moment \n')
             store.print_inventory()
             print()
-            item = input('What is the id of the product you would like to buy? ')
 
+        
             # get shipping info from the client to create an order
             while True:
                 try:
+
+                    item = int(input('What is the id of the product you would like to buy? '))
+                    if item not in store.inventory.keys():
+                        raise Exception
+
+                    quantity = int(input("Quantity of Product: "))
                     
                     client_first_name = input("What is the name of the person for the order to be shipped at? ")
                     if not client_first_name.isalpha():
@@ -74,8 +80,6 @@ def main():
                     client_city = input("Whats is the city of the person for the order to be shipped at? ")
                     
                     client_country = input("Whats is the country of the person for the order to be shipped at? ")
-                    if not client_country.isalpha():
-                        raise Exception
 
                     client_zip_code = int(input("Whats is the zip code of the person for the order to be shipped at? "))
 
@@ -91,20 +95,44 @@ def main():
 
             client_order = Order(client_city,client_country,client_first_name,client_last_name,client_email,client_phone_number,client_street_address,client_zip_code)
 
-            
+            client_order.update_order(False,item,store.inventory[item])
+            store.inventory[item].update_quantity(-quantity)
+            total += store.inventory[item].quantity
+
+        
             while keep_buying:
                 decision = input('Would you like to buy another item? enter y for yes and n for no ')
-                if decision not in ['y', 'n']:
+                if decision.lower() not in ['y', 'n',"yes","no"]:
                     print('Something went wrong! Please make sure you typed either y or n. ')
-                elif decision == 'n':
+                elif decision.lower() == 'n' or decision.lower() == "no":
                     keep_buying = False
                 else:
-                    item = input('What is the id of the product you would like to buy? ')
+                    store.print_inventory()
+                    item = int(input('What is the id of the product you would like to buy? '))
+                    quantity = int(input("Quantity of Product: "))
+                    client_order.update_order(False,item,store.inventory[item])
+                    store.inventory[item].update_quantity(-quantity)
+                    total += store.inventory[item].quantity
+                    if item not in store.inventory.keys():
+                        print("Here is your order: " + client_order.__str__() + "\n")
+                        print("Your total is:$" + str(total))
+                        print("Your tracking ID is: " + client_order.getTrackingID())
+                        client_order.return_order_txt(str(total))
+                        print("A copy of your order has been sent to our servers for validation and processsing")
+                        print('Thank you for your purchase!')
+                        print('Hope to see you again soon and stay awesome!')
+                        break
+                         
 
+                    # client_order.update_order(False,item,store.inventory[item])
+                    # store.inventory[item].update_quantity(-quantity)
+                    # total += store.inventory[item].quantity
+        
  
             print("Here is your order: " + client_order.__str__() + "\n")
+            print("Your total is:$ " + str(total))
             print("Your tracking ID is: " + client_order.getTrackingID())
-            client_order.return_order_txt()
+            client_order.return_order_txt(str(total))
             print("A copy of your order has been sent to our servers for validation and processsing")
             print('Thank you for your purchase!')
             print('Hope to see you again soon and stay awesome!')

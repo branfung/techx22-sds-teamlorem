@@ -3,6 +3,7 @@ from encodings import utf_8
 import string
 import random
 import secrets
+from typing import Type
 from objects.product import Product
 
 
@@ -89,11 +90,16 @@ class Order:
             str: a string representing the class instance values. Notice that the phone number 
             output has been formatted to automatically output the value in the ###-###-### format
         """
-        return "First Name: " + self.first_name + "\n" + "Last Name: " + self.last_name + "\n" + "Country: " + self.getCountry() + "\n" + "City: " + self.city + "\n" + "Zip Code: " + self.zip_code + "\n" + "Street Address: " + self.street_address + "\n" + "Phone Number: " + "{}-{}-{}".format(self.phone_number[:3],self.phone_number[3:6], self.phone_number[6:]) + "\n" 
+        result = "First Name: " + self.first_name + "\n" + "Last Name: " + self.last_name + "\n" + "Country: " + self.getCountry() + "\n" + "City: " + self.city + "\n" + "Zip Code: " + self.zip_code + "\n" + "Street Address: " + self.street_address + "\n" + "Phone Number: " + "{}-{}-{}".format(self.phone_number[:3],self.phone_number[3:6], self.phone_number[6:]) + "\n" + "Your order contains the following products: " + "\n" 
+        for product in self.shoppingCart.values():
+            result += (str(product) + "\n")
+
+        return result
 
     # Generate Tracking ID for each member 
     def generate_tracking(self) -> str:
         """ Generates a unique Tracking ID for this instance
+        see reference: https://www.javatpoint.com/python-program-to-generate-a-random-string
 
         Returns:
             str: string representing a tracking ID of the order 
@@ -131,12 +137,15 @@ class Order:
             else:
                 self.shoppingCart[product_id] = product_to_be_added
 
-    def return_order_txt(self) -> None:
+    def return_order_txt(self,order_total) -> None:
         """ Create a text file that represents the order instance information that has been created
         """
+        if type(order_total) is not str:
+            raise TypeError("Total must be passed as a string.")
 
         with open(self.first_name + self.last_name + "Order" +".txt","w", encoding="utf_8") as order_information:
             order_information.write(self.__str__() + "\n")
+            order_information.write("Your total is:$ " + order_total + "\n")
             order_information.write("Thanks for ordering!")
 
 
