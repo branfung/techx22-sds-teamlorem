@@ -144,8 +144,8 @@ class Order:
         if type(order_total) is not str:
             raise TypeError("Total must be passed as a string.")
 
-        with open(os.path.join('orders', self.first_name + self.last_name + "Order" +".txt"),"w", encoding="utf_8") as order_information:
-            os.makedirs('orders', exist_ok=True)
+        with open(self.first_name + self.last_name + "Order" +".txt","w", encoding="utf_8") as order_information:
+            # os.makedirs('orders', exist_ok=True)
             order_information.write(self.__str__() + "\n")
             order_information.write("Your total is:$ " + order_total + "\n")
             order_information.write("Thanks for ordering!")

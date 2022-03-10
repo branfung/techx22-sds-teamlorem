@@ -96,7 +96,7 @@ def main():
 
             client_order.update_order(False,item,store.inventory[item])
             store.inventory[item].update_quantity(-quantity)
-            total += store.inventory[item].quantity
+            total += (store.inventory[item].quantity * quantity)
 
         
             while keep_buying:
@@ -111,7 +111,7 @@ def main():
                     quantity = int(input("Quantity of Product: "))
                     client_order.update_order(False,item,store.inventory[item])
                     store.inventory[item].update_quantity(-quantity)
-                    total += store.inventory[item].quantity
+                    total += (store.inventory[item].quantity * quantity)
                     if item not in store.inventory.keys():
                         print("Here is your order: " + client_order.__str__() + "\n")
                         print("Your total is:$" + str(total))
@@ -121,12 +121,7 @@ def main():
                         print('Thank you for your purchase!')
                         print('Hope to see you again soon and stay awesome!')
                         break
-                         
-
-                    # client_order.update_order(False,item,store.inventory[item])
-                    # store.inventory[item].update_quantity(-quantity)
-                    # total += store.inventory[item].quantity
-        
+                             
  
             print("Here is your order: " + client_order.__str__() + "\n")
             print("Your total is:$ " + str(total))
