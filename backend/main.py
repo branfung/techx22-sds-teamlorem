@@ -59,7 +59,7 @@ def main():
                     if item not in store.inventory.keys():
                         raise Exception
 
-                    quantity = int(input("Quantity of Product: "))
+                    num_of_quantity = int(input("Quantity of Product: "))
                     
                     client_first_name = input("What is the name of the person for the order to be shipped at? ")
                     if not client_first_name.isalpha():
@@ -95,8 +95,8 @@ def main():
             client_order = Order(client_city,client_country,client_first_name,client_last_name,client_email,client_phone_number,client_street_address,client_zip_code)
 
             client_order.update_order(False,item,store.inventory[item])
-            store.inventory[item].update_quantity(-quantity)
-            total += (store.inventory[item].quantity * quantity)
+            store.inventory[item].update_quantity(-num_of_quantity)
+            total = total + (store.inventory[item].price * num_of_quantity)
 
         
             while keep_buying:
@@ -108,11 +108,12 @@ def main():
                 else:
                     store.print_inventory()
                     item = int(input('What is the id of the product you would like to buy? '))
-                    quantity = int(input("Quantity of Product: "))
+                    num_of_quantity = int(input("Quantity of Product: "))
                     client_order.update_order(False,item,store.inventory[item])
-                    store.inventory[item].update_quantity(-quantity)
-                    total += (store.inventory[item].quantity * quantity)
+                    store.inventory[item].update_quantity(-num_of_quantity)
+                    total = total + (store.inventory[item].price * num_of_quantity)
                     if item not in store.inventory.keys():
+
                         print("Here is your order: " + client_order.__str__() + "\n")
                         print("Your total is:$" + str(total))
                         print("Your tracking ID is: " + client_order.getTrackingID())
@@ -124,7 +125,7 @@ def main():
                              
  
             print("Here is your order: " + client_order.__str__() + "\n")
-            print("Your total is:$ " + str(total))
+            print("Your total is:$" + str(total))
             print("Your tracking ID is: " + client_order.getTrackingID())
             client_order.return_order_txt(str(total))
             print("A copy of your order has been sent to our servers for validation and processsing")
