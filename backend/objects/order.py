@@ -1,5 +1,6 @@
 
 from encodings import utf_8
+import os
 import string
 import random
 import secrets
@@ -134,8 +135,8 @@ class Order:
     def return_order_txt(self) -> None:
         """ Create a text file that represents the order instance information that has been created
         """
-
-        with open(self.first_name + self.last_name + "Order" +".txt","w", encoding="utf_8") as order_information:
+        os.makedirs('orders', exist_ok=True)
+        with open(os.path.join('orders', self.first_name + self.last_name + "Order" +".txt"),"w", encoding="utf_8") as order_information:
             order_information.write(self.__str__() + "\n")
             order_information.write("Thanks for ordering!")
 

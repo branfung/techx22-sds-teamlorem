@@ -74,20 +74,17 @@ def main():
                     client_city = input("Whats is the city of the person for the order to be shipped at? ")
                     
                     client_country = input("Whats is the country of the person for the order to be shipped at? ")
-                    if not client_country.isalpha():
-                        raise Exception
 
                     client_zip_code = int(input("Whats is the zip code of the person for the order to be shipped at? "))
 
                     client_phone_number = str(client_phone_number)
                     client_zip_code = str(client_zip_code)
    
+                    # If code reaches the end then it breaks out of the loop
+                    break
+
                 except:
                     print("Wrong inputs. Please try again. Remember to make sure your information is correct.")
-
-                # everything is valid:
-                else:
-                    break
 
             client_order = Order(client_city,client_country,client_first_name,client_last_name,client_email,client_phone_number,client_street_address,client_zip_code)
 
