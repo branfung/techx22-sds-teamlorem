@@ -77,7 +77,7 @@ class Order:
 
     # Print Order Method             
     def __str__(self) -> str:
-        return "First Name: " + self.first_name + "\n" + "Last Name: " + self.last_name + "\n" + "Country: " + self.getCountry() + "\n" + "City: " + self.city + "\n" + "Zip Code: " + self.zip_code + "\n" + "Street Address: " + self.street_address + "\n" + "Phone Number: " + self.phone_number + "\n" 
+        return "First Name: " + self.first_name + "\n" + "Last Name: " + self.last_name + "\n" + "Country: " + self.getCountry() + "\n" + "City: " + self.city + "\n" + "Zip Code: " + self.zip_code + "\n" + "Street Address: " + self.street_address + "\n" + "Phone Number: " + "{}-{}-{}".format(self.phone_number[:3],self.phone_number[3:6], self.phone_number[6:]) + "\n" 
 
     # Generate Tracking ID for each member 
     def generate_tracking(self) -> str:

@@ -1,11 +1,21 @@
+
 from objects.shop import Shop
 from objects.order import Order
 from objects.product import Product
 from objects.user import User
+from countries_list import Country
+
+# used to validate email input 
+import re
 store = Shop()
+
+# Make a regular expression
+# for validating an Email
+regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 
 def main():
+
     #populate_store()
     print('Welcome to Populus Designs!')
     user_role = input('Would you like to buy or sell a product? Type "buy" or "sell" to make your choice ')
@@ -21,14 +31,43 @@ def main():
         item = input('What is the id of the product you would like to buy? ')
 
         # get shipping info from the client to create an order
-        client_first_name = str(input("What is the name of the person for the order to be shipped at? "))
-        client_last_name = str(input("Whats is the last name of the person for the order to be shipped at? "))
-        client_email = str(input("Whats is the email of the person for the order to be shipped at? "))
-        client_phone_number = str(input("Whats is the phone number of the person for the order to be shipped at? "))
-        client_street_address = input(str("Whats is the street address of the person for the order to be shipped at? "))
-        client_city = str(input("Whats is the city of the person for the order to be shipped at? "))
-        client_country = str(input("Whats is the country of the person for the order to be shipped at? "))
-        client_zip_code = str(input("Whats is the zip code of the person for the order to be shipped at? "))
+        while True:
+            try:
+                
+                client_first_name = input("What is the name of the person for the order to be shipped at? ")
+                if not client_first_name.isalpha():
+                    raise Exception
+
+                client_last_name = input("Whats is the last name of the person for the order to be shipped at? ")
+                if not client_last_name.isalpha():
+                    raise Exception
+
+                client_email = input("Whats is the email of the person for the order to be shipped at? ")
+                if not re.fullmatch(regex,client_email):
+                    raise Exception
+
+                client_phone_number = int(input("Whats is the phone number of the person for the order to be shipped at? "))
+                
+                client_street_address = input("Whats is the street address of the person for the order to be shipped at? ")
+
+                client_city = input("Whats is the city of the person for the order to be shipped at? ")
+                
+                client_country = input("Whats is the country of the person for the order to be shipped at? ")
+                if not client_country.isalpha():
+                    raise Exception
+                    
+                client_zip_code = int(input("Whats is the zip code of the person for the order to be shipped at? "))
+
+                client_phone_number = str(client_phone_number)
+                client_zip_code = str(client_zip_code)
+
+                
+            except:
+                print("Wrong inputs. Please try again. Remember to make sure your information is correct.")
+
+            # everything is valid:
+            else:
+                break
 
         client_order = Order(client_city,client_country,client_first_name,client_last_name,client_email,client_phone_number,client_street_address,client_zip_code)
 
