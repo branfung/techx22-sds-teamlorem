@@ -69,7 +69,7 @@ class Shop:
     def print_inventory(self):
 
         '''
-        Prints all the products in the inventory as per the __str__ methof from the product class 
+        Prints all the products in the inventory as per the __str__ method from the product class 
         '''
 
         for id, product in self.inventory.items():

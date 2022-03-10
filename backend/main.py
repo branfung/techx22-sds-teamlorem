@@ -2,10 +2,10 @@ from objects.shop import Shop
 from objects.order import Order
 from objects.product import Product
 from objects.user import User
-# from countries_list import Country
-
 # used to validate email input 
 import re
+# used to open HTML file in browser
+import webbrowser
 
 # Make a regular expression
 # for validating an Email
@@ -67,19 +67,18 @@ def main():
                     client_phone_number = int(input("Whats is the phone number of the person for the order to be shipped at? "))
                     
                     client_street_address = input("Whats is the street address of the person for the order to be shipped at? ")
-
+                   
                     client_city = input("Whats is the city of the person for the order to be shipped at? ")
                     
                     client_country = input("Whats is the country of the person for the order to be shipped at? ")
                     if not client_country.isalpha():
                         raise Exception
-                        
+
                     client_zip_code = int(input("Whats is the zip code of the person for the order to be shipped at? "))
 
                     client_phone_number = str(client_phone_number)
                     client_zip_code = str(client_zip_code)
-
-                    
+   
                 except:
                     print("Wrong inputs. Please try again. Remember to make sure your information is correct.")
 
