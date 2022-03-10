@@ -1,7 +1,7 @@
 import unittest
 from objects.product import Product
 from objects.order import Order
-from objects.Shop import Shop
+from objects.shop import Shop
 
 product1 = Product('Sloth Shirt', 12.50, 'Leon')
 product2 = Product('Tech Ex Hoodie', 50.0, 'Google')
