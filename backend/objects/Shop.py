@@ -72,5 +72,6 @@ class Shop:
         Prints all the products in the inventory as per the __str__ methof from the product class 
         '''
 
-        for key in self.inventory:
-            print(key.__str__())
+        for id, product in self.inventory.items():
+            print(f'id: {id} | {product}')
+            print('==========================================================')
