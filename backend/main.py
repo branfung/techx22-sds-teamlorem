@@ -173,7 +173,7 @@ def main():
             
         elif option == 'exit':
             open = False
-            print('\n\nStay awesome, bye! :D')
+            print('\n     ~Stay awesome, bye! :D')
             break
         else:
             print('Something went wrong! Please make sure you typed an option correctly when prompted! \n')
