@@ -21,12 +21,12 @@ def main():
     print('Welcome to Populus Designs!')
 
     web_page_choice = input("Do you wish to visit our web page? Y/N ")
-    if web_page_choice.lower() in ["y","n","yes","no"]:
+    if web_page_choice.lower() in ["y","yes"]:
         filename = 'file:///'+os.getcwd()+'/' + '../index.html'
         webbrowser.open_new_tab(filename)
 
     else:
-        print("Sorry! Invalid Input/ Try Again Later :) ")
+        print("Visit our web page later!")
 
     # Validate input
     invalid_name = True
@@ -87,8 +87,12 @@ def main():
                     client_street_address = input("Whats is the street address of the person for the order to be shipped at? ")
                    
                     client_city = input("Whats is the city of the person for the order to be shipped at? ")
+                    if not client_city.isalpha():
+                        raise Exception
                     
                     client_country = input("Whats is the country of the person for the order to be shipped at? ")
+                    if not client_country.isalpha():
+                        raise Exception 
 
                     client_zip_code = int(input("Whats is the zip code of the person for the order to be shipped at? "))
 
