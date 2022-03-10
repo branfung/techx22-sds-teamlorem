@@ -1,3 +1,6 @@
+from typing import Type
+
+
 class Product:
     """Creates a Product that can be added into a Shop. It contains all the necessary information for purchases.
 
@@ -13,6 +16,18 @@ class Product:
     def __init__(self, name: str, price: float, creator: str, quantity: int = 1):
 
         #TODO: input validation (TDD)
+        if type(name) != str: raise TypeError('Name of this product must be a sting')
+        if type(price) != float: raise TypeError('Price must be a float!')
+        if type(creator) != str: raise TypeError('Creator username must be a string!')
+        if type(quantity) != int: raise TypeError('Quantity must be an integer!')
+        
+        if name == '' or name.isspace(): raise ValueError('Name must not be empty!')
+        if len(name) > 24: raise ValueError('Name must not exceed 24 characters!')
+        if price <= 0 or price > 100: raise ValueError('Price must be inside the $1-$100 range!')
+        if creator == '' or creator.isspace(): raise ValueError('Creator username must not be empty!')
+        if len(creator) > 16: raise ValueError('Creator username must not exceed 24 characters!')
+        if quantity <= 0 or quantity > 50: raise ValueError('Quantity must be inside the 1-50 range!')
+        
         self.name = name
         self.price = price
         self.product_id = None
@@ -34,7 +49,10 @@ class Product:
         """
         
         #TODO: input validation (TDD)
-        self.price = price
+        if type(price) not in {float, int}: raise TypeError('Price must be a valid number!')
+        if price <= 0 or price > 100: raise ValueError('Price must be inside the $1-$100 range!')
+        
+        self.price = float(price)
         return self
         
     def update_quantity(self, quantity: int):
@@ -49,6 +67,12 @@ class Product:
         """
         
         #TODO: input validation (TDD)
+        if type(quantity) != int: raise TypeError('Quantity must be an integer!')
+        if self.quantity + quantity <= 0: raise ValueError('Cannot remove more than the existing amount!')
+        if self.quantity + quantity > 50:
+            exceeded = self.quantity + quantity - 50
+            raise ValueError(f'Total quantity exceeded by {exceeded}')
+        
         self.quantity += quantity
         return self
         
