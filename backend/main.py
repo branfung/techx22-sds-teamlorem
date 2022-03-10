@@ -1,11 +1,22 @@
-from objects.user import User
 from objects.shop import Shop
+from objects.order import Order
 from objects.product import Product
+from objects.user import User
+# from countries_list import Country
+
+# used to validate email input 
+import re
+
+# Make a regular expression
+# for validating an Email
+regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 
 def main():
-    store = Shop()
 
+    # Instantiate the store! 
+    store = Shop()
+    # populate_store(store)
     print('Welcome to Populus Designs!')
 
     invalid_name = True
@@ -31,36 +42,81 @@ def main():
         
 
         if option == 'buy':
+
             keep_buying = True
             print('These are the products available at the moment')
             store.print_inventory()
             item = input('What is the id of the product you would like to buy? ')
-            # Do we want add the items on a temp list and then create the order or create the order and with the shipping info blank and then have setters to update them ? 
-            #TODO - Create an order
+
+            # get shipping info from the client to create an order
+            while True:
+                try:
+                    
+                    client_first_name = input("What is the name of the person for the order to be shipped at? ")
+                    if not client_first_name.isalpha():
+                        raise Exception
+
+                    client_last_name = input("Whats is the last name of the person for the order to be shipped at? ")
+                    if not client_last_name.isalpha():
+                        raise Exception
+
+                    client_email = input("Whats is the email of the person for the order to be shipped at? ")
+                    if not re.fullmatch(regex,client_email):
+                        raise Exception
+
+                    client_phone_number = int(input("Whats is the phone number of the person for the order to be shipped at? "))
+                    
+                    client_street_address = input("Whats is the street address of the person for the order to be shipped at? ")
+
+                    client_city = input("Whats is the city of the person for the order to be shipped at? ")
+                    
+                    client_country = input("Whats is the country of the person for the order to be shipped at? ")
+                    if not client_country.isalpha():
+                        raise Exception
+                        
+                    client_zip_code = int(input("Whats is the zip code of the person for the order to be shipped at? "))
+
+                    client_phone_number = str(client_phone_number)
+                    client_zip_code = str(client_zip_code)
+
+                    
+                except:
+                    print("Wrong inputs. Please try again. Remember to make sure your information is correct.")
+
+                # everything is valid:
+                else:
+                    break
+
+            client_order = Order(client_city,client_country,client_first_name,client_last_name,client_email,client_phone_number,client_street_address,client_zip_code)
+
             
             #TODO - Ask the client if they want to buy another product 
             while keep_buying:
-                decision = input('Would you like to buy another item? enter y for yes and n for no')
+                decision = input('Would you like to buy another item? enter y for yes and n for no ')
                 if decision not in ['y', 'n']:
-                    print('Something went wrong! Please make sure you typed either y or n.')
+                    print('Something went wrong! Please make sure you typed either y or n. ')
                 elif decision == 'n':
                     keep_buying = False
                 else:
                     # this brings a problem if we wait to update inventory after order is completed the user could add more items than the one we have on the store 
                     # should we update inventory as we go ? 
-                    item = input('What is the id of the product you would like to buy?')
+                    item = input('What is the id of the product you would like to buy? ')
 
 
             #TODO - Remove all the products in the order from the store 
-            #TODO - Add shipping and payment information
+            print("Here is your order: " + client_order.__str__() + "\n")
+            print("Your tracking ID is: " + client_order.getTrackingID())
+            client_order.return_order_txt()
+            print("A copy of your order has been sent to our servers for validation and processsing")
             print('Thank you for your purchase!')
             print('Hope to see you again soon and stay awesome!')
+
 
         elif option == 'sell':
             new_product = None
             
             print('Please provide the following information. \n')
-            
+                
             invalid_product_name = True
             while invalid_product_name:
                 
@@ -118,13 +174,11 @@ def main():
         else:
             print('Something went wrong! Please make sure you typed an option correctly when prompted! \n')
 
-        
 
-
-# def populate_store():
-#     store.add_product(Product('Sloth Tee Shirt Medium',10,2))
-#     store.add_product(Product("Mike's Bachelors Party Long Sleeve Large",12,1))
-#     store.add_product(Product("Johson's Vacay Hoodie Extra Large",20,3))
+# def populate_store(store):
+#     store.add_product(Product( ))
+#     store.add_product(Product( ))
+#     store.add_product(Product( ))
 
 
 if __name__ == '__main__':
