@@ -6,6 +6,7 @@ from objects.user import User
 import re
 # used to open HTML file in browser
 import webbrowser
+import os
 
 # Make a regular expression
 # for validating an Email
@@ -18,6 +19,14 @@ def main():
     store = Shop()
     populate_store(store) # add items !
     print('Welcome to Populus Designs!')
+
+    web_page_choice = input("Do you wish to visit our web page? Y/N ")
+    if web_page_choice.lower() in ["y","n","yes","no"]:
+        filename = 'file:///'+os.getcwd()+'/' + '../index.html'
+        webbrowser.open_new_tab(filename)
+
+    else:
+        print("Sorry! Invalid Input/ Try Again Later :) ")
 
     # Validate input
     invalid_name = True
