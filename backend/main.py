@@ -89,7 +89,6 @@ def main():
             client_order = Order(client_city,client_country,client_first_name,client_last_name,client_email,client_phone_number,client_street_address,client_zip_code)
 
             
-            #TODO - Ask the client if they want to buy another product 
             while keep_buying:
                 decision = input('Would you like to buy another item? enter y for yes and n for no ')
                 if decision not in ['y', 'n']:
@@ -97,12 +96,9 @@ def main():
                 elif decision == 'n':
                     keep_buying = False
                 else:
-                    # this brings a problem if we wait to update inventory after order is completed the user could add more items than the one we have on the store 
-                    # should we update inventory as we go ? 
                     item = input('What is the id of the product you would like to buy? ')
 
-
-            #TODO - Remove all the products in the order from the store 
+ 
             print("Here is your order: " + client_order.__str__() + "\n")
             print("Your tracking ID is: " + client_order.getTrackingID())
             client_order.return_order_txt()
@@ -172,12 +168,6 @@ def main():
             break
         else:
             print('Something went wrong! Please make sure you typed an option correctly when prompted! \n')
-
-
-# def populate_store(store):
-#     store.add_product(Product( ))
-#     store.add_product(Product( ))
-#     store.add_product(Product( ))
 
 
 if __name__ == '__main__':
