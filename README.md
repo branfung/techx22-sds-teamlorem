@@ -13,8 +13,12 @@ Install the following packages inside the *venv*:
 - ``flask-pymongo``
 - ``dnspython``
 - ``python-dotenv``
+- ``flask-wtf``
+- ``email_validator``
+- ``certifi``
+- ``bcrypt``
 
-Or install them in one command with ``pip install flask flask-pymongo dnspython python-dotenv``.
+Or install them in one command with ``pip install flask flask-pymongo dnspython python-dotenv flask-wtf email_validator certifi bcrypt``.
 
 ## Run the app:
 ``flask run`` to run the app inside the *venv*

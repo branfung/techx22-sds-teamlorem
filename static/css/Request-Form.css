@@ -1,0 +1,39 @@
+* { /* Getting rid of some default css properties */
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+    
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+p{
+    color: #FCFAF9;
+}
+
+.pancake-stack{
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+/* form */
+
+.main-form{
+    border: 3px solid black;
+    border-radius: 100% / 20%;
+    padding: 75px;
+    box-shadow: 10px 10px 5px rgb(0,0,0,0.45);
+}
+
+/* sections */
+
+.white-section{
+    background-color:#FCFAF9;
+}
+
