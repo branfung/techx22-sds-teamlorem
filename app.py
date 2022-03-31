@@ -1,14 +1,16 @@
 # -- Import section --
-from flask import (Flask, render_template, request, redirect, url_for)
+from flask import (Flask, render_template, request, redirect, url_for, session)
 from flask_pymongo import PyMongo
+import os, secrets
+from form import SignUpForm
+import bcrypt 
+import certifi
 from bson.objectid import ObjectId
-from flask import session
-import secrets
-import bcrypt
-import os
+
 
 # -- Initialization section --
 app = Flask(__name__)
+app.config['SECRET_KEY'] = secrets.token_hex(nbytes=16)
 
 # name of database
 db_name = "test"
@@ -19,7 +21,7 @@ password = os.environ.get('PASSWORD') # using env variables to hide sensitive in
 app.config['MONGO_URI'] = f"mongodb+srv://admin:{password}@cluster0.pyrzd.mongodb.net/{db_name}?retryWrites=true&w=majority"
 
 # Initialize PyMongo
-mongo = PyMongo(app)
+mongo = PyMongo(app, tlsCAFile=certifi.where())
 
 # Session Data/Cookie (secret key)
 app.secret_key = secrets.token_urlsafe(16)
@@ -29,9 +31,36 @@ app.secret_key = secrets.token_urlsafe(16)
 @app.route('/')
 @app.route('/index')
 def index():
-    return 'Hello World'
-    # return render_template('index.html')
+    return render_template('index.html')
 
+# Do we create a User class or store the information as is inside the data base ? 
+@app.route('/signup', methods=['GET','POST'])
+def signup():
+    sign_up_form = SignUpForm()
+    if sign_up_form.validate_on_submit():
+        
+        users = mongo.db.users
+        email = request.form['email']
+        username = request.form['username']
+        existing_user = users.find_one(filter={"username":username})
+        
+        if existing_user:
+            return render_template('Sign-Up.html', existing_user=existing_user)
+
+        password = request.form['password'].encode('utf-8')
+        salt = bcrypt.gensalt()
+        hased_pasword = bcrypt.hashpw(password, salt)
+        users.insert_one({'username':username, 'password':hased_pasword})
+        session['username'] = username
+
+        return redirect(url_for('index'))
+    return render_template('Sign-Up.html', form=sign_up_form)
+
+@app.route('/buy', methods=['GET','POST'])
+def buy():
+    collection = mongo.db.store
+    store_items = collection.find({})
+    return render_template('buy.html', store_items=store_items)
 
 # User Log in Route
 # The log-in page is where the user can log into his account.
@@ -65,7 +94,7 @@ def login():
         else:
             return "Username not found"
     else:
-        render_template("login.html")
+        return render_template("login.html")
 
 @app.route("/logout")
 def logout():
@@ -73,10 +102,3 @@ def logout():
     session.clear()
     # redirect to main page
     return redirect(url_for("/"))
-    
-
-    
-
-
-
-
