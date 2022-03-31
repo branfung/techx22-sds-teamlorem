@@ -2,7 +2,8 @@
 ## Setup: 
 In order to run the app in vscode, run the following commands:
 - ``python3 -m venv venv`` to setup a python virtual environment.
-- ``./venv/Scripts/activate`` to run the *venv*.
+- For Windows: ``./venv/Scripts/activate`` to run the *venv*.
+- For MacOS/Linux ``. /venv/bin/activate`` to run the *venv*
 
 **Sidenote:** To exit out of the *venv*, type ``deactivate``. 
 ## Install packages:
@@ -21,6 +22,6 @@ Install the following packages inside the *venv*:
 Or install them in one command with ``pip install flask flask-pymongo dnspython python-dotenv flask-wtf email_validator certifi bcrypt``.
 
 ## Run the app:
-``flask run`` to run the app inside the *venv*
+``flask run`` to run the app while the *venv* is active
 
-**Note:** Always run the command **inside** the *venv*
+**Note:** Always run the command after doing ``.venv/<Scripts or bin>/activate``

@@ -1,276 +1,204 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "main.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Main CSS -->
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/About.css">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <!-- Bootstrap JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Montserrat&family=Raleway&display=swap"
-        rel="stylesheet">
-
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">
-
-    <title>Populus Designs &infin;</title>
-    <!-- Tab Logo for the web page -->
-    <link rel="shortcut icon" type="image/png" href="img/tab-photo.jpeg">
-
-<body>
-
-  <!-- Header -->
-  <section id="header" class="dark-section">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="./index.html"><i>Populus Designs</i></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="./index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./pages/About/About.html">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./pages/Request-Form/Request-Form.html">Request a Quote</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Account
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{{ url_for('signup') }}">Sign In</a></li>
-                <li><a class="dropdown-item" href="#">Log In</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </section>
-
+{% block content %}
+<main>
     <section class="header-container">
         <h1 class="header-main main__h1">Populus Designs</h1>
         <h2 class="header-main main__h2">Where Your Ideas Come True</h2>
     </section>
 
+    <section class="container-fluid container-fluid__main">
+        
+        <!-- <div class="row row-1">
+            <div class="col">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="img/Shirt_1.jpeg" class="d-block" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="img/shirt-2.jpeg" class="d-block" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="img/shirt_3.jpeg" class="d-block" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
 
-    <main>
-        <section class="container-fluid container-fluid__main">
-            <div class="row row-1">
-                <div class="col">
-                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                                class="active" aria-current="true" aria-label="Slide 1"></button>
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                                aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                                aria-label="Slide 3"></button>
-                        </div>
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="../img/Shirt_1.jpeg" class="d-block" alt="...">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="../img/shirt-2.jpeg" class="d-block" alt="...">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="../img/shirt_3.jpeg" class="d-block" alt="...">
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
+        <div class="row row-2">
+            <div class="col">
+                <div class="heading-box">
+                    <h2 class="heading-secondary">
+                        Customer Satisfaction
+                    </h2>
+                </div>
+
+                <div class="story">
+                    <figure class="story__shape">
+                        <img src="img/Bad-Bunny.jpeg" alt="Customer Opinion" class="story__img">
+                        <figcaption class="story__caption">Benito Martínez</figcaption>
+                    </figure>
+
+                    <div class="story__text">
+                        <h3 class="heading-tertiary">My Ideas into Designs</h3>
+                        <p>
+                            "I can not express how happy and satisfied I am of having clothes that are unique
+                            because I designed it myself. I hope many people like my designs and proceed to use
+                            them as well. Can not wait what the community has to offer!"
+                        </p>
+                    </div>
+                </div>
+
+                <div class="story story-2">
+                    <figure class="story__shape">
+                        <img src="img/temp.jpeg" alt="Customer Opinion" class="story__img">
+                        <figcaption class="story__caption">Chris Evans</figcaption>
+                    </figure>
+                
+                    <div class="story__text">
+                        <h3 class="heading-tertiary">From the MCU to you</h3>
+                        <p>
+                            "As a member of the Marvel Cinematic Universe I am exposed to many
+                            great ideas that do not always see the light of day. I can not think
+                            of a better way for these ideas to go out in the public as this one."
+                        </p>
                     </div>
                 </div>
             </div>
+            <div class="u-center-text u-margin-top-huge">
+                <a href="#" class="btn-text">Read all stories &rarr;</a>
             </div>
+        </div>
 
-            <div class="row row-2">
-                <div class="col">
-                    <div class="heading-box">
-                        <h2 class="heading-secondary">
-                            Customer Satisfaction
-                        </h2>
-                    </div>
 
-                    <div class="story">
-                        <figure class="story__shape">
-                            <img src="../img/Bad-Bunny.jpeg" alt="Customer Opinion" class="story__img">
-                            <figcaption class="story__caption">Benito Martínez</figcaption>
-                        </figure>
 
-                        <div class="story__text">
-                            <h3 class="heading-tertiary">My Ideas into Designs</h3>
-                            <p>
-                                "I can not express how happy and satisfied I am of having clothes that are unique
-                                because I designed it myself. I hope many people like my designs and proceed to use
-                                them as well. Can not wait what the community has to offer!"
-                            </p>
+        <div class="row row-3">
+            <div class="col col-cards">
+                <div class="card">
+                    <div class="card__side card__side--front">
+                        <div class="card__picture card__picture--1">
+                            &nbsp;
+                        </div>
+                        <h4 class="card__heading">
+                            <span class="card__heading-span  card__heading-span--1">T-Shirts</span>
+                        </h4>
+                        <div class="card__details">
+                            <ul>
+                                <li>Unlimited Unique Designs</li>
+                                <li>Confortable Wearing for anytime</li>
+                                <li>Free Shipping</li>
+                            </ul>
                         </div>
                     </div>
-
-                    <div class="story story-2">
-                        <figure class="story__shape">ç
-                            <img src="../img/temp.jpeg" alt="Customer Opinion" class="story__img">
-                            <figcaption class="story__caption">Chris Evans</figcaption>
-                        </figure>
-                    
-                        <div class="story__text">
-                            <h3 class="heading-tertiary">From the MCU to you</h3>
-                            <p>
-                                "As a member of the Marvel Cinematic Universe I am exposed to many
-                                great ideas that do not always see the light of day. I can not think
-                                of a better way for these ideas to go out in the public as this one."
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="u-center-text u-margin-top-huge">
-                    <a href="#" class="btn-text">Read all stories &rarr;</a>
-                </div>
-            </div>
-
-
-
-            <div class="row row-3">
-                <div class="col col-cards">
-                    <div class="card">
-                        <div class="card__side card__side--front">
-                            <div class="card__picture card__picture--1">
-                                &nbsp;
+                    <div class="card__side card__side--back card__side--back-1">
+                        <div class="card__cta">
+                            <div class="card__price-box">
+                                <p class="card__price-only">Only</p>
+                                <p class="card__price-value">$5</p>
                             </div>
-                            <h4 class="card__heading">
-                                <span class="card__heading-span  card__heading-span--1">T-Shirts</span>
-                            </h4>
-                            <div class="card__details">
-                                <ul>
-                                    <li>Unlimited Unique Designs</li>
-                                    <li>Confortable Wearing for anytime</li>
-                                    <li>Free Shipping</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card__side card__side--back card__side--back-1">
-                            <div class="card__cta">
-                                <div class="card__price-box">
-                                    <p class="card__price-only">Only</p>
-                                    <p class="card__price-value">$5</p>
-                                </div>
-                                <a href="pages/Request-Form/Request-Form.html" class="btn btn--white">Buy now!</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col col-cards">
-                    <div class="card">
-                        <div class="card__side card__side--front">
-                            <div class="card__picture card__picture--2">
-                                &nbsp;
-                            </div>
-                            <h4 class="card__heading card__heading-2">
-                                <span class="card__heading-span card__heading-span--1">Long Sleeves</span>
-                            </h4>
-                            <div class="card__details">
-                                <ul>
-                                    <li>Awesome-Unique Designs</li>
-                                    <li>Look Awesome with Style</li>
-                                    <li>$5 Shipping</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card__side card__side--back card__side--back-1">
-                            <div class="card__cta">
-                                <div class="card__price-box">
-                                    <p class="card__price-only">Only</p>
-                                    <p class="card__price-value">$10</p>
-                                </div>
-                                <a href="pages/Request-Form/Request-Form.html" class="btn btn--white">Buy now!</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col col-cards">
-                    <div class="card">
-                        <div class="card__side card__side--front">
-                            <div class="card__picture card__picture--3">
-                                &nbsp;
-                            </div>
-                            <h4 class="card__heading">
-                                <span class="card__heading-span card__heading-span--1">Hoodies</span>
-                            </h4>
-                            <div class="card__details">
-                                <ul>
-                                    <li>Exclusive Designs</li>
-                                    <li>Look Unique with your unique design</li>
-                                    <li>$15 Shipping</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card__side card__side--back card__side--back-1">
-                            <div class="card__cta">
-                                <div class="card__price-box">
-                                    <p class="card__price-only">Only</p>
-                                    <p class="card__price-value">$20</p>
-                                </div>
-                                <a href="pages/Request-Form/Request-Form.html" class="btn btn--white">Buy Now!</a>
-                            </div>
+                            <a href="pages/Request-Form/Request-Form.html" class="btn btn--white">Buy now!</a>
                         </div>
                     </div>
                 </div>
             </div>
-    </main>
+
+            <div class="col col-cards">
+                <div class="card">
+                    <div class="card__side card__side--front">
+                        <div class="card__picture card__picture--2">
+                            &nbsp;
+                        </div>
+                        <h4 class="card__heading card__heading-2">
+                            <span class="card__heading-span card__heading-span--1">Long Sleeves</span>
+                        </h4>
+                        <div class="card__details">
+                            <ul>
+                                <li>Awesome-Unique Designs</li>
+                                <li>Look Awesome with Style</li>
+                                <li>$5 Shipping</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card__side card__side--back card__side--back-1">
+                        <div class="card__cta">
+                            <div class="card__price-box">
+                                <p class="card__price-only">Only</p>
+                                <p class="card__price-value">$10</p>
+                            </div>
+                            <a href="pages/Request-Form/Request-Form.html" class="btn btn--white">Buy now!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col col-cards">
+                <div class="card">
+                    <div class="card__side card__side--front">
+                        <div class="card__picture card__picture--3">
+                            &nbsp;
+                        </div>
+                        <h4 class="card__heading">
+                            <span class="card__heading-span card__heading-span--1">Hoodies</span>
+                        </h4>
+                        <div class="card__details">
+                            <ul>
+                                <li>Exclusive Designs</li>
+                                <li>Look Unique with your unique design</li>
+                                <li>$15 Shipping</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card__side card__side--back card__side--back-1">
+                        <div class="card__cta">
+                            <div class="card__price-box">
+                                <p class="card__price-only">Only</p>
+                                <p class="card__price-value">$20</p>
+                            </div>
+                            <a href="pages/Request-Form/Request-Form.html" class="btn btn--white">Buy Now!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        
+        <div class="container">
+            {% for product in store %}
+                <div class="row">
+                    <div class="card" style="width: 18rem;">
+                        <!-- <img src="..." class="card-img-top" alt="..."> -->
+                        <div class="card-body">
+                          <h5 class="card-title">{{product.name}}</h5>
+                          <p class="card-text">${{product.price}}</p>
+                          <p class="card-text">Created by {{product.creator}}</p>
+                          <a href="#" class="btn btn-primary">Buy now / Add to cart</a>
+                        </div>
+                      </div>
+                </div>   
+            {% endfor %}
+        </div>
 
 
-  <!-- Footer -->
-  <section id="footer" class="dark-section">
-    <div class="container-fluid">
-      <i class="fab fa-twitter footer-icon"></i>
-      <i class="fab fa-facebook-f footer-icon"></i>
-      <i class="fab fa-instagram footer-icon"></i>
-      <p>© Copyright 2022 Google LLC & Team Lorem</p>
-    </div>
-  </section>
-
-
-</body>
-
-</html>
+    </section>
+</main>
+{% endblock%}

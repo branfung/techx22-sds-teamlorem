@@ -1,25 +1,30 @@
 # -- Import section --
 from flask import (Flask, render_template, request, redirect, url_for, session)
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_pymongo import PyMongo
 import os, secrets
 from form import SignUpForm
 import bcrypt 
 import certifi
+from bson.objectid import ObjectId
+
 
 # -- Initialization section --
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(nbytes=16)
 
 # name of database
-app.config['MONGO_DBNAME'] = 'test'
+db_name = "test"
+app.config['MONGO_DBNAME'] = 'db_name'
 
 # URI of database
 password = os.environ.get('PASSWORD') # using env variables to hide sensitive info (for good practice)
-app.config['MONGO_URI'] = "mongodb+srv://admin:fm3EdoNvRAhOLW22@cluster0.pyrzd.mongodb.net/test?retryWrites=true&w=majority"
+app.config['MONGO_URI'] = f"mongodb+srv://admin:{password}@cluster0.pyrzd.mongodb.net/{db_name}?retryWrites=true&w=majority"
 
-#Initialize PyMongo
+# Initialize PyMongo
 mongo = PyMongo(app, tlsCAFile=certifi.where())
+
+# Session Data/Cookie (secret key)
+app.secret_key = secrets.token_urlsafe(16)
 
 # -- Routes section --
 # INDEX Route
@@ -53,11 +58,47 @@ def signup():
 
 @app.route('/buy', methods=['GET','POST'])
 def buy():
-    pass
+    collection = mongo.db.store
+    store_items = collection.find({})
+    return render_template('buy.html', store_items=store_items)
 
-@app.route('/login', methods=['POST'])
+# User Log in Route
+# The log-in page is where the user can log into his account.
+# it is going to search for the username inside the database. 
+# If the username is in the database it compares the password for the user with the one provided 
+# by the user. If they match the user is logged in, if they don’t let the user know the password 
+# is incorrect. If the username wasn’t in the database let them know the username does not exist 
+# and they need to sign in.
+
+@app.route("/login", methods=["GET","POST"])
 def login():
-    email = request.form["email"]
-    username = request.form["username"]
-    password = request.form["password"]
-    return render_template('log-in.html', email=email, username=username, password=password)
+    if request.method == "POST":
+        users = mongo.db.users
+        # get username from database
+        login_user = users.find_one({"username":request.form["username"]})
+
+        # if user in database
+        if login_user:
+            password_in_db = login_user[password]
+            # encode password for security purposes
+            encoded_password = request.form["password"].encode("uft-8")
+            # compare if the encoded password is the same as the one in the db
+            if bcrypt.checkpw(password_in_db,encoded_password):
+                # if we arrive here it means the password was valid
+                # we store the user in the current session
+                session["username"] = request.form["username"]
+                return redirect(url_for('index'))
+            
+            else:
+                return "Invalid Username or Password. Make sure the password is correct"
+        else:
+            return "Username not found"
+    else:
+        return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    # clear user from session
+    session.clear()
+    # redirect to main page
+    return redirect(url_for("/"))

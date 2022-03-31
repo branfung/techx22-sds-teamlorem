@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="static/css/buy.css">
+<div class="row">
+    {% for item in store_items %}
+    <div class="col-12 col-md-6 col-lg-4 my-3">
+        <div class="card">
+            <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.name}} design picture">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.name }}</h5>
+              <p class="card-text">
+                  Creator: {{ item.creator }} <br>
+                  Price: ${{ item.price }}
+              </p>
+              <a href="#" class="btn btn-style">Add to cart</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
