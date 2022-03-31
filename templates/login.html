@@ -1,25 +1,25 @@
 {% extends "main.html" %}
 
 {% block content %}
-
+<link rel="stylesheet" href="/static/css/login.css">
 <body>
 
     <div class="login-container">
         <div class="logo">
-            <img src="../img/tab-photo.jpeg" alt="Company Logo">
+            <img src="/static/img/tab-photo.jpeg" alt="Company Logo">
         </div>
 
         <div class="title">Populus Designs</div>
 
-        <div class="login-form">
+        <form action="{{ url_for('login') }}" method="post" class="login-form">
             <div class="username">
-                <input type="text" placeholder="Enter your username">
+                <input type="text" name ="username" placeholder="Enter your username">
             </div>
 
             <div class="password">
-                <input type="text" placeholder="Enter your password">
+                <input type="password" name="password" placeholder="Enter your password">
             </div>
-
+            
             <div class="login-options">
                 <div class="remember-me">
                     <input type="checkbox" id="remember-me-option">
@@ -30,9 +30,10 @@
                     <a href="#">Forgot Password?</a>
                 </div>
             </div>
-        </div>     
+            <button type="submit" value="Submit" class="login-btn">Log In</button>
+        </form>     
         
-        <button class="login-btn">Log In</button>
+
         <div class="log-in">
             New to the gang? Make sure to join us!
         </div>
@@ -42,6 +43,6 @@
 
 </body>
 
-</html>
+</form>
 
 {% endblock%}

@@ -3,6 +3,7 @@ from flask import (Flask, render_template, request, redirect, url_for)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from flask import session
+import certifi
 import secrets
 import bcrypt
 import os
@@ -12,14 +13,14 @@ app = Flask(__name__)
 
 # name of database
 db_name = "test"
-app.config['MONGO_DBNAME'] = 'db_name'
+app.config['MONGO_DBNAME'] = db_name
 
 # URI of database
 password = os.environ.get('PASSWORD') # using env variables to hide sensitive info (for good practice)
 app.config['MONGO_URI'] = f"mongodb+srv://admin:{password}@cluster0.pyrzd.mongodb.net/{db_name}?retryWrites=true&w=majority"
 
 # Initialize PyMongo
-mongo = PyMongo(app)
+mongo = PyMongo(app, tlsCAFile=certifi.where())
 
 # Session Data/Cookie (secret key)
 app.secret_key = secrets.token_urlsafe(16)
@@ -50,11 +51,11 @@ def login():
 
         # if user in database
         if login_user:
-            password_in_db = login_user[password]
+            password_in_db = login_user["password"]
             # encode password for security purposes
-            encoded_password = request.form["password"].encode("uft-8")
+            encoded_password = request.form["password"].encode("utf-8")
             # compare if the encoded password is the same as the one in the db
-            if bcrypt.checkpw(password_in_db,encoded_password):
+            if bcrypt.checkpw(encoded_password,password_in_db):
                 # if we arrive here it means the password was valid
                 # we store the user in the current session
                 session["username"] = request.form["username"]
@@ -65,14 +66,14 @@ def login():
         else:
             return "Username not found"
     else:
-        render_template("login.html")
+        return render_template("login.html")
 
 @app.route("/logout")
 def logout():
     # clear user from session
     session.clear()
     # redirect to main page
-    return redirect(url_for("/"))
+    return redirect(url_for("index"))
     
 
     
