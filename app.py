@@ -6,11 +6,7 @@ from form import SignUpForm
 import bcrypt 
 import certifi
 from bson.objectid import ObjectId
-from flask import session
-import certifi
-import secrets
-import bcrypt
-import os
+
 
 # -- Initialization section --
 app = Flask(__name__)
