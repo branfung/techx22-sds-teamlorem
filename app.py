@@ -1,4 +1,5 @@
 # -- Import section --
+from crypt import methods
 from flask import (Flask, render_template, request, redirect, url_for, session)
 from flask_pymongo import PyMongo
 import os, secrets
@@ -90,9 +91,10 @@ def login():
                 return redirect(url_for('index'))
             
             else:
-                return "Invalid Username or Password. Make sure the password is correct"
+                return render_template("usernotfound.html")
+                # return "Invalid Username or Password. Make sure the password is correct"
         else:
-            return "Username not found"
+            return render_template("usernotfound.html")
     else:
         return render_template("login.html")
 
@@ -102,3 +104,36 @@ def logout():
     session.clear()
     # redirect to main page
     return redirect(url_for("/"))
+
+# Allow the user to reset/change its password
+@app.route("/resetpw",methods=["GET","POST"])
+def resetpw():
+    users = mongo.db.users
+    if request.method == "GET":
+        return render_template("changepw.html")
+
+    
+    else:
+        # update old password with new password
+        if users.find_one({"username":request.form["username"]}):
+            username = request.form["username"]
+             # obtain new password
+            password = request.form['password'].encode('utf-8')
+            salt = bcrypt.gensalt()
+            hashed_pasword = bcrypt.hashpw(password, salt)
+            newvalue = { "$set": { "password": hashed_pasword } }
+            users.update_one({"username":username}, newvalue)
+
+            return redirect("/")
+        else:
+            return render_template("usernotfound.html")
+    
+
+
+
+
+
+        
+
+
+
