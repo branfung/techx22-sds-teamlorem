@@ -1,4 +1,5 @@
 # -- Import section --
+from crypt import methods
 from flask import (Flask, render_template, request, redirect, url_for, session)
 from flask_pymongo import PyMongo
 import os, secrets
@@ -14,7 +15,7 @@ app.config['SECRET_KEY'] = secrets.token_hex(nbytes=16)
 
 # name of database
 db_name = "test"
-app.config['MONGO_DBNAME'] = 'db_name'
+app.config['MONGO_DBNAME'] = db_name
 
 # URI of database
 password = os.environ.get('PASSWORD') # using env variables to hide sensitive info (for good practice)
@@ -73,20 +74,20 @@ def login():
 
         # if user in database
         if login_user:
-            password_in_db = login_user[password]
+            password_in_db = login_user["password"]
             # encode password for security purposes
-            encoded_password = request.form["password"].encode("uft-8")
+            encoded_password = request.form["password"].encode("utf-8")
             # compare if the encoded password is the same as the one in the db
-            if bcrypt.checkpw(password_in_db,encoded_password):
+            if bcrypt.checkpw(encoded_password,password_in_db):
                 # if we arrive here it means the password was valid
                 # we store the user in the current session
                 session["username"] = request.form["username"]
                 return redirect(url_for('index'))
             
             else:
-                return "Invalid Username or Password. Make sure the password is correct"
+                return render_template("login.html",error_message="Password is incorrect")
         else:
-            return "Username not found"
+            return render_template("login.html", error_message="Username is incorrect")
     else:
         return render_template("login.html")
 
@@ -144,3 +145,27 @@ def remove():
     cart.pop(index)
     users.update_one({'username':'petraca'}, {'$set': {'cart':cart} })
     return redirect(url_for('show_cart'))
+
+# Allow the user to reset/change its password
+@app.route("/resetpw",methods=["GET","POST"])
+def resetpw():
+    users = mongo.db.users
+    if request.method == "GET":
+        return render_template("changepw.html")
+
+    
+    else:
+        # update old password with new password
+        if users.find_one({"username":request.form["username"]}):
+            username = request.form["username"]
+             # obtain new password
+            password = request.form['password'].encode('utf-8')
+            salt = bcrypt.gensalt()
+            hashed_pasword = bcrypt.hashpw(password, salt)
+            newvalue = { "$set": { "password": hashed_pasword } }
+            users.update_one({"username":username}, newvalue)
+
+            return redirect("/")
+        else:
+            return render_template("usernotfound.html")
+    
