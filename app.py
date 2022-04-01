@@ -91,10 +91,9 @@ def login():
                 return redirect(url_for('index'))
             
             else:
-                return render_template("usernotfound.html")
-                # return "Invalid Username or Password. Make sure the password is correct"
+                return render_template("login.html",error_message="Password is incorrect")
         else:
-            return render_template("usernotfound.html")
+            return render_template("login.html", error_message="Username is incorrect")
     else:
         return render_template("login.html")
 

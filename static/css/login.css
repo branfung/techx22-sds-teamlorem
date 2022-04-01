@@ -179,3 +179,9 @@ form i {
     cursor: pointer;
 }
 
+.error-message{
+	color: var(--color-red);
+	font-weight: bold;
+	text-transform: capitalize;
+}
+
