@@ -231,9 +231,5 @@ def about():
     return render_template('about.html', session=session)
 
 
-
-
-        
-
-
-
+if __name__ == "__main__":
+        app.run()
