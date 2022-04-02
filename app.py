@@ -51,17 +51,11 @@ def signup():
         password = request.form['password'].encode('utf-8')
         salt = bcrypt.gensalt()
         hased_pasword = bcrypt.hashpw(password, salt)
-        users.insert_one({'username':username, 'password':hased_pasword})
+        users.insert_one({'username':username, 'password':hased_pasword, 'cart':[]})
         session['username'] = username
 
         return redirect(url_for('index'))
     return render_template('Sign-Up.html', form=sign_up_form)
-
-@app.route('/buy', methods=['GET','POST'])
-def buy():
-    collection = mongo.db.store
-    store_items = collection.find({})
-    return render_template('buy.html', store_items=store_items)
 
 # User Log in Route
 # The log-in page is where the user can log into his account.
@@ -103,6 +97,54 @@ def logout():
     session.clear()
     # redirect to main page
     return redirect(url_for("/"))
+
+@app.route('/buy', methods=['GET','POST'])
+def buy():
+    collection = mongo.db.store
+    store_items = collection.find({})
+    return render_template('buy.html', store_items=store_items)
+
+@app.route("/addtocart", methods=['POST'])
+def add_to_cart():
+    product_id = request.form['product_id']
+    quantity = request.form['quantity']
+    # username = session["username"]
+    username = 'petraca'
+    users = mongo.db.users
+    store = mongo.db.store
+    current_product = store.find_one({'_id':ObjectId(product_id)})
+    current_user = users.find_one({"username":username})
+    cart = current_user['cart']
+
+    cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
+                'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url']})
+    
+    users.update_one({'username':username}, {'$set': {'cart':cart} })
+    return redirect(url_for('buy'))
+
+@app.route('/showcart', methods=['GET'])
+def show_cart():
+    # username = session["username"]
+    users = mongo.db.users
+    current_user = users.find_one({"username":'petraca'})
+    # cart = current_user['cart']
+    cart_items = current_user['cart']
+    return render_template('cart.html',items=cart_items)
+
+@app.route('/remove', methods=['POST'])
+def remove():
+    product_id = request.form['product_id']
+    users = mongo.db.users
+    current_user = users.find_one({"username":'petraca'})
+    cart = current_user['cart']
+    index = 0
+    for i,element in enumerate(cart):
+        if element['product_id'] == product_id:
+            index = i
+    print(index)
+    cart.pop(index)
+    users.update_one({'username':'petraca'}, {'$set': {'cart':cart} })
+    return redirect(url_for('show_cart'))
 
 # Allow the user to reset/change its password
 @app.route("/resetpw",methods=["GET","POST"])
