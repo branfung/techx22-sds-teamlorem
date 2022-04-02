@@ -43,7 +43,7 @@ def index():
     return render_template('index.html', session=session)
 
 @app.route('/request', methods=['GET', 'POST'])
-def upload_design():
+def request_design():
     if request.method == 'POST':
         message = {'message': '', 'error': None}
         # session['username'] = 'Brandon' 
@@ -93,24 +93,26 @@ def upload_design():
 @app.route('/signup', methods=['GET','POST'])
 def signup():
     sign_up_form = SignUpForm()
-    if sign_up_form.validate_on_submit():
-        
-        users = mongo.db.users
-        email = request.form['email']
-        username = request.form['username']
-        existing_user = users.find_one(filter={"username":username})
-        
-        if existing_user:
-            return render_template('Sign-Up.html', existing_user=existing_user)
+    if request.method == 'POST':
+        if sign_up_form.validate_on_submit():
+            
+            users = mongo.db.users
+            email = request.form['email']
+            username = request.form['username']
+            existing_user = users.find_one(filter={"username":username})
+            
+            if existing_user:
+                return render_template('Sign-Up.html', session=session, existing_user=existing_user)
 
-        password = request.form['password'].encode('utf-8')
-        salt = bcrypt.gensalt()
-        hased_pasword = bcrypt.hashpw(password, salt)
-        users.insert_one({'username':username, 'password':hased_pasword, 'cart':[]})
-        session['username'] = username
+            password = request.form['password'].encode('utf-8')
+            salt = bcrypt.gensalt()
+            hased_pasword = bcrypt.hashpw(password, salt)
+            users.insert_one({'username':username, 'password':hased_pasword, 'cart':[]})
+            session['username'] = username
 
-        return redirect(url_for('index'))
-    return render_template('Sign-Up.html', form=sign_up_form)
+            return redirect(url_for('index'))
+    else:
+        return render_template('Sign-Up.html', session=session, form=sign_up_form)
 
 # User Log in Route
 # The log-in page is where the user can log into his account.
@@ -140,18 +142,18 @@ def login():
                 return redirect(url_for('index'))
             
             else:
-                return render_template("login.html",error_message="Password is incorrect")
+                return render_template("login.html",session=session, error_message="Password is incorrect")
         else:
-            return render_template("login.html", error_message="Username is incorrect")
+            return render_template("login.html",session=session, error_message="Username is incorrect")
     else:
-        return render_template("login.html")
+        return render_template("login.html", session=session)
 
 @app.route("/logout")
 def logout():
     # clear user from session
     session.clear()
     # redirect to main page
-    return redirect(url_for("/"))
+    return redirect(url_for("index"))
 
 @app.route('/buy', methods=['GET','POST'])
 def buy():
@@ -206,7 +208,7 @@ def remove():
 def resetpw():
     users = mongo.db.users
     if request.method == "GET":
-        return render_template("changepw.html")
+        return render_template("changepw.html", session=session)
     else:
         # update old password with new password
         if users.find_one({"username":request.form["username"]}):
@@ -224,6 +226,9 @@ def resetpw():
             return render_template("changepw.html", session=session, error_message="Username not found")
             # return render_template("login.html", error_message="Username is incorrect")
 
+@app.route('/about')
+def about():
+    return render_template('about.html', session=session)
 
 
 
