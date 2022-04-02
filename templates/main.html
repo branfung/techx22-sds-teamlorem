@@ -50,29 +50,41 @@
     <section id="header" class="dark-section">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/"><i>Populus Designs</i></a>
+                <a class="navbar-brand" href="{{ url_for('index') }}"><i>Populus Designs</i></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
+                            <a class="nav-link" href="{{ url_for('index') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/about">About</a>
+                            <a class="nav-link" href="{{ url_for('buy') }}">Buy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/request">Request a Quote</a>
+                            <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('request') }}">Request a Quote</a>
                         </li>
                         <li class="nav-item dropdown">
+                        {% if session %}
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Account
+                                {{session['username']}}
                             </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/signup">Sign Up</a></li>
-                            <li><a class="dropdown-item" href="/login">Log In</a></li>
-                        </ul>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ url_for('show_cart') }}">Cart</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('logout') }}">Log out</a></li>
+        
+                        {% else %}
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Account
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ url_for('signup') }}">Sign Up</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('login') }}">Log In</a></li>    
+                        {% endif %}
                         </li>
                     </ul>
                 </div>

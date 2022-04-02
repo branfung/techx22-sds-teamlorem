@@ -1,0 +1,57 @@
+{% extends "main.html" %}
+{% block content %}
+  <link rel="stylesheet" type="text/css" href="static/css/Sign-Up.css">
+  <!-- Form -->
+  <div class="container form ">
+    {% if existing_user %}
+      <h2>That username already exists. Please try loggin in or try using a different username.</h2>
+    {% else %}
+      <h1>Sign-Up</h1>
+      <form method="POST"> 
+        <!-- creates csrf token -->
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+          {{ form.email.label(class="form-label") }}
+          {%if form.email.errors %}
+          {{ form.email(class="form-control") }}
+            {%for error in form.email.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+            {% else %}
+            {{ form.email(class="form-control") }}
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          {{ form.username.label(class="form-label") }}
+          {%if form.username.errors %}
+          {{ form.username(class="form-control") }}
+            {%for error in form.username.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+            {% else %}
+            {{ form.username(class="form-control") }}
+          {% endif %}
+        </div>
+
+
+        <div class="mb-3">
+          {{ form.password.label(class="form-label") }}
+          {%if form.password.errors %}
+          {{ form.password(class="form-control") }}
+            {%for error in form.password.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+            {% else %}
+            {{ form.password(class="form-control") }}
+          {% endif %}
+        </div>
+
+        <div>
+          {{ form.submit(class="btn btn_color") }}
+        </div>
+      </form>
+    {% endif %}
+  </div>
+{% endblock %}
