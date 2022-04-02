@@ -7,6 +7,7 @@ In order to run the app in vscode, run the following commands:
 
 **Sidenote:** To exit out of the *venv*, type ``deactivate``. 
 ## Install packages:
+To install all dependencies do ``pip install -r requirements.txt``
 To install a python package do ``pip install <package_name>``
 
 Install the following packages inside the *venv*:
