@@ -1,0 +1,60 @@
+{% extends "main.html" %}
+
+{% block title %}Pupulus Designs - Request a Design{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="static/css/Request-Form.css">
+{% endblock %}
+
+{% block content %}
+
+<main class="white-section">
+    <div class="container-fluid">
+        <div class="main-form">
+            {% if true %}
+            <form method="POST" action="/request">
+                {% if message %}
+                    {% if message['error'] %}
+                        <div class="alert alert-danger" role="alert">ERROR: {{ message['error'] }}</div>
+                    {% else %}
+                        <div class="alert alert-success" role="alert">{{ message['message'] }}</div>
+                    {% endif %}
+                {% endif %}
+                <h1>Request a Design</h1>
+                <br>
+                <div class="mb-3 form-floating">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="name" required>
+                    <label for="name" class="form-label">Name your design</label>        
+                </div>
+                <div class="mb-3 input-group">
+                    <span class="input-group-text" id="basic-addon3">$</span>
+                    <div class="form-floating form-floating-group flex-grow-1">
+                        <input type="number" class="form-control" name="price" id="price" placeholder="price" min="1" max="100" step="0.01" required>
+                        <label for="price" class="form-label">Put a price on your design</label>        
+                    </div>
+                </div> 
+                <div class="mb-3 form-floating">
+                    <input type="number" class="form-control" name="quantity" id="quantity" placeholder="quantity" min="1" max="50" required>
+                    <label for="quantity" class="form-label">Set a quanitty</label>
+                </div>
+                <div class="mb-3 form-floating">
+                    <input type="url" class="form-control" name="image_url" id="image_url" placeholder="image_url" required>
+                    <label for="image_url" class="form-label">URL of your design</label>        
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" type="submit">Request your Design!</button>
+                </div>
+            </form>
+            {% else %}
+            <div class="no-session">
+                <h1>Join us!</h1>
+                <p>Sign in to your account in order to request your design.</p>
+                <a class="btn btn-primary" href="/signup" type="button">Sign up today!</a>
+                <a href="/login" class="btn btn-link">Already have an account? Click here.</a>
+            </div>
+            {% endif %}
+        </div>
+        
+    </div>
+</main>
+{% endblock %}

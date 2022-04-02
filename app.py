@@ -1,8 +1,14 @@
 # -- Import section --
-from flask import (Flask, render_template, request, redirect, url_for)
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    session
+)
 from flask_pymongo import PyMongo
-from bson.objectid import ObjectId
-from flask import session
+import requests
 import secrets
 import bcrypt
 import os
@@ -12,7 +18,7 @@ app = Flask(__name__)
 
 # name of database
 db_name = "test"
-app.config['MONGO_DBNAME'] = 'db_name'
+app.config['MONGO_DBNAME'] = db_name
 
 # URI of database
 password = os.environ.get('PASSWORD') # using env variables to hide sensitive info (for good practice)
@@ -29,8 +35,54 @@ app.secret_key = secrets.token_urlsafe(16)
 @app.route('/')
 @app.route('/index')
 def index():
-    return 'Hello World'
-    # return render_template('index.html')
+    store = mongo.db.store.find()
+    return render_template('index.html', session=session, store=store)
+
+@app.route('/request', methods=['GET', 'POST'])
+def upload_design():
+    if request.method == 'POST':
+        message = {'message': '', 'error': None}
+        # session['username'] = 'Brandon' 
+        
+        # Fetching the image_url from the user to check if it gives us headers        
+        print(dict(request.form))    
+        try:
+            url = request.form['image_url']
+            response = requests.get(url)
+        except:
+            message['error'] = 'Something went wrong with your image URL'
+            return render_template('request-form.html', session=session, message=message)
+
+        # Validating image_url to see if it's an image
+        if response.headers.get('content-type') not in ['image/png', 'image/jpeg']:
+            message['error'] = 'URL is not a valid image URL! Please use a correct URL'
+            return render_template('request-form.html', session=session, message=message)
+        
+        # Constructing product object
+        product = {
+            'name': request.form['name'],
+            'price': round(float(request.form['price']), 2),
+            'creator': session['username'],
+            'quantity': int(request.form['quantity']),
+            'image_url': request.form['image_url']
+        }
+        # session.clear()
+        # print(product)
+        
+        # DB insert_one error handling
+        try:
+            store = mongo.db.store
+            store.insert_one(product)  
+            # print('Product added')
+        except:
+            message['error'] = 'Could not upload design. Please make sure the fields are correct or try again some other time'
+            return render_template('request-form.html', session=session, message=message)
+        
+        # Product insert success:
+        message['message'] = 'Your design was uploaded succesfully!'
+        return render_template('request-form.html', session=session, message=message)
+    else:
+        return render_template('request-form.html', session=session)
 
 
 # User Log in Route
@@ -65,7 +117,7 @@ def login():
         else:
             return "Username not found"
     else:
-        render_template("login.html")
+        return render_template("login.html")
 
 @app.route("/logout")
 def logout():
@@ -74,9 +126,4 @@ def logout():
     # redirect to main page
     return redirect(url_for("/"))
     
-
-    
-
-
-
 
