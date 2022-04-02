@@ -19,6 +19,7 @@ Install the following packages inside the *venv*:
 - ``certifi``
 - ``bcrypt``
 - ``requests``
+- ``bson``
 
 Or install them in one command with ``pip install flask flask-pymongo dnspython python-dotenv flask-wtf email_validator certifi bcrypt``.
 
