@@ -116,17 +116,18 @@ def resetpw():
         # update old password with new password
         if users.find_one({"username":request.form["username"]}):
             username = request.form["username"]
-             # obtain new password
+             # obtain new password and encrypt it for security reasons
             password = request.form['password'].encode('utf-8')
             salt = bcrypt.gensalt()
             hashed_pasword = bcrypt.hashpw(password, salt)
-            newvalue = { "$set": { "password": hashed_pasword } }
+            newvalue = {"$set": { "password": hashed_pasword }}
+            # update user's old password with new password
             users.update_one({"username":username}, newvalue)
-
-            return redirect("/")
+            # go back to index page
+            return redirect("/login")
         else:
-            return render_template("usernotfound.html")
-    
+            return render_template("changepw.html",error_message="Username not found")
+            # return render_template("login.html", error_message="Username is incorrect")
 
 
 

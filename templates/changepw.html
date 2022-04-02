@@ -24,10 +24,15 @@
                 <i class="bi bi-eye-slash" id="togglePassword"></i>
             </div>
 
+            <section>
+                {%if error_message %}
+                <span class="error-message">{{error_message}}</span>
+                {%endif%}
+             </section>
+
             <div class="input-container--login">
                 <input type="submit" value="Update Password">
             </div>
-
         </form>
 
     </section>
