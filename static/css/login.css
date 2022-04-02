@@ -10,7 +10,7 @@
 	--color-white: #fff;
 }
 
-body {
+.main-container {
 	background-color: var(--color-secondary-darker);
 	display: flex;
 	flex-direction: column;
