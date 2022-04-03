@@ -1,0 +1,238 @@
+:root {
+	--color-primary: #333333;
+	--color-secondary: #6fffe9;
+	--color-secondary-darker: #5bdeca;
+	--color-tertiary: #fcfaf9;
+
+	--color-green: #00a550;
+	--color-red: #e83946;
+
+	--color-white: #fff;
+}
+
+main {
+	background-color: var(--color-secondary-darker);
+	color: var(--color-primary);
+}
+
+a {
+	text-decoration: none;
+	color: var(--color-primary);
+}
+
+.account-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+h3 {
+	margin: 50px 0px 16px;
+	font-size: 24px;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.info {
+	color: var(--color-primary);
+	background-color: var(--color-tertiary);
+	border: 5px solid var(--color-primary);
+	box-shadow: 10px 3px 10px rgb(51, 51, 51);
+	padding: 3rem .1rem;
+	width: 40%;
+	border-radius: 5%;
+	margin-top: .5rem;
+	margin-bottom: 4rem;
+}
+
+.username {
+	margin-bottom: 2rem;
+	border-bottom: 2.5px solid black;
+	/* border-radius: 10%; */
+	/* padding: 0.4rem; */
+	width: 45%;
+	text-align: center;
+	height: auto;
+	font-style: italic;
+	font-size:x-large;
+	font-family: sans-serif;
+    font-weight: bold;
+    letter-spacing: .1rem;
+	color: var(--color-primary);
+}
+
+label {
+	font-style: italic;
+	font-family: sans-serif;
+	font-size: large;
+	margin-bottom: .3rem;
+}
+
+.first-lastnames input {
+	border: 2px solid black;
+	padding: 0.3rem 0.4rem;
+	margin-top: 0.5rem;
+	margin-bottom: 2rem;
+	border-radius: 10%;
+	width: 120%;
+}
+
+.profile-image img {
+	border: 2px solid black;
+	border-radius: 50%;
+	width: 150px;
+	height: 150px;
+	margin-bottom: 3rem;
+	margin-top: 2rem;
+}
+
+.profile-info {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.account-settings {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.textbox {
+	border-radius: 5%;
+	display: block;
+	border: 2px solid black;
+	width: 120%;
+	height: 7rem;
+	font-family: sans-serif;
+	margin-top: .5rem;
+}
+
+#textbox-label {
+	margin-top: 1.5rem;
+	display: inline-block;
+}
+
+#textbox-span {
+	display: inline-block;
+	margin-top: 0.3rem;
+	margin-bottom: 3rem;
+	color: var(--color-primary);
+	font-size: 16px;
+}
+
+#submit-input {
+	width: 75%;
+	padding: 0.3rem 0.1rem;
+	border: 2px solid black;
+	border-radius: 9%;
+	cursor: pointer;
+	font-size: medium;
+    background-color: var(--color-green);
+}
+
+.user-info {
+	text-align: center;
+}
+
+.user-info:not(:last-child){
+    margin-bottom: 3.5rem;
+}
+
+
+.account-h5{
+    font-size: 16px;
+    margin-bottom: 1.5rem;
+    font-family: sans-serif;
+    text-transform: capitalize;
+    margin-left: 8rem;
+}
+
+.account-info-span{
+    display: inline-block;
+    margin-bottom: 1rem;
+    border: 2px solid black;
+    padding: 0.7rem 1.5rem;
+    border-radius: 5%;
+    background-color: floralwhite;
+    width: 45%;
+}
+
+.account-info-btn{
+    display: block;
+    margin: 0 auto;
+    border: 2px solid black;
+    padding: 0.5rem 0.7rem;
+    width: 25%;
+    border-radius: 10%;
+    margin-top: 1rem;
+}
+
+.delete-account{
+    display: flex;
+    justify-content: center;
+    margin-top: -2rem;
+}
+
+.delete-account button{
+    font-weight: bold;
+    font-size: 16px;
+    font-family: monospace;
+    margin-top: 2rem;
+    border: 2px solid black;
+    border-radius: 10%;
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 0, 0, 0.8);
+
+}
+
+.delete-account button:hover{
+    background-color: rgba(255, 0, 0, 1);
+    
+} */
+
+.connected-services-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.connected-services {
+	margin-left: 2rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.connected-services span {
+	font-size: 20px;
+}
+
+.connected-services:not(:last-child) {
+	margin-bottom: 2rem;
+}
+
+.connect-btn {
+	margin-top: -1.5rem;
+	margin-right: 2rem;
+	justify-self: flex-end;
+	align-self: flex-end;
+	background-color: antiquewhite;
+	border: 2px solid black;
+	padding: .5rem 1rem;
+	transition: all .2s;
+}
+
+.connect {
+	font-size: medium;
+}
+
+.btn {
+    border-radius: 10%;
+	transition: all .2s;
+}
+
+.btn:hover {
+	transform: translateY(-2px);
+	box-shadow: 10px 3px 10px rgb(51, 51, 51);
+}
