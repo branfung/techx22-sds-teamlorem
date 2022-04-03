@@ -69,9 +69,9 @@
                             <a class="nav-link" href="{{ url_for('request_design') }}">Request a Quote</a>
                         </li>
                         <li class="nav-item dropdown">
-                        {% if session %}
+                        {% if session.username %}
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{session['username']}}
+                                {{session.username}}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{ url_for('show_cart') }}">Cart</a></li>

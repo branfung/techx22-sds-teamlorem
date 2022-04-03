@@ -11,13 +11,13 @@
 <main class="white-section">
     <div class="container-fluid">
         <div class="main-form">
-            {% if true %}
+            {% if session.username %}
             <form method="POST" action="/request">
                 {% if message %}
-                    {% if message['error'] %}
-                        <div class="alert alert-danger" role="alert">ERROR: {{ message['error'] }}</div>
+                    {% if message.error %}
+                        <div class="alert alert-danger" role="alert">ERROR: {{ message.error }}</div>
                     {% else %}
-                        <div class="alert alert-success" role="alert">{{ message['message'] }}</div>
+                        <div class="alert alert-success" role="alert">{{ message.message }}</div>
                     {% endif %}
                 {% endif %}
                 <h1>Request a Design</h1>
@@ -35,7 +35,7 @@
                 </div> 
                 <div class="mb-3 form-floating">
                     <input type="number" class="form-control" name="quantity" id="quantity" placeholder="quantity" min="1" max="50" required>
-                    <label for="quantity" class="form-label">Set a quanitty</label>
+                    <label for="quantity" class="form-label">Set a quantity</label>
                 </div>
                 <div class="mb-3 form-floating">
                     <input type="url" class="form-control" name="image_url" id="image_url" placeholder="image_url" required>
