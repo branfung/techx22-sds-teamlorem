@@ -3,8 +3,8 @@ img{
 }
 
 .btn-style{
-    background-color: #333333;
+    background-color: #333333 !important;
     color: #fcfaf9 !important;
-    display: flex;
+    display: flex !important;
     margin: auto;
 }
