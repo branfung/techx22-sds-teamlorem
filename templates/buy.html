@@ -1,7 +1,11 @@
 {% extends "main.html" %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="static/css/buy.css">
+{% endblock %}
+
 {% block content %}
 
-<link rel="stylesheet" type="text/css" href="static/css/buy.css">
 <div class="row">
     {% if error_message %}
         <h2>{{ error_message }}</h2>
