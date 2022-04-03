@@ -295,6 +295,28 @@ def resetpw():
 def about():
     return render_template('about.html', session=session)
 
+@app.route("/account", methods=["GET","POST"])
+# this router shall be only available if a user is logged in
+def account():
+    if request.method =="POST":
+        # get the user from the db
+        users = mongo.db.users
+        # save the current user to modify its info
+        # current_user = users.find_one({"username":session.get("USERNAME")})
+        current_user = users.find_one({"username":session.get("USERNAME")})
+
+        new_firstname = {"$set":{"firstname":request.form["firstname"]}}
+        users.update_one({"username":session.get("USERNAME")},new_firstname)
+
+        new_lastname = {"$set":{"lastname":request.form["lastname"]}}
+        users.update_one({"username":session.get("USERNAME")},new_lastname)
+
+        return render_template("account.html", firstname=users.find_one({"username":session.get("USERNAME")}),lastname=users.find_one({"username":session.get("USERNAME")}))
+
+    else:
+        return render_template("account.html")
+
+
 
 if __name__ == "__main__":
         app.run()

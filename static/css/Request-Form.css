@@ -15,7 +15,8 @@ h1, h2, h3, h4, h5, h6 {
 /* form */
 
 .main-form{
-    border: 3px solid black;
+    background-color: #fcfaf9;
+    border: 4px solid #333333;
     border-radius: 100% / 20%;
     padding: 90px;
     box-shadow: 10px 10px 5px rgb(0,0,0,0.45);
@@ -28,10 +29,19 @@ h1, h2, h3, h4, h5, h6 {
     gap: 25px;
 }
 
+
+.form-control{
+    border: 2px solid #333333 !important;
+}
+
 /* form inputs */
 .form-floating-group input {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
+}
+
+.btn{
+    border: 3px solid #333333 !important;
 }
   
 .no-session {
@@ -46,7 +56,7 @@ h1, h2, h3, h4, h5, h6 {
 /* sections */
 
 .white-section{
-    background-color:#FCFAF9;
+     background-color: #5bdeca;
 }
 
 
