@@ -17,6 +17,7 @@
                 <input type="hidden" name="product_id" value="{{ item.product_id }}">
                 <button type="submit" class="btn btn-primary">Remove From Cart</button>
                 <label for="quantity">Quantity: {{ item.quantity }}</label>
+                <input type="number" name="quantity" value="1" min="1" max="{{ item.quantity }}">
             </form>
         </div>
     </div>

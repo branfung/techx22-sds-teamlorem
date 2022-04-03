@@ -107,7 +107,7 @@ def buy():
 @app.route("/addtocart", methods=['POST'])
 def add_to_cart():
     product_id = request.form['product_id']
-    quantity = request.form['quantity']
+    quantity = int(request.form['quantity'])
     # username = session["username"]
     username = 'petraca'
     users = mongo.db.users
@@ -115,10 +115,20 @@ def add_to_cart():
     current_product = store.find_one({'_id':ObjectId(product_id)})
     current_user = users.find_one({"username":username})
     cart = current_user['cart']
-
-    cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
-                'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url']})
     
+    if cart:
+        for item in cart:
+            if item['product_id'] == product_id:
+                print(item['product_id'])
+                if item['quantity'] + quantity <= current_product['quantity']:
+                    item['quantity'] = item['quantity'] + quantity
+                else:
+                    return 'Cannot add to cart.'
+    
+    else:
+        cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
+        'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url']})
+
     users.update_one({'username':username}, {'$set': {'cart':cart} })
     return redirect(url_for('buy'))
 
@@ -134,15 +144,18 @@ def show_cart():
 @app.route('/remove', methods=['POST'])
 def remove():
     product_id = request.form['product_id']
+    quantity_to_be_removed = int(request.form['quantity'])
     users = mongo.db.users
     current_user = users.find_one({"username":'petraca'})
     cart = current_user['cart']
-    index = 0
+
     for i,element in enumerate(cart):
         if element['product_id'] == product_id:
-            index = i
-    print(index)
-    cart.pop(index)
+            if quantity_to_be_removed < element['quantity']:
+                element['quantity'] = element['quantity'] - quantity_to_be_removed
+            elif quantity_to_be_removed == element['quantity']:
+                cart.pop(i)
+
     users.update_one({'username':'petraca'}, {'$set': {'cart':cart} })
     return redirect(url_for('show_cart'))
 
