@@ -165,7 +165,8 @@ def buy():
 @app.route("/addtocart", methods=['POST'])
 def add_to_cart():
     product_id = request.form['product_id']
-    quantity = request.form['quantity']
+    quantity = int(request.form['quantity'])
+    size = request.form['size']
     # username = session["username"]
     username = 'petraca'
     users = mongo.db.users
@@ -174,9 +175,32 @@ def add_to_cart():
     current_user = users.find_one({"username":username})
     cart = current_user['cart']
 
-    cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
-                'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url']})
+    if not cart:
+        cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
+        'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url'], 'size':size})
     
+    else: 
+        for item in cart:
+            if item['product_id'] == product_id:
+
+                if (item['quantity'] + quantity <= current_product['quantity']) and (item['size'] == size):
+                    item['quantity'] = item['quantity'] + quantity
+                    users.update_one({'username':username}, {'$set': {'cart':cart} })
+                    return redirect(url_for('buy'))
+
+                elif item['size'] != size:
+                    cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
+                    'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url'], 'size':size})
+                    users.update_one({'username':username}, {'$set': {'cart':cart} })
+                    return redirect(url_for('buy'))
+                
+                else:
+                    error_message = "The quantity you are trying to add plus what is already on the cart exceeds what's available in stock"
+                    return render_template('buy.html', error_message=error_message)
+        
+        cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
+        'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url'], 'size':size})
+
     users.update_one({'username':username}, {'$set': {'cart':cart} })
     return redirect(url_for('buy'))
 
@@ -192,15 +216,21 @@ def show_cart():
 @app.route('/remove', methods=['POST'])
 def remove():
     product_id = request.form['product_id']
+    quantity_to_be_removed = int(request.form['quantity'])
+    size = request.form['size']
     users = mongo.db.users
     current_user = users.find_one({"username":'petraca'})
     cart = current_user['cart']
-    index = 0
+
     for i,element in enumerate(cart):
-        if element['product_id'] == product_id:
-            index = i
-    print(index)
-    cart.pop(index)
+        if (element['product_id'] == product_id):
+            if quantity_to_be_removed < element['quantity'] and element['size'] == size:
+                element['quantity'] = element['quantity'] - quantity_to_be_removed
+                break
+            elif quantity_to_be_removed == element['quantity'] and element['size'] == size:
+                cart.pop(i)
+                break
+
     users.update_one({'username':'petraca'}, {'$set': {'cart':cart} })
     return redirect(url_for('show_cart'))
 
