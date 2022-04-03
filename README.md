@@ -1,3 +1,6 @@
+# Deployed App Link
+[Link](https://populus-designs.herokuapp.com/)
+
 # For Unit 3 Project
 ## Setup: 
 In order to run the app in vscode, run the following commands:
@@ -7,6 +10,8 @@ In order to run the app in vscode, run the following commands:
 
 **Sidenote:** To exit out of the *venv*, type ``deactivate``. 
 ## Install packages:
+To install all dependencies do ``pip install -r requirements.txt``
+
 To install a python package do ``pip install <package_name>``
 
 Install the following packages inside the *venv*:
@@ -18,6 +23,8 @@ Install the following packages inside the *venv*:
 - ``email_validator``
 - ``certifi``
 - ``bcrypt``
+- ``requests``
+- ``bson``
 
 Or install them in one command with ``pip install flask flask-pymongo dnspython python-dotenv flask-wtf email_validator certifi bcrypt``.
 

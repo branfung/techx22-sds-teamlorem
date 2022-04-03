@@ -1,5 +1,11 @@
 {% extends "main.html" %}
 
+{% block title %}Populus Designs - Home{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="static/css/style.css">
+{% endblock %}
+
 {% block content %}
 <main>
     <section class="header-container">
@@ -9,7 +15,7 @@
 
     <section class="container-fluid container-fluid__main">
         
-        <!-- <div class="row row-1">
+         <div class="row row-1">
             <div class="col">
                 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-indicators">
@@ -22,13 +28,13 @@
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="img/Shirt_1.jpeg" class="d-block" alt="...">
+                            <img src="static/img/Shirt_1.jpeg" class="d-block" alt="...">
                         </div>
                         <div class="carousel-item">
-                            <img src="img/shirt-2.jpeg" class="d-block" alt="...">
+                            <img src="static/img/shirt-2.jpeg" class="d-block" alt="...">
                         </div>
                         <div class="carousel-item">
-                            <img src="img/shirt_3.jpeg" class="d-block" alt="...">
+                            <img src="static/img/shirt_3.jpeg" class="d-block" alt="...">
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
@@ -56,7 +62,7 @@
 
                 <div class="story">
                     <figure class="story__shape">
-                        <img src="img/Bad-Bunny.jpeg" alt="Customer Opinion" class="story__img">
+                        <img src="static/img/Bad-Bunny.jpeg" alt="Customer Opinion" class="story__img">
                         <figcaption class="story__caption">Benito Martínez</figcaption>
                     </figure>
 
@@ -72,7 +78,7 @@
 
                 <div class="story story-2">
                     <figure class="story__shape">
-                        <img src="img/temp.jpeg" alt="Customer Opinion" class="story__img">
+                        <img src="static/img/temp.jpeg" alt="Customer Opinion" class="story__img">
                         <figcaption class="story__caption">Chris Evans</figcaption>
                     </figure>
                 
@@ -117,7 +123,7 @@
                                 <p class="card__price-only">Only</p>
                                 <p class="card__price-value">$5</p>
                             </div>
-                            <a href="pages/Request-Form/Request-Form.html" class="btn btn--white">Buy now!</a>
+                            <a href="{{ url_for('buy') }}" class="btn btn--white">Buy now!</a>
                         </div>
                     </div>
                 </div>
@@ -146,7 +152,7 @@
                                 <p class="card__price-only">Only</p>
                                 <p class="card__price-value">$10</p>
                             </div>
-                            <a href="pages/Request-Form/Request-Form.html" class="btn btn--white">Buy now!</a>
+                            <a href="{{ url_for('buy') }}" class="btn btn--white">Buy now!</a>
                         </div>
                     </div>
                 </div>
@@ -175,18 +181,18 @@
                                 <p class="card__price-only">Only</p>
                                 <p class="card__price-value">$20</p>
                             </div>
-                            <a href="pages/Request-Form/Request-Form.html" class="btn btn--white">Buy Now!</a>
+                            <a href="{{ url_for('buy') }}" class="btn btn--white">Buy Now!</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
         
-        <div class="container">
+        <!-- <div class="container">
             {% for product in store %}
                 <div class="row">
                     <div class="card" style="width: 18rem;">
-                        <!-- <img src="..." class="card-img-top" alt="..."> -->
+                        <img src="..." class="card-img-top" alt="...">
                         <div class="card-body">
                           <h5 class="card-title">{{product.name}}</h5>
                           <p class="card-text">${{product.price}}</p>
@@ -196,7 +202,7 @@
                       </div>
                 </div>   
             {% endfor %}
-        </div>
+        </div> -->
 
 
     </section>

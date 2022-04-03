@@ -1,20 +1,29 @@
 # -- Import section --
-from crypt import methods
-from flask import (Flask, render_template, request, redirect, url_for, session)
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    session
+)
 from flask_pymongo import PyMongo
-import os, secrets
 from form import SignUpForm
+from bson.objectid import ObjectId
+import gunicorn
+import requests
+import secrets
+import os, secrets
 import bcrypt 
 import certifi
-from bson.objectid import ObjectId
-
+import os
 
 # -- Initialization section --
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(nbytes=16)
 
 # name of database
-db_name = "test"
+db_name = 'test' if os.environ.get('DB_TEST') == '1' else 'PopulusDesigns'
 app.config['MONGO_DBNAME'] = db_name
 
 # URI of database
@@ -32,30 +41,79 @@ app.secret_key = secrets.token_urlsafe(16)
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', session=session)
+
+@app.route('/request', methods=['GET', 'POST'])
+def request_design():
+    if request.method == 'POST':
+        message = {'message': '', 'error': None}
+        # session['username'] = 'Brandon' 
+        
+        # Fetching the image_url from the user to check if it gives us headers        
+        print(dict(request.form))    
+        try:
+            url = request.form['image_url']
+            response = requests.get(url)
+        except:
+            message['error'] = 'Something went wrong with your image URL'
+            return render_template('request-form.html', session=session, message=message)
+
+        # Validating image_url to see if it's an image
+        if response.headers.get('content-type') not in ['image/png', 'image/jpeg']:
+            message['error'] = 'URL is not a valid image URL! Please use a correct URL'
+            return render_template('request-form.html', session=session, message=message)
+        
+        # Constructing product object
+        product = {
+            'name': request.form['name'],
+            'price': round(float(request.form['price']), 2),
+            'creator': session['username'],
+            'quantity': int(request.form['quantity']),
+            'image_url': request.form['image_url']
+        }
+        # session.clear()
+        # print(product)
+        
+        # DB insert_one error handling
+        try:
+            store = mongo.db.store
+            store.insert_one(product)  
+            # print('Product added')
+        except:
+            message['error'] = 'Could not upload design. Please make sure the fields are correct or try again some other time'
+            return render_template('request-form.html', session=session, message=message)
+        
+        # Product insert success:
+        message['message'] = 'Your design was uploaded succesfully!'
+        return render_template('request-form.html', session=session, message=message)
+    else:
+        return render_template('request-form.html', session=session)
+
 
 # Do we create a User class or store the information as is inside the data base ? 
 @app.route('/signup', methods=['GET','POST'])
 def signup():
     sign_up_form = SignUpForm()
-    if sign_up_form.validate_on_submit():
-        
-        users = mongo.db.users
-        email = request.form['email']
-        username = request.form['username']
-        existing_user = users.find_one(filter={"username":username})
-        
-        if existing_user:
-            return render_template('Sign-Up.html', existing_user=existing_user)
+    if request.method == 'POST':
+        if sign_up_form.validate_on_submit():
+            
+            users = mongo.db.users
+            email = request.form['email']
+            username = request.form['username']
+            existing_user = users.find_one(filter={"username":username})
+            
+            if existing_user:
+                return render_template('Sign-Up.html', session=session, existing_user=existing_user)
 
-        password = request.form['password'].encode('utf-8')
-        salt = bcrypt.gensalt()
-        hased_pasword = bcrypt.hashpw(password, salt)
-        users.insert_one({'username':username, 'password':hased_pasword, 'cart':[]})
-        session['username'] = username
+            password = request.form['password'].encode('utf-8')
+            salt = bcrypt.gensalt()
+            hased_pasword = bcrypt.hashpw(password, salt)
+            users.insert_one({'username':username, 'password':hased_pasword, 'cart':[]})
+            session['username'] = username
 
-        return redirect(url_for('index'))
-    return render_template('Sign-Up.html', form=sign_up_form)
+            return redirect(url_for('index'))
+    else:
+        return render_template('Sign-Up.html', session=session, form=sign_up_form)
 
 # User Log in Route
 # The log-in page is where the user can log into his account.
@@ -85,24 +143,24 @@ def login():
                 return redirect(url_for('index'))
             
             else:
-                return render_template("login.html",error_message="Password is incorrect")
+                return render_template("login.html",session=session, error_message="Password is incorrect")
         else:
-            return render_template("login.html", error_message="Username is incorrect")
+            return render_template("login.html",session=session, error_message="Username is incorrect")
     else:
-        return render_template("login.html")
+        return render_template("login.html", session=session)
 
 @app.route("/logout")
 def logout():
     # clear user from session
     session.clear()
     # redirect to main page
-    return redirect(url_for("/"))
+    return redirect(url_for("index"))
 
 @app.route('/buy', methods=['GET','POST'])
 def buy():
     collection = mongo.db.store
     store_items = collection.find({})
-    return render_template('buy.html', store_items=store_items)
+    return render_template('buy.html', session=session, store_items=store_items)
 
 @app.route("/addtocart", methods=['POST'])
 def add_to_cart():
@@ -153,7 +211,7 @@ def show_cart():
     current_user = users.find_one({"username":'petraca'})
     # cart = current_user['cart']
     cart_items = current_user['cart']
-    return render_template('cart.html',items=cart_items)
+    return render_template('cart.html', session=session, items=cart_items)
 
 @app.route('/remove', methods=['POST'])
 def remove():
@@ -181,20 +239,28 @@ def remove():
 def resetpw():
     users = mongo.db.users
     if request.method == "GET":
-        return render_template("changepw.html")
-
-    
+        return render_template("changepw.html", session=session)
     else:
         # update old password with new password
         if users.find_one({"username":request.form["username"]}):
             username = request.form["username"]
-             # obtain new password
+             # obtain new password and encrypt it for security reasons
             password = request.form['password'].encode('utf-8')
             salt = bcrypt.gensalt()
             hashed_pasword = bcrypt.hashpw(password, salt)
-            newvalue = { "$set": { "password": hashed_pasword } }
+            newvalue = {"$set": { "password": hashed_pasword }}
+            # update user's old password with new password
             users.update_one({"username":username}, newvalue)
-
-            return redirect("/")
+            # go back to index page
+            return redirect("/login")
         else:
-            return render_template("usernotfound.html")
+            return render_template("changepw.html", session=session, error_message="Username not found")
+            # return render_template("login.html", error_message="Username is incorrect")
+
+@app.route('/about')
+def about():
+    return render_template('about.html', session=session)
+
+
+if __name__ == "__main__":
+        app.run()

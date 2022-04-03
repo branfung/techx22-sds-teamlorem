@@ -12,23 +12,41 @@ h1, h2, h3, h4, h5, h6 {
     color: #FCFAF9;
 } */
 
-.pancake-stack{
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-}
-
 /* form */
 
 .main-form{
     border: 3px solid black;
     border-radius: 100% / 20%;
-    padding: 75px;
+    padding: 90px;
     box-shadow: 10px 10px 5px rgb(0,0,0,0.45);
+    margin: 0 20%;
 }
 
+.main-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* form inputs */
+.form-floating-group input {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+  
+.no-session {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.no-session a {
+    align-self: center;
+}
 /* sections */
 
 .white-section{
     background-color:#FCFAF9;
 }
+
 
