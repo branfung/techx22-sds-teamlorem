@@ -1,24 +1,29 @@
 {% extends "main.html" %}
 {% block content %}
-
+<link rel="stylesheet" href="../static/css/cart.css">
 <div class="row">
     {% for item in items %}
     <div class="col-12 col-md-6 col-lg-4 my-3">
         <div class="card">
             <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.name }} design picture">
             <div class="card-body">
-              <h5 class="card-title">{{ item.name }}</h5>
-              <p class="card-text">
+                <h5 class="card-title">{{ item.name }}</h5>
+                <p class="card-text">
                   Creator: {{ item.creator }} <br>
-                  Price: ${{ item.price }}
-              </p>
+                  Price: ${{ item.price }} <br>
+                  Quantity: {{ item.quantity }} <br>
+                  Size: {{ item.size }}
+                </p>
+                <form action="{{ url_for('remove') }}" method="POST">
+                    <div class="mb-2">
+                        <input type="hidden" name="product_id" value="{{ item.product_id }}">
+                        <input type="hidden" name="size" value="{{ item.size }}">
+                        <label for="quantity">Quantity to be removed:</label>
+                        <input type="number" name="quantity" value="1" min="1" max="{{ item.quantity }}">
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-style">Remove From Cart</button>
+                </form>
             </div>
-            <form action="{{ url_for('remove') }}" method="POST">
-                <input type="hidden" name="product_id" value="{{ item.product_id }}">
-                <button type="submit" class="btn btn-primary">Remove From Cart</button>
-                <label for="quantity">Quantity: {{ item.quantity }}</label>
-                <input type="number" name="quantity" value="1" min="1" max="{{ item.quantity }}">
-            </form>
         </div>
     </div>
     {% endfor %}

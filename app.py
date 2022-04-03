@@ -108,6 +108,7 @@ def buy():
 def add_to_cart():
     product_id = request.form['product_id']
     quantity = int(request.form['quantity'])
+    size = request.form['size']
     # username = session["username"]
     username = 'petraca'
     users = mongo.db.users
@@ -115,20 +116,31 @@ def add_to_cart():
     current_product = store.find_one({'_id':ObjectId(product_id)})
     current_user = users.find_one({"username":username})
     cart = current_user['cart']
+
+    if not cart:
+        cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
+        'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url'], 'size':size})
     
-    if cart:
+    else: 
         for item in cart:
             if item['product_id'] == product_id:
-                print(item['product_id'])
-                if item['quantity'] + quantity <= current_product['quantity']:
+
+                if (item['quantity'] + quantity <= current_product['quantity']) and (item['size'] == size):
                     item['quantity'] = item['quantity'] + quantity
+                    break
+
+                elif item['size'] != size:
+                    cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
+                    'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url'], 'size':size})
+                    break
+                
                 else:
                     return 'Cannot add to cart.'
-    
-    else:
+        
         cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
-        'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url']})
-
+        'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url'], 'size':size})
+    
+    
     users.update_one({'username':username}, {'$set': {'cart':cart} })
     return redirect(url_for('buy'))
 
@@ -145,16 +157,19 @@ def show_cart():
 def remove():
     product_id = request.form['product_id']
     quantity_to_be_removed = int(request.form['quantity'])
+    size = request.form['size']
     users = mongo.db.users
     current_user = users.find_one({"username":'petraca'})
     cart = current_user['cart']
 
     for i,element in enumerate(cart):
-        if element['product_id'] == product_id:
-            if quantity_to_be_removed < element['quantity']:
+        if (element['product_id'] == product_id):
+            if quantity_to_be_removed < element['quantity'] and element['size'] == size:
                 element['quantity'] = element['quantity'] - quantity_to_be_removed
-            elif quantity_to_be_removed == element['quantity']:
+                break
+            elif quantity_to_be_removed == element['quantity'] and element['size'] == size:
                 cart.pop(i)
+                break
 
     users.update_one({'username':'petraca'}, {'$set': {'cart':cart} })
     return redirect(url_for('show_cart'))
