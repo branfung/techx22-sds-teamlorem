@@ -1,10 +1,10 @@
+img{
+    height: 500px;
+}
+
 .btn-style{
     background-color: #333333;
     color: #fcfaf9 !important;
     display: flex;
     margin: auto;
-}
-
-img{
-    height: 500px;
 }

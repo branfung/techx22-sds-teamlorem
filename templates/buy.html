@@ -3,6 +3,9 @@
 
 <link rel="stylesheet" type="text/css" href="static/css/buy.css">
 <div class="row">
+    {% if error_message %}
+        <h2>{{ error_message }}</h2>
+    {% else %}
     {% for item in store_items %}
     <div class="col-12 col-md-6 col-lg-4 my-3">
         <div class="card">
@@ -11,7 +14,8 @@
                 <h5 class="card-title">{{ item.name }}</h5>
                 <p class="card-text">
                   Creator: {{ item.creator }} <br>
-                  Price: ${{ item.price }}
+                  Price: ${{ item.price }} <br>
+                  In Stock: {{ item.quantity }}
                 </p>
                 <form action="{{ url_for('add_to_cart') }}" method="POST">
                     <div class="mb-2">
@@ -32,6 +36,7 @@
         </div>
     </div>
     {% endfor %}
+    {% endif %}
 </div>
 
 {% endblock %}

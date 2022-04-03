@@ -127,20 +127,22 @@ def add_to_cart():
 
                 if (item['quantity'] + quantity <= current_product['quantity']) and (item['size'] == size):
                     item['quantity'] = item['quantity'] + quantity
-                    break
+                    users.update_one({'username':username}, {'$set': {'cart':cart} })
+                    return redirect(url_for('buy'))
 
                 elif item['size'] != size:
                     cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
                     'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url'], 'size':size})
-                    break
+                    users.update_one({'username':username}, {'$set': {'cart':cart} })
+                    return redirect(url_for('buy'))
                 
                 else:
-                    return 'Cannot add to cart.'
+                    error_message = "The quantity you are trying to add plus what is already on the cart exceeds what's available in stock"
+                    return render_template('buy.html', error_message=error_message)
         
         cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
         'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url'], 'size':size})
-    
-    
+
     users.update_one({'username':username}, {'$set': {'cart':cart} })
     return redirect(url_for('buy'))
 
@@ -196,4 +198,3 @@ def resetpw():
             return redirect("/")
         else:
             return render_template("usernotfound.html")
-    
