@@ -23,7 +23,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(nbytes=16)
 
 # name of database
-db_name = "test"
+db_name = 'test' if os.environ.get('DB_TEST') == 1 else 'PopulusDesigns'
 app.config['MONGO_DBNAME'] = db_name
 
 # URI of database
