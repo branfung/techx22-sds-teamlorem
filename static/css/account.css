@@ -236,3 +236,13 @@ label {
 	transform: translateY(-2px);
 	box-shadow: 10px 3px 10px rgb(51, 51, 51);
 }
+
+.loggedin{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.loggedin::placeholder{
+    color: var(--color-primary);
+}

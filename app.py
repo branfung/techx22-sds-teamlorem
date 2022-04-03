@@ -7,16 +7,19 @@ from flask import (
     url_for,
     session
 )
+
 from flask_pymongo import PyMongo
 from form import SignUpForm
 from bson.objectid import ObjectId
 import gunicorn
+import model
 import requests
 import secrets
 import os, secrets
 import bcrypt 
 import certifi
 import os
+from model import model
 
 # -- Initialization section --
 app = Flask(__name__)
@@ -264,23 +267,38 @@ def about():
 @app.route("/account", methods=["GET","POST"])
 # this router shall be only available if a user is logged in
 def account():
+
+    # get the user from the db
+    users = mongo.db.users
+    # save the current user to modify its info
+    current_user = session['username']
+    user_doc = users.find_one({"username":current_user})
+
     if request.method =="POST":
-        # get the user from the db
-        users = mongo.db.users
-        # save the current user to modify its info
-        # current_user = users.find_one({"username":session.get("USERNAME")})
-        current_user = users.find_one({"username":session.get("USERNAME")})
 
         new_firstname = {"$set":{"firstname":request.form["firstname"]}}
-        users.update_one({"username":session.get("USERNAME")},new_firstname)
+        users.update_one({"username":current_user},new_firstname)
 
         new_lastname = {"$set":{"lastname":request.form["lastname"]}}
-        users.update_one({"username":session.get("USERNAME")},new_lastname)
+        users.update_one({"username":current_user},new_lastname)
 
-        return render_template("account.html", firstname=users.find_one({"username":session.get("USERNAME")}),lastname=users.find_one({"username":session.get("USERNAME")}))
+        new_bio = {"$set":{"bio":request.form["bio"]}}
+        users.update_one({"username":current_user},new_bio)
+
+        user_doc = users.find_one({"username":current_user})
+
+        return render_template("account.html", session=session,firstname=user_doc["firstname"],
+        lastname=user_doc["lastname"],bio=user_doc["bio"],
+        password=model.hashed_to_star(user_doc["password"]))
 
     else:
-        return render_template("account.html")
+        try:
+            return render_template("account.html", session=session,
+            firstname=user_doc["firstname"],lastname=user_doc["lastname"],
+            bio=user_doc["bio"],password=model.hashed_to_star(user_doc["password"]))
+        except:
+            return render_template("account.html",firstname="",lastname="",bio="",
+            password="******",session=session)
 
 
 
