@@ -7,10 +7,10 @@
 {% block content %}
 
 <div class="row">
-    {% if error_message %}
+    {% if message and message.error %}
         <div class="mb-3">
             <form action="{{ url_for('buy')}}">
-                <h2>{{ error_message }}</h2>
+                <h2>{{ message.error }}</h2>
                 <button type="submit" class="btn btn-style">Go back!</button>
             </form>
         </div>
@@ -29,7 +29,7 @@
                 <form action="{{ url_for('add_to_cart') }}" method="POST">
                     <div class="mb-2">
                         <label for="quantity">Quantity</label>
-                        <input class="me-2" type="number" name="quantity" value="1" min="1" max="{{ item.quantity }}">
+                        <input class="me-2" type="number" name="quantity" value="1" min="1" max="{{ item.quantity }}" step="1">
                         <label for="size">Choose a size:</label>
                         <select name="size" id="size">
                             <option value="Small">Small</option>

@@ -1,7 +1,7 @@
 import requests
 from model.objects.product import Product
 
-def make_product(document, message):
+def make_product(document, message={}):
     '''Validates and returns a Product object from a dictionary'''
 
     # Fetching the image_url from the user to check if it gives us headers        
@@ -18,4 +18,3 @@ def make_product(document, message):
     else:
         product = Product.from_document(document)
         return product
-    

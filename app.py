@@ -13,22 +13,17 @@ from model import (
     user
 )
 from flask_pymongo import PyMongo
-from bson.objectid import ObjectId
-import gunicorn
-import model
-import requests
+import gunicorn # for heroku deployment
 import secrets
-import os, secrets
 import bcrypt 
 import certifi
 import os
-from model import model
 
 # -- Initialization section --
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(nbytes=16)
 
-# name of database
+# Name of database
 db_name = 'test' if os.environ.get('DB_TEST') == '1' else 'PopulusDesigns'
 app.config['MONGO_DBNAME'] = db_name
 
@@ -38,6 +33,10 @@ app.config['MONGO_URI'] = f"mongodb+srv://admin:{password}@cluster0.pyrzd.mongod
 
 # Initialize PyMongo
 mongo = PyMongo(app, tlsCAFile=certifi.where())
+
+# Collection References
+store = mongo.db.store
+users = mongo.db.users
 
 # Session Data/Cookie (secret key)
 app.secret_key = secrets.token_urlsafe(16)
@@ -70,7 +69,6 @@ def request_design():
         }, message)
         
         if not message['error']:            
-            store = mongo.db.store
             model.add_product(new_product, store, message)
         
         return render_template('request-form.html', session=session, message=message)
@@ -96,7 +94,6 @@ def signup():
             'password': request.form['password'],
         })
         
-        users = mongo.db.users
         model.add_user(new_user, users, message)
         if message['error']:
             return render_template('Sign-Up.html', session=session, message=message)
@@ -114,8 +111,8 @@ User Log in Route
 The log-in page is where the user can log into their account.
 it is going to search for the username inside the database. 
 If the username is in the database it compares the password for the user with the one provided 
-by the user. If they match the user is logged in, if they don’t let the user know the password 
-is incorrect. If the username wasn’t in the database let them know the username does not exist 
+by the user. If they match the user is logged in, if they don't let the user know the password 
+is incorrect. If the username wasn't in the database let them know the username does not exist 
 and they need to sign in.
 '''
 @app.route("/login", methods=["GET","POST"])
@@ -129,7 +126,6 @@ def login():
             'password': request.form['password'],
         })
         
-        users = mongo.db.users
         model.authenticate_user(user_auth, users, message)
         if message['error']:
             return render_template("login.html", session=session, message=message)
@@ -142,11 +138,11 @@ def login():
             return redirect(url_for('index'))
         return render_template("login.html", session=session)
 
-    """
-    Method that allows the user to logout his account from the page's current session
-    Returns:
-        redirects user to main page (index.html) with his account logged out
-    """
+"""
+Method that allows the user to logout their account from the page's current session
+Returns:
+    redirects user to main page (index.html) with their account logged out
+"""
 @app.route("/logout")
 def logout():
     # clear user from session
@@ -160,7 +156,6 @@ buy.html page so users can choose what they want to buy.
 '''
 @app.route('/buy')
 def buy():
-    store = mongo.db.store
     products = model.get_products(store)
     return render_template('buy.html', store_items=products)
 
@@ -173,43 +168,28 @@ Else if the item wasn't in the cart or if it's in the cart with a differnt size 
 '''
 @app.route("/addtocart", methods=['POST'])
 def add_to_cart():
-    product_id = request.form['product_id']
-    quantity = int(request.form['quantity'])
-    size = request.form['size']
-    username = session['username']
-    users = mongo.db.users
-    store = mongo.db.store
-    current_product = store.find_one({'_id':ObjectId(product_id)})
-    current_user = users.find_one({"username":username})
-    cart = current_user['cart']
+    message = {'message': '', 'error': None}
 
-    if not cart:
-        cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
-        'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url'], 'size':size})
+    if not session.get('username'):
+        return redirect(url_for('index'))
     
-    else: 
-        for item in cart:
-            if item['product_id'] == product_id:
+    current_user = user.make_user({
+        'email':'GET_USER',
+        'username': session.get('username'),
+        'password':'GET_USER'
+    })
 
-                if (item['quantity'] + quantity <= current_product['quantity']) and (item['size'] == size):
-                    item['quantity'] = item['quantity'] + quantity
-                    users.update_one({'username':username}, {'$set': {'cart':cart} })
-                    return redirect(url_for('buy'))
-
-                elif item['size'] != size:
-                    cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
-                    'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url'], 'size':size})
-                    users.update_one({'username':username}, {'$set': {'cart':cart} })
-                    return redirect(url_for('buy'))
-                
-                else:
-                    error_message = "The quantity you are trying to add plus what is already on the cart exceeds what's available in stock."
-                    return render_template('buy.html', error_message=error_message)
-        
-        cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
-        'creator':current_product['creator'], 'quantity':quantity, 'image_url':current_product['image_url'], 'size':size})
-
-    users.update_one({'username':username}, {'$set': {'cart':cart} })
+    info = {
+        'product_id': request.form['product_id'],
+        'quantity': int(request.form['quantity']),
+        'size': request.form['size']
+    }
+    
+    model.add_to_cart(current_user, info, users, store, message)  
+    
+    if message['error']:
+        return render_template('buy.html', message=message)     
+    
     return redirect(url_for('buy'))
 
 
@@ -218,17 +198,21 @@ def add_to_cart():
 The show cart route gets the cart associated with the user that's logged in and displays all the items 
 inside it. 
 '''
-@app.route('/showcart', methods=['GET'])
+@app.route('/showcart')
 def show_cart():
-    username = session['username']
-    users = mongo.db.users
-    current_user = users.find_one({"username":username})
-    cart_items = current_user['cart']
-    if len(cart_items) == 0:
-        print('hello')
-        cart_is_empty_message = "Looks like you cart is empty, let's fix that!"
-        return render_template('cart.html', cart_is_empty_message=cart_is_empty_message)
-    return render_template('cart.html', items=cart_items)
+    
+    if session.get('username'):
+        
+        current_user = user.make_user({
+            'email':'GET_USER',
+            'username': session.get('username'),
+            'password':'GET_USER'
+        })
+
+        cart = model.get_cart(current_user, users)
+        return render_template('cart.html', items=cart)
+    else:
+        return redirect(url_for('index'))
 
 
 
@@ -238,36 +222,35 @@ Then either reduces the quantity of the item as selected by the user or removes 
 quantity selected by the user equals the amount that is present in the cart.  
 '''
 @app.route('/remove', methods=['POST'])
-def remove():
-    product_id = request.form['product_id']
-    quantity_to_be_removed = int(request.form['quantity'])
-    size = request.form['size']
-    username = session['username']
-    users = mongo.db.users
-    current_user = users.find_one({"username":username})
-    cart = current_user['cart']
- 
-    for i,element in enumerate(cart):
-        if (element['product_id'] == product_id):
-            if quantity_to_be_removed < element['quantity'] and element['size'] == size:
-                element['quantity'] = element['quantity'] - quantity_to_be_removed
-                break
-            elif quantity_to_be_removed == element['quantity'] and element['size'] == size:
-                cart.pop(i)
-                break
+def remove():    
+    if not session.get('username'):
+        return redirect(url_for('index'))
+    
+    current_user = user.make_user({
+        'email':'GET_USER',
+        'username': session.get('username'),
+        'password':'GET_USER'
+    })
 
-    users.update_one({'username':username}, {'$set': {'cart':cart} })
+    info = {
+        'product_id': request.form['product_id'],
+        'quantity': int(request.form['quantity']),
+        'size': request.form['size']
+    }
+
+    model.remove_from_cart(current_user, info, users)
+ 
     return redirect(url_for('show_cart'))
 
-    """
-    Allows the user to reset or change his current password to a new one
-    For now, the only validation is the username since these are unique
-    More validation is needed for the future
+"""
+Allows the user to reset or change their current password to a new one
+For now, the only validation is the username since these are unique
+More validation is needed for the future
 
-    Returns:
-        _type_: if sucessful, returns user to login page, else the user made a mistake
-        (user not found) and it throws an error for the user to see
-    """
+Returns:
+    If sucessful, returns user to login page, else the user made a mistake
+    (user not found) and it throws an error for the user to see
+"""
 @app.route("/resetpw",methods=["GET","POST"])
 def resetpw():
     # get users db
@@ -292,19 +275,21 @@ def resetpw():
             return render_template("changepw.html", session=session, error_message="Username not found")
             # return render_template("login.html", error_message="Username is incorrect")
 
+"""
+Renders the About page, where the user can get to know more about us as a company.
+"""
 @app.route('/about')
 def about():
     return render_template('about.html', session=session)
 
-    """
-    Allows the user to modify his or her account and profile and the option to delete
-    his or her account and connect to different platforms
+"""
+Allows the user to modify their account and profile and the option to delete
+their account and connect to different platforms
 
-    Returns:
-        _type_: renders the same page again with all the changed made present.
-        It can also redirect to delete the account.
-    """
-
+Returns:
+    JinjaTemplate: renders the same page again with all the changed made present.
+    It can also redirect to delete the account.
+"""
 @app.route("/account", methods=["GET","POST"])
 # this router shall be only available if a user is logged in
 def account():
@@ -353,13 +338,12 @@ def account():
             return render_template("account.html",firstname="",lastname="",bio="",
             password="******",session=session)
 
-    """
-    Delete the users account from the users data base 
+"""
+Delete the users account from the users data base 
 
-    Returns:
-        _type_: redirect to the logout where the account is also cleared from the current session
-        and it is redirected to the main page (index.html)
-    """
+Redirects to the logout where the account is also cleared from the current session
+and it is redirected to the main page (index.html)
+"""
 @app.route("/delete-account",methods=["GET","POST"])
 def delete_account():
     if request.method == "POST":

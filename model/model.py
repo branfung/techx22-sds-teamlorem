@@ -1,5 +1,6 @@
 import bcrypt
 from pymongo import collection
+from bson import ObjectId
 from model.objects import (
     product,
     user
@@ -17,7 +18,14 @@ def add_product(product: product.Product, store: collection, message):
     except:
         message['error'] = 'Could not upload design. Please make sure the fields are correct or try again some other time'
     
-    
+def get_products(store: collection):
+    products = store.find()
+    return products
+
+def get_product_by_id(id: ObjectId, store: collection):
+    product = store.find_one({'_id':id})
+    return product
+
 def add_user(user: user.User, users: collection, message):
     """Adds a User to the users collection
     """
@@ -58,15 +66,72 @@ def authenticate_user(user: user.User, users: collection, message):
             message['error'] = 'Password is incorrect'
     else:
         message['error'] = 'This user does not exist'
+        
+def get_user(user: user.User, users: collection):
+    user = users.find_one({'username': user.username})
+    return user
 
-def get_products(store: collection):
-    products = store.find()
-    return products
+def get_user_by_id(id: ObjectId, users: collection):
+    user = users.find_one({'_id': id})
+    return user
 
-# def get_product()
+def add_to_cart(user: user.User, product_info: dict, users: collection,store: collection, message):
+    
+    product_id = ObjectId(product_info['product_id'])
+    current_product = get_product_by_id(product_id, store)
+    cart = get_cart(user, users)
+    
+    for product in cart:
+        if product['product_id'] == product_id and product['size'] == product_info['size']: 
+
+            if (product['quantity'] + product_info['quantity'] <= current_product['quantity']):
+                
+                # Adds onto the quantity of the already existing product in cart
+                product['quantity'] += product_info['quantity']
+                users.update_one({'username':user.username}, {'$set': {'cart':cart} })
+                return
+
+                
+            else:
+                message['error'] = "The quantity you are trying to add plus what is already on the cart exceeds what's available in stock."
+                return
+            
+    cart.append({
+        'product_id':product_id,
+        'name':current_product['name'],
+        'price':current_product['price'], 
+        'creator':current_product['creator'],
+        'quantity':product_info['quantity'],
+        'image_url':current_product['image_url'],
+        'size':product_info['size']
+    })
+
+    users.update_one({'username':user.username}, {'$set': {'cart':cart} })
+
+def remove_from_cart(user: user.User, product_info: dict, users: collection):
+    
+    product_id = ObjectId(product_info['product_id'])
+    cart = get_cart(user, users)
+
+    
+    for i, product in enumerate(cart):
+        if (product['product_id'] == product_id):
+            if product_info['quantity'] < product['quantity'] and product['size'] == product_info['size']:
+                product['quantity'] = product['quantity'] - product_info['quantity']
+                break
+            elif product_info['quantity'] == product['quantity'] and product['size'] == product_info['size']:
+                cart.pop(i)
+                break
+
+    users.update_one({'username':user.username}, {'$set': {'cart':cart} })
+
+def get_cart(user: user.User, users: collection):
+    cart = get_user(user, users)['cart']
+    return cart
 
 def hashed_to_star(password):
     star_pw = ""
     for char in password:
         star_pw += "*"
     # return star_pw
+
