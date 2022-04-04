@@ -23,7 +23,7 @@
                 <h1>Request a Design</h1>
                 <br>
                 <div class="mb-3 form-floating">
-                    <input type="text" class="form-control" name="name" id="name" placeholder="name" required>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="name" minlength='4' maxlength='24' required>
                     <label for="name" class="form-label">Name your design</label>        
                 </div>
                 <div class="mb-3 input-group">
@@ -50,7 +50,7 @@
                 <h1>Join us!</h1>
                 <p>Sign in to your account in order to request your design.</p>
                 <a class="btn btn-primary" href="/signup" type="button">Sign up today!</a>
-                <a href="/login" class="btn btn-link">Already have an account? Click here.</a>
+                <a href="/login" class="btn-link">Already have an account? Click here.</a>
             </div>
             {% endif %}
         </div>

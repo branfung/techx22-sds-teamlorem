@@ -7,6 +7,10 @@ from flask import (
     url_for,
     session
 )
+from model import (
+    model,
+    product
+)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 import gunicorn
@@ -45,45 +49,21 @@ def index():
 @app.route('/request', methods=['GET', 'POST'])
 def request_design():
     if request.method == 'POST':
+        
         message = {'message': '', 'error': None}
-        # session['username'] = 'Brandon' 
         
-        # Fetching the image_url from the user to check if it gives us headers        
-        print(dict(request.form))    
-        try:
-            url = request.form['image_url']
-            response = requests.get(url)
-        except:
-            message['error'] = 'Something went wrong with your image URL'
-            return render_template('request-form.html', session=session, message=message)
-
-        # Validating image_url to see if it's an image
-        if response.headers.get('content-type') not in ['image/png', 'image/jpeg']:
-            message['error'] = 'URL is not a valid image URL! Please use a correct URL'
-            return render_template('request-form.html', session=session, message=message)
-        
-        # Constructing product object
-        product = {
-            'name': request.form['name'],
+        # Constructing product Object
+        new_product = product.make_product({
+            'name': request.form['name'].capitalize(),
             'price': round(float(request.form['price']), 2),
             'creator': session['username'],
             'quantity': int(request.form['quantity']),
             'image_url': request.form['image_url']
-        }
-        # session.clear()
-        # print(product)
+        }, message)
         
-        # DB insert_one error handling
-        try:
-            store = mongo.db.store
-            store.insert_one(product)  
-            # print('Product added')
-        except:
-            message['error'] = 'Could not upload design. Please make sure the fields are correct or try again some other time'
-            return render_template('request-form.html', session=session, message=message)
+        store = mongo.db.store
+        model.add_product(new_product, store, message)
         
-        # Product insert success:
-        message['message'] = 'Your design was uploaded succesfully!'
         return render_template('request-form.html', session=session, message=message)
     else:
         return render_template('request-form.html', session=session)
