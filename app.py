@@ -128,7 +128,7 @@ def login():
         
         model.authenticate_user(user_auth, users, message)
         if message['error']:
-            return render_template("login.html", session=session, message=message)
+            return render_template("login.html", session=session, message=message['error'])
         
         session['username'] = user_auth.username
         return redirect(url_for('index'))
@@ -354,6 +354,41 @@ def delete_account():
         if session.get('username'):
             return redirect(url_for('login'))
         return render_template("account.html")
+
+"""
+Allows the user to change their current email to a new one
+For now, the only validation is the username since these are unique
+More validation is needed for the future
+
+Returns:
+    If sucessful, returns user to login page, else the user made a mistake
+    (user not found) and it throws an error for the user to see
+"""
+@app.route("/change-email",methods=["GET","POST"])
+def change_email():
+    # get users db
+    users = mongo.db.users
+    if request.method == "GET":
+        return render_template("changeemail.html", session=session)
+    else:
+        # update old password with new password
+        current_user = users.find_one({"username":session["username"]})
+        if users.find_one({"username":session["username"]}):
+            current_user = users.find_one({"username":session["username"]})
+            username = request.form["username"]
+            if current_user["username"] == username:
+                new_email = request.form["email"]
+                # set the new value of the password
+                newvalue = {"$set": { "password": new_email }}
+                # update user's old password with new password
+                users.update_one({"username":username}, newvalue)
+                # go back to index page
+                return redirect("/login")
+            else:
+                return render_template("changeemail.html", session=session, error_message="Incorrect User")
+        else:
+            return render_template("changeemail.html", session=session, error_message="Username not found")
+
 
 
 if __name__ == "__main__":

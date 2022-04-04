@@ -65,7 +65,7 @@ def authenticate_user(user: user.User, users: collection, message):
             # we store the user in the current session
             message['error'] = 'Password is incorrect'
     else:
-        message['error'] = 'This user does not exist'
+        message['error'] = 'Incorrect User/This user does not exist'
         
 def get_user(user: user.User, users: collection):
     user = users.find_one({'username': user.username})
