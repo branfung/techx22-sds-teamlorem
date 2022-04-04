@@ -57,7 +57,11 @@
     <section class="account-info info">
         <h5 class="account-h5">Your email</h5>
         <div class="user-info">
+            {%if email%}
+            <span class="account-info-span">{{email}}</span>
+            {%else%}
             <span class="account-info-span">john.doe@techexchange.in</span>
+            {%endif%}
             <button class="account-info-btn btn"><a href="/change-email">Change</a></button>
         </div>
 

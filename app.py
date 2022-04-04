@@ -328,20 +328,21 @@ def account():
 
         user_doc = users.find_one({"username":current_user})
 
-        return render_template("account.html", session=session,firstname=user_doc["firstname"],
-        lastname=user_doc["lastname"],bio=user_doc["bio"],
-        password=model.hashed_to_star(user_doc["password"]))
+        # return render_template("account.html", session=session,firstname=user_doc["firstname"],
+        # lastname=user_doc["lastname"],bio=user_doc["bio"],
+        # password=model.hashed_to_star(user_doc["password"]))
     
-    else:
+    
 
-        # load account info with the one prev found in the user's document
-        try:
-            return render_template("account.html", session=session,
-            firstname=user_doc["firstname"],lastname=user_doc["lastname"],
-            bio=user_doc["bio"],password=model.hashed_to_star(user_doc["password"]))
-        except:
-            return render_template("account.html",firstname="",lastname="",bio="",
-            password="******",session=session)
+    # load account info with the one prev found in the user's document
+    try:
+        return render_template("account.html", session=session,
+        firstname=user_doc["firstname"],lastname=user_doc["lastname"],
+        bio=user_doc["bio"],password=model.hashed_to_star(user_doc["password"]),
+        email=user_doc["email"])
+    except:
+        return render_template("account.html",firstname="",lastname="",bio="",
+        password="******",session=session)
 
 """
 Delete the users account from the users data base 
