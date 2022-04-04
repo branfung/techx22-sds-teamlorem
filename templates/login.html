@@ -15,12 +15,12 @@
         <form action="/login" method="post" class="login-form" id="login-form">
 
             <div class="input-container">
-                <input type="text" name="username" placeholder="username" required>
+                <input type="text" name="username" placeholder="username" pattern="^\S+$" required>
             </div>
 
 
             <div class="input-container input-container--password">
-                <input type="password" name="password" id="password" placeholder="password">
+                <input type="password" name="password" id="password" placeholder="password" pattern="^\S+$" required>
                 <i class="bi bi-eye-slash" id="togglePassword"></i>
             </div>
 

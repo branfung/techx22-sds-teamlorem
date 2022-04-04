@@ -9,10 +9,10 @@ from flask import (
 )
 from model import (
     model,
-    product
+    product,
+    user
 )
 from flask_pymongo import PyMongo
-from form import SignUpForm
 from bson.objectid import ObjectId
 import gunicorn
 import requests
@@ -47,13 +47,18 @@ app.secret_key = secrets.token_urlsafe(16)
 def index():
     return render_template('index.html', session=session)
 
+
+'''
+The Request Design route
+In here the user can create and request their design to be sold on our store using the provided form.
+The user must provide a valid URL of the image that will represent their design.
+'''
 @app.route('/request', methods=['GET', 'POST'])
 def request_design():
     if request.method == 'POST':
         
         message = {'message': '', 'error': None}
         
-        # Constructing product Object
         new_product = product.make_product({
             'name': request.form['name'].capitalize(),
             'price': round(float(request.form['price']), 2),
@@ -62,8 +67,9 @@ def request_design():
             'image_url': request.form['image_url']
         }, message)
         
-        store = mongo.db.store
-        model.add_product(new_product, store, message)
+        if not message['error']:            
+            store = mongo.db.store
+            model.add_product(new_product, store, message)
         
         return render_template('request-form.html', session=session, message=message)
     else:
@@ -73,76 +79,71 @@ def request_design():
 '''
 The sign up route checks if the given email or username exists, if it does it renders an error message
 stating the email or user is already in use. Otherwise it adds the user to the database and 
-logs him in to his account. 
+logs in to their account. 
 '''
 @app.route('/signup', methods=['GET','POST'])
 def signup():
 
     if request.method == 'POST':
+        
+        message = {'message': '', 'error': None}
+
+        new_user = user.make_user({
+            'email': request.form['email'],
+            'username': request.form['username'],
+            'password': request.form['password'],
+        })
+        
         users = mongo.db.users
-        email = request.form['email']
-        existing_user = users.find_one({'email':email})
+        model.add_user(new_user, users, message)
+        if message['error']:
+            return render_template('Sign-Up.html', session=session, message=message)
 
-        if existing_user:
-            error_message = 'A user with that email address already exists. Try login or creating a new account.'
-            return render_template('Sign-Up.html', error_message = error_message)
-
-        username = request.form['username']
-        existing_user = users.find_one({'username':username})
-
-        if existing_user:
-            error_message = 'That username already exists. Try login or choosing a different username.'
-            return render_template('Sign-Up.html', error_message = error_message)
-
-        password = request.form['password'].encode('utf-8')
-        salt = bcrypt.gensalt()
-        hashed_password = bcrypt.hashpw(password, salt)
-        users.insert_one({'email':email, 'username':username, 'password':hashed_password, 'cart':[]})
-        session['username'] = username
+        session['username'] = new_user.username
         return redirect(url_for('index'))
 
     else:
+        if session.get('username'):
+            return redirect(url_for('index'))
         return render_template('Sign-Up.html')
 
-# User Log in Route
-# The log-in page is where the user can log into his account.
-# it is going to search for the username inside the database. 
-# If the username is in the database it compares the password for the user with the one provided 
-# by the user. If they match the user is logged in, if they don’t let the user know the password 
-# is incorrect. If the username wasn’t in the database let them know the username does not exist 
-# and they need to sign in.
-
+'''
+User Log in Route
+The log-in page is where the user can log into their account.
+it is going to search for the username inside the database. 
+If the username is in the database it compares the password for the user with the one provided 
+by the user. If they match the user is logged in, if they don’t let the user know the password 
+is incorrect. If the username wasn’t in the database let them know the username does not exist 
+and they need to sign in.
+'''
 @app.route("/login", methods=["GET","POST"])
 def login():
     if request.method == "POST":
-        users = mongo.db.users
-        # get username from database
-        login_user = users.find_one({"username":request.form["username"]})
+        message = {'message': '', 'error': None}
 
-        # if user in database
-        if login_user:
-            password_in_db = login_user["password"]
-            # encode password for security purposes
-            encoded_password = request.form["password"].encode("utf-8")
-            # compare if the encoded password is the same as the one in the db
-            if bcrypt.checkpw(encoded_password,password_in_db):
-                # if we arrive here it means the password was valid
-                # we store the user in the current session
-                session["username"] = request.form["username"]
-                return redirect(url_for('index'))
-            
-            else:
-                return render_template("login.html",session=session, error_message="Password is incorrect")
-        else:
-            return render_template("login.html",session=session, error_message="Username is incorrect")
+        user_auth = user.make_user({
+            'email': 'TO_LOGIN',
+            'username': request.form['username'],
+            'password': request.form['password'],
+        })
+        
+        users = mongo.db.users
+        model.authenticate_user(user_auth, users, message)
+        if message['error']:
+            return render_template("login.html", session=session, message=message)
+        
+        session['username'] = user_auth.username
+        return redirect(url_for('index'))
+    
     else:
+        if session.get('username'):
+            return redirect(url_for('index'))
         return render_template("login.html", session=session)
 
 @app.route("/logout")
 def logout():
     # clear user from session
     session.clear()
-    # redirect to main page
     return redirect(url_for("index"))
 
 
@@ -150,12 +151,11 @@ def logout():
 The buy route gets all the items that are in the database and renders them in the 
 buy.html page so users can choose what they want to buy.
 '''
-@app.route('/buy', methods=['GET','POST'])
+@app.route('/buy')
 def buy():
-    collection = mongo.db.store
-    store_items = collection.find({})
-    return render_template('buy.html', store_items=store_items)
-
+    store = mongo.db.store
+    products = model.get_products(store)
+    return render_template('buy.html', store_items=products)
 
 
 '''
@@ -294,6 +294,8 @@ def account():
         return render_template("account.html", firstname=users.find_one({"username":session.get("USERNAME")}),lastname=users.find_one({"username":session.get("USERNAME")}))
 
     else:
+        if session.get('username'):
+            return redirect(url_for('login'))
         return render_template("account.html")
 
 
