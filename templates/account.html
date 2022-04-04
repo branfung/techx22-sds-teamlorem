@@ -13,29 +13,39 @@
         <span class="username">Your Username</span>
         {% endif %}
         <div class="profile-image">
-            <img src="/static/img/tab-photo.jpeg" alt="Profile Picture">
+            <img src="/static/img/temp-avatar.jpeg" alt="Profile Picture">
         </div>
         <form action="/account" method="post" class="account-settings">
             <div class="first-lastnames">
                 <label for="firstname">First Name</label>
                 <div class="firstname-input">
-                    {% if firstname %}
-                    <input type="text" name="firstname" placeholder={{firstname}}>
-                    {% else %}
-                    <input type="text" name="firstname" placeholder="First Name">
-                    {% endif %}
+                    <!-- <input type="text" name="lastname" placeholder="Last Name"> -->
+                    {%if firstname%}
+                    <input type="text" class="loggedin" name="firstname" placeholder={{firstname}}>
+                    {%else%}
+                    <input type="text" class="loggedin" name="firstname" placeholder="First Name">
+                    {%endif%}
                 </div>
 
                 <label clssname="password-label" for="lastname">Last Name</label>
                 <div class="lastname-input">
-                    <input type="text" name="lastname" placeholder="Last Name"">
+                    {%if lastname %}
+                    <input type="text" class="loggedin" name="lastname" placeholder={{lastname}}>
+                    {%else%}
+                    <input type="text" class="loggedin" name="lastname" placeholder="Last Name">
+                    {% endif %}
                 </div>
             </div>
 
             <div class="textarea-container">
                 <label id="textbox-label" for="bio">Bio</label>
+                {%if bio%}
+                <textarea class="textbox" name="bio" spellcheck="true" wrap="hard" maxlength="140"
+                    placeholder="Add a bio">{{bio}}</textarea>
+                {%else%}
                 <textarea class="textbox" name="bio" spellcheck="true" wrap="hard" maxlength="140"
                     placeholder="Add a bio"></textarea>
+                {%endif%}
                 <span id="textbox-span"><sup>*</sup>0/140 characters</span>
             </div>
             <input id="submit-input" class="btn" type="submit" value="Save">
@@ -46,18 +56,38 @@
     <section class="account-info info">
         <h5 class="account-h5">Your email</h5>
         <div class="user-info">
-            <span class="account-info-span">temp.temp@email.com</span>
-            <button class="account-info-btn btn"><a href="/changepw">Change</a></button>
+            <span class="account-info-span">john.doe@techexchange.in</span>
+            <button class="account-info-btn btn"><a href="/resetpw">Change</a></button>
         </div>
 
         <h5 class="account-h5">Your Password</h5>
         <div class="user-info">
+            {% if password%}
+            <span class="account-info-span">{{password}}</span>
+            {% else %}
             <span class="account-info-span">********</span>
-            <button class="account-info-btn btn"><a href="/changepw">Change</a></button>
+            {% endif %}
+            <button class="account-info-btn btn"><a href="/resetpw">Change</a></button>
         </div>
 
         <div class="delete-account">
-            <button class="btn"><a href="/deleteacc">Delete Account</a></button>
+            <button class="open-button" onclick="openForm()">Delete Account</button>
+        </div>
+        <div class="form-popup" id="myForm">
+            <form action="/delete-account" class="form-container" method="post">
+                <div class="delete-options-container">
+                    <input type="radio" name="delete" id="yes" value="yes">
+                    <label for="yes">Yes</label>
+                </div>
+
+                <div class="delete-options-container">
+                    <input type="radio" name="delete" id="no" value="yes">
+                    <label for="no">No</label>
+                </div>
+               
+                <button type="submit" class="btn">Continue</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </form>
         </div>
     </section>
 
@@ -66,27 +96,41 @@
     <div class="connected-services-container info">
         <div class="connected-services">
             <span>Google</span>
-            <button class="connect-btn btn"><a class="connect" href="/">Connect</a></button>
+            <button class="connect-btn btn"><a class="connect"
+                    href="https://myaccount.google.com/?utm_source=sign_in_no_continue&pli=1">Connect</a></button>
         </div>
 
         <div class="connected-services">
             <span>Facebook</span>
-            <button class="connect-btn btn"><a class="connect" href="/">Connect</a></button>
+            <button class="connect-btn btn"><a class="connect" href="https://www.facebook.com/>">Connect</a></button>
         </div>
 
         <div class="connected-services">
             <span>Instagram</span>
-            <button class="connect-btn btn"><a class="connect" href="/">Connect</a></button>
+            <button class="connect-btn btn"><a class="connect" href="https://www.instagram.com/>">Connect</a></button>
         </div>
 
 
         <div class="connected-services">
             <span>Twitter</span>
-            <button class="connect-btn btn"><a class="connect" href="/">Connect</a></button>
+            <button class="connect-btn btn"><a class="connect"
+                    href="https://twitter.com/i/flow/login?input_flow_data=%7B%22requested_variant%22%3A%22eyJsYW5nIjoiZW4ifQ%3D%3D%22%7D">Connect</a></button>
         </div>
     </div>
 
     </section>
+
+    <script>
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+    }
+    </script>
+
+    
 </main>
 
 
