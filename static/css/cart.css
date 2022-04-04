@@ -1,8 +1,20 @@
-.btn-style{
-    display: flex;
-    margin: auto;
+h2{
+    margin-top: 15% !important;
+    margin-bottom: 15% !important;
 }
 
 img{
     height: 500px;
+}
+
+.btn-style{
+    display: flex !important;
+    margin: auto;
+}
+
+.btn-style-secondary{
+    background-color: #333333 !important;
+    color: #fcfaf9 !important;
+    display: flex !important;
+    margin: auto;
 }
