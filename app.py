@@ -132,9 +132,9 @@ def login():
         users = mongo.db.users
         # get username from database
         login_user = users.find_one({"username":request.form["username"]})
-
         # if user in database
         if login_user:
+            # get password from the form
             password_in_db = login_user["password"]
             # encode password for security purposes
             encoded_password = request.form["password"].encode("utf-8")
@@ -143,6 +143,7 @@ def login():
                 # if we arrive here it means the password was valid
                 # we store the user in the current session
                 session["username"] = request.form["username"]
+                # redirect to main page
                 return redirect(url_for('index'))
             
             else:
@@ -240,6 +241,7 @@ def remove():
 # Allow the user to reset/change its password
 @app.route("/resetpw",methods=["GET","POST"])
 def resetpw():
+    # get users db
     users = mongo.db.users
     if request.method == "GET":
         return render_template("changepw.html", session=session)
@@ -251,6 +253,7 @@ def resetpw():
             password = request.form['password'].encode('utf-8')
             salt = bcrypt.gensalt()
             hashed_pasword = bcrypt.hashpw(password, salt)
+            # set the new value of the password
             newvalue = {"$set": { "password": hashed_pasword }}
             # update user's old password with new password
             users.update_one({"username":username}, newvalue)
@@ -267,21 +270,31 @@ def about():
 @app.route("/account", methods=["GET","POST"])
 # this router shall be only available if a user is logged in
 def account():
-
     # get the user from the db
     users = mongo.db.users
     # save the current user to modify its info
     current_user = session['username']
+    # save the document from the DB that represents the current user in the page
     user_doc = users.find_one({"username":current_user})
 
     if request.method =="POST":
 
+        try:
+            option = request.form["delete"]
+            if option == "yes":
+                return redirect("/delete-account")
+        except:
+            pass
+        
+        # get the input firstname from the form in order to update it
         new_firstname = {"$set":{"firstname":request.form["firstname"]}}
         users.update_one({"username":current_user},new_firstname)
 
+        # get the input lastame from the form in order to update it
         new_lastname = {"$set":{"lastname":request.form["lastname"]}}
         users.update_one({"username":current_user},new_lastname)
 
+        # get the input bio from the form in order to update it
         new_bio = {"$set":{"bio":request.form["bio"]}}
         users.update_one({"username":current_user},new_bio)
 
@@ -290,8 +303,10 @@ def account():
         return render_template("account.html", session=session,firstname=user_doc["firstname"],
         lastname=user_doc["lastname"],bio=user_doc["bio"],
         password=model.hashed_to_star(user_doc["password"]))
-
+    
     else:
+
+        # load account info with the one prev found in the user's document
         try:
             return render_template("account.html", session=session,
             firstname=user_doc["firstname"],lastname=user_doc["lastname"],
@@ -300,6 +315,15 @@ def account():
             return render_template("account.html",firstname="",lastname="",bio="",
             password="******",session=session)
 
+
+@app.route("/delete-account",methods=["GET","POST"])
+def delete_account():
+    if request.method == "POST":
+        users = mongo.db.users
+        users.delete_one({"username":session["username"]})
+        return redirect("/logout")
+    else:
+        return render_template("account.html")
 
 
 if __name__ == "__main__":

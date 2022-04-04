@@ -40,7 +40,8 @@
             <div class="textarea-container">
                 <label id="textbox-label" for="bio">Bio</label>
                 {%if bio%}
-                <textarea class="textbox" name="bio" spellcheck="true" wrap="hard" maxlength="140" placeholder="Add a bio">{{bio}}</textarea>
+                <textarea class="textbox" name="bio" spellcheck="true" wrap="hard" maxlength="140"
+                    placeholder="Add a bio">{{bio}}</textarea>
                 {%else%}
                 <textarea class="textbox" name="bio" spellcheck="true" wrap="hard" maxlength="140"
                     placeholder="Add a bio"></textarea>
@@ -70,7 +71,23 @@
         </div>
 
         <div class="delete-account">
-            <button class="btn"><a href="/deleteacc">Delete Account</a></button>
+            <button class="open-button" onclick="openForm()">Delete Account</button>
+        </div>
+        <div class="form-popup" id="myForm">
+            <form action="/delete-account" class="form-container" method="post">
+                <div class="delete-options-container">
+                    <input type="radio" name="delete" id="yes" value="yes">
+                    <label for="yes">Yes</label>
+                </div>
+
+                <div class="delete-options-container">
+                    <input type="radio" name="delete" id="no" value="yes">
+                    <label for="no">No</label>
+                </div>
+               
+                <button type="submit" class="btn">Continue</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </form>
         </div>
     </section>
 
@@ -79,7 +96,8 @@
     <div class="connected-services-container info">
         <div class="connected-services">
             <span>Google</span>
-            <button class="connect-btn btn"><a class="connect" href="https://myaccount.google.com/?utm_source=sign_in_no_continue&pli=1">Connect</a></button>
+            <button class="connect-btn btn"><a class="connect"
+                    href="https://myaccount.google.com/?utm_source=sign_in_no_continue&pli=1">Connect</a></button>
         </div>
 
         <div class="connected-services">
@@ -95,11 +113,24 @@
 
         <div class="connected-services">
             <span>Twitter</span>
-            <button class="connect-btn btn"><a class="connect" href="https://twitter.com/i/flow/login?input_flow_data=%7B%22requested_variant%22%3A%22eyJsYW5nIjoiZW4ifQ%3D%3D%22%7D">Connect</a></button>
+            <button class="connect-btn btn"><a class="connect"
+                    href="https://twitter.com/i/flow/login?input_flow_data=%7B%22requested_variant%22%3A%22eyJsYW5nIjoiZW4ifQ%3D%3D%22%7D">Connect</a></button>
         </div>
     </div>
 
     </section>
+
+    <script>
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+    }
+    </script>
+
+    
 </main>
 
 
