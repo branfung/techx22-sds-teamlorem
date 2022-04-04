@@ -259,20 +259,25 @@ def resetpw():
         return render_template("changepw.html", session=session)
     else:
         # update old password with new password
-        if users.find_one({"username":request.form["username"]}):
+        current_user = users.find_one({"username":session["username"]})
+        if users.find_one({"username":session["username"]}):
+            current_user = session["username"]
             username = request.form["username"]
-             # obtain new password and encrypt it for security reasons
-            password = request.form['password'].encode('utf-8')
-            salt = bcrypt.gensalt()
-            hashed_pasword = bcrypt.hashpw(password, salt)
-            # set the new value of the password
-            newvalue = {"$set": { "password": hashed_pasword }}
-            # update user's old password with new password
-            users.update_one({"username":username}, newvalue)
-            # go back to index page
-            return redirect("/login")
+            if current_user == username:
+                # obtain new password and encrypt it for security reasons
+                password = request.form['password'].encode('utf-8')
+                salt = bcrypt.gensalt()
+                hashed_pasword = bcrypt.hashpw(password, salt)
+                # set the new value of the password
+                newvalue = {"$set": { "password": hashed_pasword }}
+                # update user's old password with new password
+                users.update_one({"username":username}, newvalue)
+                # go back to index page
+                return redirect("/login")
+            else:
+                return render_template("changepw.html",session=session,error_message="Inccorect User")
         else:
-            return render_template("changepw.html", session=session, error_message="Username not found")
+            return render_template("changepw.html", session=session, error_message="Username not Correct")
             # return render_template("login.html", error_message="Username is incorrect")
 
 """
