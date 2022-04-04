@@ -1,0 +1,12 @@
+First Name: Brandon
+Last Name: Fung
+Country: PR
+City: mayaguez
+Zip Code: 693
+Street Address: sesame street
+Phone Number: 787-555-1010
+Your order contains the following products: 
+Python is Cool! | $6.0 | 4 in stock | by Brandon
+
+Your total is:$6.0
+Thanks for ordering!

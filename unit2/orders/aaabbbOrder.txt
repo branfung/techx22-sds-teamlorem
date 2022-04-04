@@ -1,0 +1,9 @@
+First Name: aaa
+Last Name: bbb
+Country: PR
+City: maya
+Zip Code: 693
+Street Address: sss
+Phone Number: 787-555-1010
+
+Thanks for ordering!
