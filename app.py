@@ -140,6 +140,11 @@ def login():
     else:
         return render_template("login.html", session=session)
 
+    """
+    Method that allows the user to logout his account from the page's current session
+    Returns:
+        redirects user to main page (index.html) with his account logged out
+    """
 @app.route("/logout")
 def logout():
     # clear user from session
@@ -254,7 +259,15 @@ def remove():
     users.update_one({'username':username}, {'$set': {'cart':cart} })
     return redirect(url_for('show_cart'))
 
-# Allow the user to reset/change its password
+    """
+    Allows the user to reset or change his current password to a new one
+    For now, the only validation is the username since these are unique
+    More validation is needed for the future
+
+    Returns:
+        _type_: if sucessful, returns user to login page, else the user made a mistake
+        (user not found) and it throws an error for the user to see
+    """
 @app.route("/resetpw",methods=["GET","POST"])
 def resetpw():
     # get users db
@@ -282,6 +295,15 @@ def resetpw():
 @app.route('/about')
 def about():
     return render_template('about.html', session=session)
+
+    """
+    Allows the user to modify his or her account and profile and the option to delete
+    his or her account and connect to different platforms
+
+    Returns:
+        _type_: renders the same page again with all the changed made present.
+        It can also redirect to delete the account.
+    """
 
 @app.route("/account", methods=["GET","POST"])
 # this router shall be only available if a user is logged in
@@ -331,7 +353,13 @@ def account():
             return render_template("account.html",firstname="",lastname="",bio="",
             password="******",session=session)
 
+    """
+    Delete the users account from the users data base 
 
+    Returns:
+        _type_: redirect to the logout where the account is also cleared from the current session
+        and it is redirected to the main page (index.html)
+    """
 @app.route("/delete-account",methods=["GET","POST"])
 def delete_account():
     if request.method == "POST":
