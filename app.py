@@ -8,7 +8,6 @@ from flask import (
     session
 )
 from flask_pymongo import PyMongo
-from form import SignUpForm
 from bson.objectid import ObjectId
 import gunicorn
 import requests
@@ -216,7 +215,7 @@ def add_to_cart():
                     return redirect(url_for('buy'))
                 
                 else:
-                    error_message = "The quantity you are trying to add plus what is already on the cart exceeds what's available in stock"
+                    error_message = "The quantity you are trying to add plus what is already on the cart exceeds what's available in stock."
                     return render_template('buy.html', error_message=error_message)
         
         cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
@@ -237,6 +236,10 @@ def show_cart():
     users = mongo.db.users
     current_user = users.find_one({"username":username})
     cart_items = current_user['cart']
+    if len(cart_items) == 0:
+        print('hello')
+        cart_is_empty_message = "Looks like you cart is empty, let's fix that!"
+        return render_template('cart.html', cart_is_empty_message=cart_is_empty_message)
     return render_template('cart.html', items=cart_items)
 
 

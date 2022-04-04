@@ -8,7 +8,10 @@
 
 <div class="row">
     {% if error_message %}
-        <h2>{{ error_message }}</h2>
+        <form action="{{ url_for('buy')}}">
+            <h2>{{ error_message }}</h2>
+            <button type="submit" class="btn btn-style">Go back!</button>
+        </form>
     {% else %}
     {% for item in store_items %}
     <div class="col-12 col-md-6 col-lg-4 my-3">
