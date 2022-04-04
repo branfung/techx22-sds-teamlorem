@@ -7,9 +7,11 @@ from flask import (
     url_for,
     session
 )
-
+from model import (
+    model,
+    product
+)
 from flask_pymongo import PyMongo
-from form import SignUpForm
 from bson.objectid import ObjectId
 import gunicorn
 import model
@@ -49,74 +51,59 @@ def index():
 @app.route('/request', methods=['GET', 'POST'])
 def request_design():
     if request.method == 'POST':
+        
         message = {'message': '', 'error': None}
-        # session['username'] = 'Brandon' 
         
-        # Fetching the image_url from the user to check if it gives us headers        
-        print(dict(request.form))    
-        try:
-            url = request.form['image_url']
-            response = requests.get(url)
-        except:
-            message['error'] = 'Something went wrong with your image URL'
-            return render_template('request-form.html', session=session, message=message)
-
-        # Validating image_url to see if it's an image
-        if response.headers.get('content-type') not in ['image/png', 'image/jpeg']:
-            message['error'] = 'URL is not a valid image URL! Please use a correct URL'
-            return render_template('request-form.html', session=session, message=message)
-        
-        # Constructing product object
-        product = {
-            'name': request.form['name'],
+        # Constructing product Object
+        new_product = product.make_product({
+            'name': request.form['name'].capitalize(),
             'price': round(float(request.form['price']), 2),
             'creator': session['username'],
             'quantity': int(request.form['quantity']),
             'image_url': request.form['image_url']
-        }
-        # session.clear()
-        # print(product)
+        }, message)
         
-        # DB insert_one error handling
-        try:
-            store = mongo.db.store
-            store.insert_one(product)  
-            # print('Product added')
-        except:
-            message['error'] = 'Could not upload design. Please make sure the fields are correct or try again some other time'
-            return render_template('request-form.html', session=session, message=message)
+        store = mongo.db.store
+        model.add_product(new_product, store, message)
         
-        # Product insert success:
-        message['message'] = 'Your design was uploaded succesfully!'
         return render_template('request-form.html', session=session, message=message)
     else:
         return render_template('request-form.html', session=session)
 
 
-# Do we create a User class or store the information as is inside the data base ? 
+'''
+The sign up route checks if the given email or username exists, if it does it renders an error message
+stating the email or user is already in use. Otherwise it adds the user to the database and 
+logs him in to his account. 
+'''
 @app.route('/signup', methods=['GET','POST'])
 def signup():
-    sign_up_form = SignUpForm()
+
     if request.method == 'POST':
-        if sign_up_form.validate_on_submit():
-            
-            users = mongo.db.users
-            email = request.form['email']
-            username = request.form['username']
-            existing_user = users.find_one(filter={"username":username})
-            
-            if existing_user:
-                return render_template('Sign-Up.html', session=session, existing_user=existing_user)
+        users = mongo.db.users
+        email = request.form['email']
+        existing_user = users.find_one({'email':email})
 
-            password = request.form['password'].encode('utf-8')
-            salt = bcrypt.gensalt()
-            hased_pasword = bcrypt.hashpw(password, salt)
-            users.insert_one({'username':username, 'password':hased_pasword, 'cart':[]})
-            session['username'] = username
+        if existing_user:
+            error_message = 'A user with that email address already exists. Try login or creating a new account.'
+            return render_template('Sign-Up.html', error_message = error_message)
 
-            return redirect(url_for('index'))
+        username = request.form['username']
+        existing_user = users.find_one({'username':username})
+
+        if existing_user:
+            error_message = 'That username already exists. Try login or choosing a different username.'
+            return render_template('Sign-Up.html', error_message = error_message)
+
+        password = request.form['password'].encode('utf-8')
+        salt = bcrypt.gensalt()
+        hashed_password = bcrypt.hashpw(password, salt)
+        users.insert_one({'email':email, 'username':username, 'password':hashed_password, 'cart':[]})
+        session['username'] = username
+        return redirect(url_for('index'))
+
     else:
-        return render_template('Sign-Up.html', session=session, form=sign_up_form)
+        return render_template('Sign-Up.html')
 
 # User Log in Route
 # The log-in page is where the user can log into his account.
@@ -160,19 +147,31 @@ def logout():
     # redirect to main page
     return redirect(url_for("index"))
 
+
+'''
+The buy route gets all the items that are in the database and renders them in the 
+buy.html page so users can choose what they want to buy.
+'''
 @app.route('/buy', methods=['GET','POST'])
 def buy():
     collection = mongo.db.store
     store_items = collection.find({})
-    return render_template('buy.html', session=session, store_items=store_items)
+    return render_template('buy.html', store_items=store_items)
 
+
+
+'''
+The add to cart function looks for the item the user wants to buy inside the database.
+Then if the item is already in the cart it updates it's value if what's in the cart and the amount 
+they want to add is less than or equal to what is in stock. If not it renders an error.
+Else if the item wasn't in the cart or if it's in the cart with a differnt size the item gets added to the cart.
+'''
 @app.route("/addtocart", methods=['POST'])
 def add_to_cart():
     product_id = request.form['product_id']
     quantity = int(request.form['quantity'])
     size = request.form['size']
-    # username = session["username"]
-    username = 'petraca'
+    username = session['username']
     users = mongo.db.users
     store = mongo.db.store
     current_product = store.find_one({'_id':ObjectId(product_id)})
@@ -199,7 +198,7 @@ def add_to_cart():
                     return redirect(url_for('buy'))
                 
                 else:
-                    error_message = "The quantity you are trying to add plus what is already on the cart exceeds what's available in stock"
+                    error_message = "The quantity you are trying to add plus what is already on the cart exceeds what's available in stock."
                     return render_template('buy.html', error_message=error_message)
         
         cart.append({'product_id':product_id, 'name':current_product['name'], 'price':current_product['price'], 
@@ -208,24 +207,41 @@ def add_to_cart():
     users.update_one({'username':username}, {'$set': {'cart':cart} })
     return redirect(url_for('buy'))
 
+
+
+'''
+The show cart route gets the cart associated with the user that's logged in and displays all the items 
+inside it. 
+'''
 @app.route('/showcart', methods=['GET'])
 def show_cart():
-    # username = session["username"]
+    username = session['username']
     users = mongo.db.users
-    current_user = users.find_one({"username":'petraca'})
-    # cart = current_user['cart']
+    current_user = users.find_one({"username":username})
     cart_items = current_user['cart']
-    return render_template('cart.html', session=session, items=cart_items)
+    if len(cart_items) == 0:
+        print('hello')
+        cart_is_empty_message = "Looks like you cart is empty, let's fix that!"
+        return render_template('cart.html', cart_is_empty_message=cart_is_empty_message)
+    return render_template('cart.html', items=cart_items)
 
+
+
+'''
+The remove route gets the id of the product that the user wants to remove and searches for it in the cart.
+Then either reduces the quantity of the item as selected by the user or removes it complety if the 
+quantity selected by the user equals the amount that is present in the cart.  
+'''
 @app.route('/remove', methods=['POST'])
 def remove():
     product_id = request.form['product_id']
     quantity_to_be_removed = int(request.form['quantity'])
     size = request.form['size']
+    username = session['username']
     users = mongo.db.users
-    current_user = users.find_one({"username":'petraca'})
+    current_user = users.find_one({"username":username})
     cart = current_user['cart']
-
+ 
     for i,element in enumerate(cart):
         if (element['product_id'] == product_id):
             if quantity_to_be_removed < element['quantity'] and element['size'] == size:
@@ -235,7 +251,7 @@ def remove():
                 cart.pop(i)
                 break
 
-    users.update_one({'username':'petraca'}, {'$set': {'cart':cart} })
+    users.update_one({'username':username}, {'$set': {'cart':cart} })
     return redirect(url_for('show_cart'))
 
 # Allow the user to reset/change its password
